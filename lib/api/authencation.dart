@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'dart:convert';
 class ApiServiceAuth{
-  static const String baseUrl='';
+  static const String baseUrl='http://192.168.1.5:4000';
 
   String getCookie(String header) {
     int refreshTokenStart = header.indexOf("refreshToken=");
@@ -13,8 +13,8 @@ class ApiServiceAuth{
     return Cookie;
   }
 
-  Future<void> login(String username, String password) async {
-    var url = Uri.parse('$baseUrl/auth/login');
+  Future<void> login(String email, String password) async {
+    var url = Uri.parse('$baseUrl/users/login');
 
     var headers = {
       'accept': 'application/json',
@@ -22,41 +22,44 @@ class ApiServiceAuth{
     };
 
     var body = json.encode({
-      'loginId': username,
+      'email': email,
       'password': password,
     });
 
     var response = await http.post(url, headers: headers, body: body);
-
+    var responseData = json.decode(response.body);
     if (response.statusCode == 200) {
-      var responseData = json.decode(response.body);
+      
 
       if (responseData['success'] == true) {
-        var user = UserLogin.fromJson(responseData);
-        String? token = user.data!.jwtToken;
-        String? fullname = user.data!.fullName;
-        String? role = user.data!.role;
-        String? vendorId = user.data!.vendorId;
-        //dung secure storage de luu tai khoan
-        UserSecurityStorage.setUsername(username);
-        UserSecurityStorage.setPassword(password);
-        UserSecurityStorage.setFullName(fullname!);
-        UserSecurityStorage.setRole(role!);
-        UserSecurityStorage.setVendorId(vendorId!);
-        UserSecurityStorage.setToken(token!);
-        //lay ngay het han cua token
-        DateTime expirationDate =
-            JwtDecoder.getExpirationDate(token.toString());
-        // setExpire
-        //luu lai cookie de refresh token
-        String header = response.headers.toString();
-        String Cookie = getCookie(header);
-        UserSecurityStorage.setCookie(Cookie);
+        // var user = UserLogin.fromJson(responseData);
+        // String? token = user.data!.jwtToken;
+        // String? fullname = user.data!.fullName;
+        // String? role = user.data!.role;
+        // String? vendorId = user.data!.vendorId;
+
+        
+        // //dung secure storage de luu tai khoan
+        // UserSecurityStorage.setUsername(email);
+        // UserSecurityStorage.setPassword(password);
+        // UserSecurityStorage.setFullName(fullname!);
+        // UserSecurityStorage.setRole(role!);
+        // UserSecurityStorage.setVendorId(vendorId!);
+        // UserSecurityStorage.setToken(token!);
+        // //lay ngay het han cua token
+        // DateTime expirationDate =
+        //     JwtDecoder.getExpirationDate(token.toString());
+        // // setExpire
+        // //luu lai cookie de refresh token
+        // String header = response.headers.toString();
+        // String Cookie = getCookie(header);
+        // UserSecurityStorage.setCookie(Cookie);
+        print('thanh cong ');
       } else {
         throw Exception(responseData['message']);
       }
     } else {
-      throw Exception('Đăng nhập thất bại');
+      throw Exception(responseData['message']);
     }
   }
 

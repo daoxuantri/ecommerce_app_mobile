@@ -30,16 +30,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  bloc:
+  flutter_bloc:
+  provider: ^6.0.0
   cupertino_icons: ^1.0.2
   flutter_secure_storage: ^8.0.0
   jwt_decoder: ^2.0.1
   http: ^1.1.0
   http_parser: ^4.0.2
-  provider: ^6.0.0
+  flutter_svg: ^2.0.7
+  fluttertoast: ^8.2.4
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +67,68 @@ flutter:
   assets:
     - assets/images/
 
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: assets/fonts/inter.ttf
+
+    - family: Muli
+      fonts:
+        - asset: assets/fonts/muli/Muli.ttf
+        - asset: assets/fonts/muli/Muli-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/muli/Muli-Light.ttf
+          weight: 300
+
+    - family: Josefinsans
+      fonts:
+        - asset: assets/fonts/josefinsans/JosefinSans-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/josefinsans/JosefinSans-ThinItalic.ttf
+          weight: 100
+          style: italic
+        - asset: assets/fonts/josefinsans/JosefinSans-Light.ttf
+          weight: 300
+        - asset: assets/fonts/josefinsans/JosefinSans-LightItalic.ttf
+          weight: 300
+          style: italic
+        - asset: assets/fonts/josefinsans/JosefinSans-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/josefinsans/JosefinSans-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/josefinsans/JosefinSans-SemiBoldItalic.ttf
+          weight: 600
+          style: italic
+        - asset: assets/fonts/josefinsans/JosefinSans-Bold.ttf
+          weight: 700
+
+    - family: SFPro
+      fonts:
+        - asset: assets/fonts/sfpro/SF-Pro-Display-Regular.otf
+        - asset: assets/fonts/sfpro/SF-Pro-Display-Bold.otf
+          weight: 700
+        - asset: assets/fonts/sfpro/SF-Pro-Display-Black.otf
+          weight: 900
+        - asset: assets/fonts/sfpro/SF-Pro-Display-Light.otf
+          weight: 300
+        - asset: assets/fonts/sfpro/SF-Pro-Display-Medium.otf
+          weight: 500
+        - asset: assets/fonts/sfpro/SF-Pro-Display-Semibold.otf
+          weight: 600
+        - asset: assets/fonts/sfpro/SF-Pro-Display-Thin.otf
+          weight: 100
+        - asset: assets/fonts/sfpro/SF-Pro-Display-Ultralight.otf
+          weight: 200
+        - asset: assets/fonts/sfpro/SF-Pro-Text-Regular.otf
+        - asset: assets/fonts/sfpro/SF-Pro-Text-Bold.otf
+          weight: 700
+        - asset: assets/fonts/sfpro/SF-Pro-Text-Light.otf
+          weight: 300
+        - asset: assets/fonts/sfpro/SF-Pro-Text-Medium.otf
+          weight: 500
+        - asset: assets/fonts/sfpro/SF-Pro-Text-Semibold.otf
+          weight: 600
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
@@ -78,17 +140,6 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
+  
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

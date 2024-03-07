@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:ecommerce_app_mobile/api/authencation.dart';
 import 'package:ecommerce_app_mobile/components_buttons/colors.dart';
-import 'package:ecommerce_app_mobile/login_register/login/login_screen.dart';
+import 'package:ecommerce_app_mobile/screens/login_register/login/login_screen.dart';
 import 'package:ecommerce_app_mobile/security_user/secure_storage_user.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';
 import 'package:flutter/material.dart';
@@ -35,26 +35,7 @@ class _BodyState extends State<Body> {
     Timer.periodic(const Duration(seconds: 3), (timer) async {
       try {
         if (username != null && password != null) {
-          await ApiServiceAuth().login(username!, password!);
-          showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("Login Successful"),
-              content: Text("You have successfully logged in."),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    // Replace Navigator with appropriate navigation here
-                    
-                  },
-                  child: Text("OK"),
-                ),
-              ],
-            );
-          },
-        ); 
+          // await ApiServiceAuthentication().login(username!, password!);
           // Navigator.pushReplacementNamed(
           //     context, NavigatorBottomBarHome.routeName);
         } else {
@@ -74,8 +55,8 @@ class _BodyState extends State<Body> {
       child: Center(
         child: Image.asset(
           "assets/images/anhchinh.png",
-          width: 160,
-          height: getProportionateScreenHeight(100),
+          width: 200,
+          height: getProportionateScreenHeight(140),
         ),
       ),
     );

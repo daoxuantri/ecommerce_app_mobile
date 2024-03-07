@@ -3,7 +3,7 @@ import '../constants.dart';
 
 ThemeData theme() {
   return ThemeData(
-    scaffoldBackgroundColor: Colors.white,
+    scaffoldBackgroundColor: backgroundcolor,
     fontFamily: "SFPro",
     appBarTheme: appBarTheme(),
     textTheme: textTheme(),

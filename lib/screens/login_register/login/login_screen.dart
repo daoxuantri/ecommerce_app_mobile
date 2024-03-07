@@ -1,4 +1,4 @@
-import 'package:ecommerce_app_mobile/login_register/login/components/body.dart';
+import 'package:ecommerce_app_mobile/screens/login_register/login/components/body.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';
 import 'package:flutter/material.dart';
 

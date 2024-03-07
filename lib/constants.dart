@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-const kPrimaryColor = Color.fromARGB(34, 34, 34, 1);
+const kPrimaryColor = Color(0xFFF97616);
 const kLabelColor = Color.fromARGB(255, 141, 145, 138);
+const backgroundcolor = Color.fromARGB(255, 240, 238, 238);
 
 
-const kPrimaryLightColor = Color(0xFF568FF3);
+const kPrimaryLightColor = Color.fromARGB(255, 238, 12, 12);
 
 const kPrimaryGradientColor = LinearGradient(
   begin: Alignment.topLeft,
@@ -33,9 +34,9 @@ final RegExp emailValidatorRegExp =
     RegExp(r"^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
 final RegExp phoneValidatorRegExp = RegExp(r"^[0-9]{10}$");
-const String kEmailNullError = "Nhập email của bạn";
+const String kEmailNullError = "Nhập email của bạn*";
 const String kInvalidEmailError = "Hãy nhập email hợp lệ";
-const String kPassNullError = "Nhập mật khẩu của bạn";
+const String kPassNullError = "Nhập mật khẩu của bạn*";
 const String kShortPassError = "Mật khẩu quá ngắn";
 const String kMatchPassError = "Mật khẩu không khớp";
 const String kNamelNullError = "Nhập tên của bạn";

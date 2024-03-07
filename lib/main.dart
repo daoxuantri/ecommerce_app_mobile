@@ -1,5 +1,6 @@
 import 'package:ecommerce_app_mobile/routes.dart';
-import 'package:ecommerce_app_mobile/screens/splash_screen.dart';
+import 'package:ecommerce_app_mobile/screens/splash/splash_screen.dart';
+import 'package:ecommerce_app_mobile/size_config.dart';
 import 'package:ecommerce_app_mobile/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       theme: theme(),
       initialRoute: SplashScreen.routeName,
       routes: routes,
-      
+        
     );
   }
 }
