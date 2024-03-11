@@ -1,7 +1,7 @@
 import 'package:ecommerce_app_mobile/screens/login_register/register/bloc/sign_up_bloc.dart';
 import 'package:ecommerce_app_mobile/screens/login_register/register/components/body.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';
-import 'package:ecommerce_app_mobile/snackbarNotifier/snackbar.dart';
+import 'package:ecommerce_app_mobile/components_buttons/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

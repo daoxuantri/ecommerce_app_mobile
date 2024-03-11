@@ -1,4 +1,9 @@
+
+import 'package:ecommerce_app_mobile/components_buttons/snackbar.dart';
 import 'package:ecommerce_app_mobile/screens/forget_password/bloc/forget_password_bloc.dart';
+import 'package:ecommerce_app_mobile/screens/forget_password/components/email_password/form_email.dart';
+import 'package:ecommerce_app_mobile/screens/forget_password/components/email_password/form_id_email/id_email.dart';
+import 'package:ecommerce_app_mobile/screens/forget_password/components/forget_password.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,33 +22,33 @@ class ForgetPassWordScreen extends StatefulWidget {
 class _ForgetPassWordScreenState extends State<ForgetPassWordScreen> {
   final ForgetPasswordBloc _forgetPasswordBloc = ForgetPasswordBloc();
   @override
+  void initState() {
+    _forgetPasswordBloc.add(ForgetPasswordInitialEvent());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<ForgetPasswordBloc, ForgetPasswordState>(
       bloc: _forgetPasswordBloc,
       listenWhen: (previous, current) => current is ForgetPasswordActionState,
       buildWhen: (previous, current) => current is! ForgetPasswordActionState,
       listener: (context, state) {
-        /*  if (state is ForgetPasswordToInputEmailState) {
-        updateScreen(Screens.inputEmail);
-      } else if (state is ForgetPasswordToInputPhoneState) {
-        updateScreen(Screens.inputPhone);
-      } else if (state is InputEmailToVerifyEmailState) {
-        updateScreen(Screens.verifyEmail);
-      } else if (state is VerifyEmailToChangePasswordState) {
-        updateScreen(Screens.changePassword);
-      } else if (state is VerifyEmailToInputEmailState) {
-        updateScreen(Screens.inputEmail);
-      }*/
-
-        if (state is ForgetPasswordToInputEmailState) {
-          // Navigator.of(context)
-          //     .pushNamed(FormEmailPass.routeName, arguments: state.bloc);
-        } else {
-          if (state is InputEmailToVerifyEmailState) {
-            // Navigator.of(context)
-            //     .pushNamed(IDEmail.routeName, arguments: state.email);
-          }
+        if (state is InputEmailToVerifyEmailState) {
+            Navigator.of(context)
+                .pushNamed(IDEmail.routeName, arguments: state.email);
         }
+        if (state is InputCheckEmaiState){
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBarLoginFail(state.message.toString()),
+          );
+        }
+        if (state is VerifyEmailToChangeOTPState){
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBarLoginFail(state.message.toString()),
+          );
+        }
+        
       },
       builder: (context, state) {
         switch (state.runtimeType) {
@@ -67,12 +72,12 @@ class _ForgetPassWordScreenState extends State<ForgetPassWordScreen> {
                     ),
                   ),
                 ),
-                // body: SizedBox(
-                //     width: getFullWidth(),
-                //     height: getFullHeight(),
-                //     child: ForgetPassWordForm(
-                //       forgetPasswordBloc: _forgetPasswordBloc,
-                //     )),
+                body: SizedBox(
+                    width: getFullWidth(),
+                    height: getFullHeight(),
+                    child: FormEmailPass(
+                      forgetPasswordBloc : _forgetPasswordBloc
+                    )),
               ),
             );
           case ForgetPasswordErrorState:

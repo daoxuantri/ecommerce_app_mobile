@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 class ApiServiceVendors {
-  static const String baseUrl = 'http://192.168.1.5:4000';
+  static const String baseUrl = 'http://192.168.1.16:4000';
 
   //POST
   Future<void> signUpMini(String email, String phone, String password,

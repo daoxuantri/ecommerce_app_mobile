@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:ecommerce_app_mobile/api/authencation.dart';
+import 'package:ecommerce_app_mobile/components_buttons/bottom_navbar_home.dart';
 import 'package:ecommerce_app_mobile/components_buttons/colors.dart';
+import 'package:ecommerce_app_mobile/components_buttons/snackbar.dart';
 import 'package:ecommerce_app_mobile/screens/login_register/login/login_screen.dart';
 import 'package:ecommerce_app_mobile/security_user/secure_storage_user.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';
@@ -15,29 +17,36 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  late final String? username;
+  late final String? email;
   late final String? password;
   late bool firstTime;
 
   @override
   void initState() {
     super.initState();
-    getdata();
-    startTimer();
+    _initialize();
 
   }
 
+  Future<void> _initialize() async {
+  await getdata();
+  startTimer();
+}
+
   Future<void> getdata() async{
-    username = await UserSecurityStorage.getUsername();
+    email = await UserSecurityStorage.getEmail();
     password = await UserSecurityStorage.getPassword();
   }
   void startTimer() {
     Timer.periodic(const Duration(seconds: 3), (timer) async {
+
+       
       try {
-        if (username != null && password != null) {
-          // await ApiServiceAuthentication().login(username!, password!);
+        if (email != null && password != null) {
+          // await ApiServiceAuth().login(email!, password!);
           // Navigator.pushReplacementNamed(
-          //     context, NavigatorBottomBarHome.routeName);
+          //     context, NavigatorBottomBar.routeName);
+           Navigator.pushReplacementNamed(context, LoginScreen.routeName);
         } else {
           Navigator.pushReplacementNamed(context, LoginScreen.routeName);
         }

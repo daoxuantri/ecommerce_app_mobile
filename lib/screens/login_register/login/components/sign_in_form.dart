@@ -1,4 +1,5 @@
 import 'package:ecommerce_app_mobile/api/authencation.dart';
+import 'package:ecommerce_app_mobile/components_buttons/bottom_navbar_home.dart';
 import 'package:ecommerce_app_mobile/screens/login_register/login/components/default_button.dart';
 import 'package:ecommerce_app_mobile/screens/forget_password/forget_password.dart';
 import 'package:flutter/material.dart';
@@ -65,15 +66,11 @@ class _SignInFormState extends State<SignInForm> {
                   KeyboardUtil.hideKeyboard(context);
                   try {
                         await authentication.login(email!, password!);
-                   
-      
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBarLoginSuccess('Đăng nhập thành công'),
-
-                      // Navigator.pushReplacementNamed(context, routeName)
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBarLoginSuccess('Đăng nhập thành công'),);
+                          Navigator.pushReplacementNamed(context, NavigatorBottomBar.routeName);
 
                       
-                    );
                     
                   } catch (e) {
                     

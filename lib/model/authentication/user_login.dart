@@ -1,51 +1,48 @@
 class UserLogin {
-  Data? data;
   bool? success;
-  int? code;
+  Data? data;
 
-  UserLogin({this.data, this.success, this.code});
+  UserLogin({this.success, this.data});
 
   UserLogin.fromJson(Map<String, dynamic> json) {
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
     success = json['success'];
-    code = json['code'];
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['success'] = this.success;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['success'] = this.success;
-    data['code'] = this.code;
     return data;
   }
 }
 
 class Data {
+  String? username;
+  String? email;
+  bool? role;
   String? id;
-  String? fullName;
-  String? role;
-  String? vendorId;
-  String? jwtToken;
+  String? accessToken;
 
-  Data({this.id, this.fullName, this.role, this.vendorId, this.jwtToken});
+  Data({this.username, this.email, this.role, this.id, this.accessToken});
 
   Data.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    fullName = json['fullName'];
+    username = json['username'];
+    email = json['email'];
     role = json['role'];
-    vendorId = json['vendorId'];
-    jwtToken = json['jwtToken'];
+    id = json['id'];
+    accessToken = json['access_token'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['fullName'] = this.fullName;
+    data['username'] = this.username;
+    data['email'] = this.email;
     data['role'] = this.role;
-    data['vendorId'] = this.vendorId;
-    data['jwtToken'] = this.jwtToken;
+    data['id'] = this.id;
+    data['access_token'] = this.accessToken;
     return data;
   }
 }

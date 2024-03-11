@@ -1,10 +1,13 @@
+import 'dart:ffi';
+
+import 'package:ecommerce_app_mobile/components_buttons/snackbar.dart';
 import 'package:ecommerce_app_mobile/model/authentication/user_login.dart';
 import 'package:ecommerce_app_mobile/security_user/secure_storage_user.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'dart:convert';
 class ApiServiceAuth{
-  static const String baseUrl='http://192.168.1.5:4000';
+  static const String baseUrl='http://192.168.1.16:4000';
 
   String getCookie(String header) {
     int refreshTokenStart = header.indexOf("refreshToken=");
@@ -32,21 +35,19 @@ class ApiServiceAuth{
       
 
       if (responseData['success'] == true) {
-        // var user = UserLogin.fromJson(responseData);
-        // String? token = user.data!.jwtToken;
-        // String? fullname = user.data!.fullName;
-        // String? role = user.data!.role;
-        // String? vendorId = user.data!.vendorId;
+        var user = UserLogin.fromJson(responseData);
+        String? token = user.data!.accessToken;
+        String? username = user.data!.username;
+        bool? role = user.data!.role;
 
         
-        // //dung secure storage de luu tai khoan
-        // UserSecurityStorage.setUsername(email);
-        // UserSecurityStorage.setPassword(password);
-        // UserSecurityStorage.setFullName(fullname!);
-        // UserSecurityStorage.setRole(role!);
-        // UserSecurityStorage.setVendorId(vendorId!);
-        // UserSecurityStorage.setToken(token!);
-        // //lay ngay het han cua token
+        //dung secure storage de luu tai khoan
+        // UserSecurityStorage.setEmail(email);
+        UserSecurityStorage.setPassword(password);
+        UserSecurityStorage.setUsername(username!);
+        UserSecurityStorage.setRole(role!); 
+        UserSecurityStorage.setToken(token!);
+        //lay ngay het han cua token
         // DateTime expirationDate =
         //     JwtDecoder.getExpirationDate(token.toString());
         // // setExpire
@@ -54,72 +55,75 @@ class ApiServiceAuth{
         // String header = response.headers.toString();
         // String Cookie = getCookie(header);
         // UserSecurityStorage.setCookie(Cookie);
-        print('thanh cong ');
+        // print('thanh cong ');
+
       } else {
         throw Exception(responseData['message']);
       }
     } else {
       throw Exception(responseData['message']);
+      
     }
   }
 
-  //
-  Future<void> refreshToken() async {
-    var url = Uri.parse('$baseUrl/auth/refresh-token');
-    final String? cookie = await UserSecurityStorage.getCookie();
+  // Future<void> refreshToken() async {
+  //   var url = Uri.parse('$baseUrl/auth/refresh-token');
+  //   final String? cookie = await UserSecurityStorage.getCookie();
 
-    var headers = {
-      'accept': 'application/json',
-      'Cookie': '$cookie',
-    };
+  //   var headers = {
+  //     'accept': 'application/json',
+  //     'Cookie': '$cookie',
+  //   };
 
-    var response = await http.post(url, headers: headers);
-    if (response.statusCode == 200) {
-      var responseData = json.decode(response.body);
+  //   var response = await http.post(url, headers: headers);
+  //   if (response.statusCode == 200) {
+  //     var responseData = json.decode(response.body);
 
-      if (responseData['success'] == true) {
-        var user = UserLogin.fromJson(responseData);
-        String? token = user.data!.jwtToken;
-        //dung secure storage de luu tai khoan
-        UserSecurityStorage.setToken(token!);
-        //lay ngay het han cua token
-        DateTime expirationDate =
-            JwtDecoder.getExpirationDate(token.toString());
-      //setexpire
-        //luu lai cookie de refresh token
-        String header = response.headers.toString();
-        String Cookie = getCookie(header);
-        UserSecurityStorage.setCookie(Cookie);
-      } else {
-        throw Exception(responseData['message']);
-      }
-    } else {
-      throw Exception('Refresh token fail');
-    }
-  }
+  //     if (responseData['success'] == true) {
+  //       var user = UserLogin.fromJson(responseData);
+  //       String? token = user.data!.jwtToken;
+  //       //dung secure storage de luu tai khoan
+  //       UserSecurityStorage.setToken(token!);
+  //       //lay ngay het han cua token
+  //       DateTime expirationDate =
+  //           JwtDecoder.getExpirationDate(token.toString());
+  //     //setexpire
+  //       //luu lai cookie de refresh token
+  //       String header = response.headers.toString();
+  //       String Cookie = getCookie(header);
+  //       UserSecurityStorage.setCookie(Cookie);
+  //     } else {
+  //       throw Exception(responseData['message']);
+  //     }
+  //   } else {
+  //     throw Exception('Refresh token fail');
+  //   }
+  // }
 
   //
   Future<void> logout() async {
-    String? cookie = await UserSecurityStorage.getCookie();
-    cookie = cookie!.substring(cookie.indexOf('=') + 1);
+    // String? cookie = await UserSecurityStorage.getCookie();
+    // cookie = cookie!.substring(cookie.indexOf('=') + 1);
 
-    var url = Uri.parse('$baseUrl/auth/logout?RefreshToken=$cookie');
-    var headers = {
-      'accept': 'application/json',
-    };
+    // var url = Uri.parse('$baseUrl/auth/logout?RefreshToken=$cookie');
+    // var headers = {
+    //   'accept': 'application/json',
+    // };
 
-    var response = await http.get(url, headers: headers);
+    // var response = await http.get(url, headers: headers);
 
-    if (response.statusCode == 200) {
-      var responseData = json.decode(response.body);
-      if (responseData['success'] == true) {
-        UserSecurityStorage.deleteAll();
-      } else {
-        throw Exception(responseData['message']);
-      }
-    } else {
-      throw Exception('logout token fail');
-    }
+    // if (response.statusCode == 200) {
+    //   var responseData = json.decode(response.body);
+    //   if (responseData['success'] == true) {
+    //     UserSecurityStorage.deleteAll();
+    //   } else {
+    //     throw Exception(responseData['message']);
+    //   }
+    // } else {
+    //   throw Exception('logout token fail');
+    // }
+
+    UserSecurityStorage.deleteAll();
   }
 
   Future<void> sendotp(String email) async {
