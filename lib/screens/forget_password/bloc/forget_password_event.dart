@@ -14,9 +14,9 @@ class ForgetPasswordToInputEmailEvent extends ForgetPasswordEvent{
 class ForgetPasswordToInputPhoneEvent extends ForgetPasswordEvent{}
 
 class InputEmailToVerifyEmailEvent extends ForgetPasswordEvent{
-  
-  final String email;
-  const InputEmailToVerifyEmailEvent({required this.email});
+  final ForgetPasswordBloc bloc;
+
+  const InputEmailToVerifyEmailEvent(this.bloc);
 }
 
 class VerifyEmailToInputEmailEvent extends ForgetPasswordEvent{

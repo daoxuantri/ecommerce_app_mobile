@@ -35,16 +35,12 @@ class ApiServicesAccount {
   // var data = AccountResponse.fromJson(responseData);
   if (response.statusCode == 200) {
     if (responseData['success'] == true) {
-      print('Thanh cong forgot password');
       // Đã xác thực thành công
     } else {
-      print('that bai trong forgot password');
       throw Exception(responseData['message']);
       
     }
   } else {
-    print('that bai ngoaiforgot password');
-    print(responseData['message']);
     // Lỗi từ server, ném ra ngoại lệ với thông báo lỗi
     throw Exception(responseData['message']);
   }

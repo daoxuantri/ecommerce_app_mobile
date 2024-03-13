@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_mobile/security_user/secure_storage_user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../../size_config.dart';
@@ -22,7 +23,6 @@ class IDEmail extends StatefulWidget {
 }
 
 class _IDEmailState extends State<IDEmail> {
-  ForgetPasswordBloc forgetPasswordBloc = ForgetPasswordBloc();
 
 
   TextEditingController firstNumController = TextEditingController();
@@ -35,9 +35,14 @@ class _IDEmailState extends State<IDEmail> {
   bool obscureNewPassText = true;
   bool obscureRetypeNewPassText = true;
 
+  late final String? email;
+
+  
+
   @override
   Widget build(BuildContext context) {
-    String email = ModalRoute.of(context)!.settings.arguments as String;
+    ForgetPasswordBloc bloc =
+        ModalRoute.of(context)?.settings.arguments as ForgetPasswordBloc;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -82,7 +87,7 @@ class _IDEmailState extends State<IDEmail> {
                   margin:
                       EdgeInsets.only(bottom: getProportionateScreenHeight(20)),
                   child: Text(
-                    email,
+                    emailtoanbo,
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
@@ -122,8 +127,8 @@ class _IDEmailState extends State<IDEmail> {
                           isVisible = false;
                           String otp =
                               "${firstNumController.text}${secondNumController.text}${thirdController.text}${fourthController.text}";
-                          forgetPasswordBloc.add(
-                              VerifyEmailToChangePasswordEvent(email,otp));
+                          bloc.add(
+                              VerifyEmailToChangePasswordEvent(UserSecurityStorage.getEmail1().toString(),otp));
                         });
                       }
                     },
@@ -157,7 +162,7 @@ class _IDEmailState extends State<IDEmail> {
                   ),
                   child: ElevatedButton(
                     onPressed: () {
-                      forgetPasswordBloc.add(VerifyEmailToInputEmailEvent(email : email));
+                      bloc.add(VerifyEmailToInputEmailEvent(email : emailtoanbo));
                     },
                     style: ButtonStyle(
                       elevation: MaterialStateProperty.all(0),
@@ -202,6 +207,12 @@ class _IDEmailState extends State<IDEmail> {
         secondNumController.text.isEmpty ||
         thirdController.text.isEmpty ||
         fourthController.text.isEmpty;
+  }
+
+
+  
+Future<void> getdata() async{
+    email = await UserSecurityStorage.getEmail();
   }
 
  

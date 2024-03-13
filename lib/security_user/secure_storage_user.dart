@@ -7,6 +7,9 @@ class UserSecurityStorage{
   static const _keyRole = 'role'; 
   static const _keytoken = 'token';
   static const _keyemail = 'email';
+
+
+  static const _keyemail1 = 'emailforgot';
   
 
   UserSecurityStorage._();
@@ -41,6 +44,15 @@ class UserSecurityStorage{
 
   static Future<String?> getEmail() async =>
       await _storage.read(key: _keyemail);
+
+
+
+//dung de luu password
+      static Future setEmail1(String email) async =>
+      await _storage.write(key: _keyemail1, value: email);
+
+  static Future<String?> getEmail1() async =>
+      await _storage.read(key: _keyemail1);
 
   
 

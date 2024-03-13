@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:ecommerce_app_mobile/security_user/secure_storage_user.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../../api/account.dart';
@@ -8,6 +9,8 @@ part 'forget_password_event.dart';
 part 'forget_password_state.dart';
 
 String errorthongbaoforgetpas = '';
+
+String  emailtoanbo= '';
 
 class ForgetPasswordBloc
     extends Bloc<ForgetPasswordEvent, ForgetPasswordState> {
@@ -45,10 +48,14 @@ class ForgetPasswordBloc
   Future<FutureOr<void>> inputEmailToVerifyEmailEvent(
       InputEmailToVerifyEmailEvent event, Emitter<ForgetPasswordState> emit) async {
     
-    /// Call api send otp
     try{
-      await ApiServicesAccount().sendOtp(event.email);
-          emit(InputEmailToVerifyEmailState(event.email));
+      String? email1 = await UserSecurityStorage.getEmail();
+      print(email1);
+      String email2 = email1.toString();
+      
+      await ApiServicesAccount().sendOtp(email2);
+      emit(InputEmailToVerifyEmailState(event.bloc, email2));
+      emailtoanbo = email2;
     }catch(e){
       String failToken = e.toString();
       if (failToken.startsWith('Exception: ')) {
@@ -57,6 +64,7 @@ class ForgetPasswordBloc
       }
       emit(InputCheckEmaiState(message : failToken));
     }
+
     
   }
 
@@ -64,8 +72,8 @@ class ForgetPasswordBloc
       VerifyEmailToChangePasswordEvent event,
       Emitter<ForgetPasswordState> emit) async {
     try{
-      await ApiServicesAccount().resetPassword(event.email, event.code);
-      emit(VerifyEmailToChangePasswordState());
+      await ApiServicesAccount().resetPassword(emailtoanbo, event.code);
+      emit(VerifyEmailToChangePasswordState(emailtoanbo));
     }
     catch(e){
       String failToken = e.toString();
@@ -73,27 +81,27 @@ class ForgetPasswordBloc
         failToken = failToken.substring('Exception: '.length);
         errorthongbaoforgetpas = failToken;
       }
-      emit(ForgetPasswordLoadingState());
+      emit(InputCheckEmaiState(message: failToken));
       }
     }
     }
 
-  Future<FutureOr<void>> verifyEmailToChangeOTPEvent(
-      VerifyEmailToChangeOTPEvent event,
-      Emitter<ForgetPasswordState> emit) async {
-    try{
-      await ApiServicesAccount().resetPassword(event.email, event.code);
-      emit(VerifyEmailToChangePasswordState());
-    }
-    catch(e){
-      String failToken = e.toString();
-      if (failToken.startsWith('Exception: ')) {
-        failToken = failToken.substring('Exception: '.length);
-        errorthongbaoforgetpas = failToken;
-      }
-      emit(ForgetPasswordLoadingState());
-      }
-      }
+  // Future<FutureOr<void>> verifyEmailToChangeOTPEvent(
+  //     VerifyEmailToChangeOTPEvent event,
+  //     Emitter<ForgetPasswordState> emit) async {
+  //   try{
+  //     await ApiServicesAccount().resetPassword(event.email, event.code);
+  //     emit(VerifyEmailToChangePasswordState());
+  //   }
+  //   catch(e){
+  //     String failToken = e.toString();
+  //     if (failToken.startsWith('Exception: ')) {
+  //       failToken = failToken.substring('Exception: '.length);
+  //       errorthongbaoforgetpas = failToken;
+  //     }
+  //     emit(ForgetPasswordLoadingState());
+  //     }
+  //     }
   
 
   Future<FutureOr<void>> verifyEmailToInputEmailEvent(

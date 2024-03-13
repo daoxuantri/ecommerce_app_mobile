@@ -36,17 +36,15 @@ class _ForgetPassWordScreenState extends State<ForgetPassWordScreen> {
       listener: (context, state) {
         if (state is InputEmailToVerifyEmailState) {
             Navigator.of(context)
-                .pushNamed(IDEmail.routeName, arguments: state.email);
+                .pushNamed(IDEmail.routeName, arguments: state.bloc);
         }
         if (state is InputCheckEmaiState){
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBarLoginFail(state.message.toString()),
           );
         }
-        if (state is VerifyEmailToChangeOTPState){
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBarLoginFail(state.message.toString()),
-          );
+        if (state is VerifyEmailToChangePasswordState){
+          print('thanh cong');
         }
         
       },
