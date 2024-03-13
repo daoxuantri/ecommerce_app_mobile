@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'dart:convert';
 class ApiServiceAuth{
-  static const String baseUrl='http://192.168.1.16:4000';
+  static const String baseUrl='http://192.168.1.6:4000';
 
   String getCookie(String header) {
     int refreshTokenStart = header.indexOf("refreshToken=");

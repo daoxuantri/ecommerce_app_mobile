@@ -4,6 +4,9 @@ import 'package:ecommerce_app_mobile/screens/forget_password/bloc/forget_passwor
 import 'package:ecommerce_app_mobile/screens/forget_password/components/email_password/form_email.dart';
 import 'package:ecommerce_app_mobile/screens/forget_password/components/email_password/form_id_email/id_email.dart';
 import 'package:ecommerce_app_mobile/screens/forget_password/components/forget_password.dart';
+import 'package:ecommerce_app_mobile/screens/forget_password/components/reset_password/reset_pass.dart';
+import 'package:ecommerce_app_mobile/screens/forget_password/model/bloc_forgot.dart';
+import 'package:ecommerce_app_mobile/screens/login_register/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -35,16 +38,23 @@ class _ForgetPassWordScreenState extends State<ForgetPassWordScreen> {
       buildWhen: (previous, current) => current is! ForgetPasswordActionState,
       listener: (context, state) {
         if (state is InputEmailToVerifyEmailState) {
-            Navigator.of(context)
-                .pushNamed(IDEmail.routeName, arguments: state.bloc);
+           final ScreenArguments arguments = ScreenArguments(state.bloc, state.email);
+            Navigator.of(context).pushNamed(IDEmail.routeName, arguments: arguments);
+                
         }
         if (state is InputCheckEmaiState){
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBarLoginFail(state.message.toString()),
           );
+        }else if (state is VerifyEmailToChangeOTPState){
+          final ScreenArguments arguments = ScreenArguments(state.bloc, state.email);
+          Navigator.of(context).pushNamed(ResetPassScreen.routeName, arguments: arguments);
         }
-        if (state is VerifyEmailToChangePasswordState){
-          print('thanh cong');
+        else if ( state is VerifyEmailToChangePasswordState){
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBarLoginSuccess('Đổi mật khẩu thành công.'),
+          );
+          Navigator.of(context).pushNamed(LoginScreen.routeName);
         }
         
       },

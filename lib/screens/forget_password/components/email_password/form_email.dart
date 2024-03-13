@@ -1,5 +1,4 @@
 import 'package:ecommerce_app_mobile/screens/login_register/login/components/default_button.dart';
-import 'package:ecommerce_app_mobile/security_user/secure_storage_user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../components_buttons/colors.dart';
@@ -99,8 +98,7 @@ class _FormEmailPassState extends State<FormEmailPass> {
                     press: () async {
                       if (_formKey.currentState!.validate()) {
                         String email = _controller.text;
-                        await UserSecurityStorage.setEmail1(email);
-                      widget.forgetPasswordBloc.add(InputEmailToVerifyEmailEvent(widget.forgetPasswordBloc));
+                      widget.forgetPasswordBloc.add(InputEmailToVerifyEmailEvent(widget.forgetPasswordBloc, email));
                       }
                       
                     },

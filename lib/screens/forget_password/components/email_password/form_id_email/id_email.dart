@@ -1,3 +1,5 @@
+import 'package:ecommerce_app_mobile/components_buttons/snackbar.dart';
+import 'package:ecommerce_app_mobile/screens/forget_password/model/bloc_forgot.dart';
 import 'package:ecommerce_app_mobile/security_user/secure_storage_user.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +7,7 @@ import '../../../../../../size_config.dart';
 import '../../../../../components_buttons/colors.dart';
 import '../../../../../constants.dart';
 import '../../../../../security_user/keyboard.dart';
+import '../../../../login_register/login/components/default_button.dart';
 import '../../../bloc/forget_password_bloc.dart';
 import 'otp_verify_form.dart';
 
@@ -41,8 +44,10 @@ class _IDEmailState extends State<IDEmail> {
 
   @override
   Widget build(BuildContext context) {
-    ForgetPasswordBloc bloc =
-        ModalRoute.of(context)?.settings.arguments as ForgetPasswordBloc;
+    final ScreenArguments args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
+
+    final ForgetPasswordBloc bloc = args.bloc;
+    final String email = args.email;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -75,6 +80,7 @@ class _IDEmailState extends State<IDEmail> {
                     child: Image.asset('assets/images/forgot_password.png'),
                   ),
                 ),
+                SizedBox(height: 20,),
                 const Text(
                   'Một mã xác thực đã được gửi tới',
                   style: TextStyle(
@@ -87,7 +93,7 @@ class _IDEmailState extends State<IDEmail> {
                   margin:
                       EdgeInsets.only(bottom: getProportionateScreenHeight(20)),
                   child: Text(
-                    emailtoanbo,
+                    email,
                     style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
@@ -109,85 +115,54 @@ class _IDEmailState extends State<IDEmail> {
                         errorText,
                         style: const TextStyle(color: Colors.red, fontSize: 16),
                       ),
-                    )),
+                    )
+                    ),
+                SizedBox(height: 20,),
                 Container(
                   width: getFullWidth(),
                   margin: EdgeInsets.only(
                     top: getProportionateScreenHeight(12),
                   ),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_isNotValidDataFormField()) {
-                        setState(() {
-                          isVisible = true;
-                          errorText;
-                        });
-                      } else {
-                        setState(() {
-                          isVisible = false;
-                          String otp =
-                              "${firstNumController.text}${secondNumController.text}${thirdController.text}${fourthController.text}";
-                          bloc.add(
-                              VerifyEmailToChangePasswordEvent(UserSecurityStorage.getEmail1().toString(),otp));
-                        });
-                      }
-                    },
-                    style: ButtonStyle(
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                          const EdgeInsets.all(20)),
-                      backgroundColor:
-                          MaterialStateProperty.all(AppColor.thinBlue),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          side: BorderSide(color: AppColor.thinBlue),
+                  child: DefaultButton(
+                  text: 'Xác thực',
+                  press: () async {
+                    if (_isNotValidDataFormField()) {
+                            setState(() {
+                              isVisible = true;
+                              errorText;
+                            });
+                          } else {
+                            setState(() {
+                              isVisible = false;
+                              String otp =
+                                  "${firstNumController.text}${secondNumController.text}${thirdController.text}${fourthController.text}";
+                              bloc.add(
+                                  VerifyEmailToChangeOTPEvent(bloc,email,otp));
+                            });
+                          }
+                  },
+                ),
+                ),
+                SizedBox(height: 20,),
+                GestureDetector(
+                      onTap: () async {
+                        bloc.add(VerifyEmailToInputEmailEvent(email : email));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBarLoginSuccess('Vui lòng chờ trong giây lát'),
+          );  
+                      },
+                      child: Text(
+                        "Gửi lại",
+                        style: TextStyle(
+                          fontSize: getProportionateScreenWidth(15),
+                          color: Colors.red,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
-                    child: Text(
-                      "Xác thực",
-                      textScaleFactor: 1,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                        color: AppColor.colorWhite,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  width: getFullWidth(),
-                  margin: EdgeInsets.only(
-                    top: getProportionateScreenHeight(20),
-                  ),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      bloc.add(VerifyEmailToInputEmailEvent(email : emailtoanbo));
-                    },
-                    style: ButtonStyle(
-                      elevation: MaterialStateProperty.all(0),
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                          const EdgeInsets.all(20)),
-                      backgroundColor:
-                          MaterialStateProperty.all(AppColor.colorWhite),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          side: BorderSide(color: AppColor.darkGray),
-                        ),
-                      ),
-                    ),
-                    child: Text(
-                      "Gửi lại",
-                      textScaleFactor: 1,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                        color: AppColor.darkGray,
-                      ),
-                    ),
-                  ),
-                ),
+
+                
+
               ]),
         ),
       ),
@@ -210,11 +185,5 @@ class _IDEmailState extends State<IDEmail> {
   }
 
 
-  
-Future<void> getdata() async{
-    email = await UserSecurityStorage.getEmail();
-  }
-
- 
   
 }

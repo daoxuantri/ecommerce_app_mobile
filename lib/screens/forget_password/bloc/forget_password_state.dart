@@ -27,7 +27,6 @@ class ForgetPasswordToInputPhoneState extends ForgetPasswordActionState{}
 class InputEmailToVerifyEmailState extends ForgetPasswordActionState{
   final ForgetPasswordBloc bloc;
   final String email;
-  
 
   InputEmailToVerifyEmailState(this.bloc, this.email);
 }
@@ -37,15 +36,15 @@ class InputCheckEmaiState extends ForgetPasswordActionState{
   InputCheckEmaiState({required this.message});
 }
 
-class VerifyEmailToChangePasswordState extends ForgetPasswordActionState{
-  final String email;
-  VerifyEmailToChangePasswordState(this.email);
-}
-
 class VerifyEmailToChangeOTPState extends ForgetPasswordActionState{
-  final String message;
-  VerifyEmailToChangeOTPState({required this.message});
-}
+  final ForgetPasswordBloc bloc;
+  final String email;
+  VerifyEmailToChangeOTPState(this.bloc, this.email);
+  
+} 
 
 class VerifyEmailToInputEmailState extends ForgetPasswordActionState{
 }
+class VerifyEmailToChangePasswordState  extends ForgetPasswordActionState{
+}
+
