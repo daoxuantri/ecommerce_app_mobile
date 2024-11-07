@@ -22,12 +22,12 @@ class UserSecurityStorage{
   static Future<String?> getPassword() async =>
         await _storage.read(key: _keyPassword);
 
-  static Future<void> setRole(bool role) async {
-    String stringValue = role.toString();
-    await _storage.write(key: _keyRole, value: stringValue);
-}
 
-  static Future<String?> getRole() async => await _storage.read(key: _keyRole);
+  // static Future setRole(String role) async =>
+  //     await _storage.write(key: _keyRole, value: role);
+
+  // static Future<String?> getRole() async =>
+  //       await _storage.read(key: _keyRole);
 
   static Future setToken(String token) async =>
       await _storage.write(key: _keytoken, value: token);
