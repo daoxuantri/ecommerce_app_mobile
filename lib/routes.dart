@@ -1,7 +1,11 @@
+import 'dart:js';
+
 import 'package:ecommerce_app_mobile/components_buttons/bottom_navbar_home.dart';
+import 'package:ecommerce_app_mobile/screens/all_product/all_product_screen.dart';
 import 'package:ecommerce_app_mobile/screens/forget_password/components/email_password/form_email.dart';
 import 'package:ecommerce_app_mobile/screens/forget_password/components/email_password/form_id_email/id_email.dart';
 import 'package:ecommerce_app_mobile/screens/forget_password/components/reset_password/reset_pass.dart';
+import 'package:ecommerce_app_mobile/screens/home/home_screen.dart';
 import 'package:ecommerce_app_mobile/screens/login_register/login/login_screen.dart';
 import 'package:ecommerce_app_mobile/screens/forget_password/forget_password.dart';
 import 'package:ecommerce_app_mobile/screens/login_register/register/sign_up_screen.dart';
@@ -22,7 +26,7 @@ final Map<String , WidgetBuilder> routes ={
   SignUpScreen.routeName :(context) => const SignUpScreen(),
 
   //Navigator Bottom bar
-  NavigatorBottomBar.routeName : (context) => const NavigatorBottomBar(),
+  NavigatorBottomBarHome.routeName : (context) => const NavigatorBottomBarHome(),
 
 
 //form email pass
@@ -31,8 +35,11 @@ final Map<String , WidgetBuilder> routes ={
 
   //respass
   ResetPassScreen.routeName : (context) => const ResetPassScreen(),
+  //home
+  HomeScreen.routeName : (context) => const HomeScreen(),
+  //all product screen
+  AllProductScreen.routeName :(context) => const AllProductScreen(),
 
-  //
 
 
 
