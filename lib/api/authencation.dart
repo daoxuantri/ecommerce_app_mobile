@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:ecommerce_app_mobile/components_buttons/snackbar.dart';
 import 'package:ecommerce_app_mobile/model/authentication/user_login.dart';
 import 'package:ecommerce_app_mobile/security_user/secure_storage_user.dart';
@@ -7,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'dart:convert';
 class ApiServiceAuth{
-  static const String baseUrl='http://192.168.1.6:4000';
+  static const String baseUrl='http://192.168.2.183:4000';
 
   String getCookie(String header) {
     int refreshTokenStart = header.indexOf("refreshToken=");
@@ -38,15 +36,16 @@ class ApiServiceAuth{
         var user = UserLogin.fromJson(responseData);
         String? token = user.data!.accessToken;
         String? username = user.data!.username;
-        bool? role = user.data!.role;
+        // String? role = user.data!.role;
 
         
         //dung secure storage de luu tai khoan
-        // UserSecurityStorage.setEmail(email);
-        UserSecurityStorage.setPassword(password);
+        UserSecurityStorage.setEmail(email);
         UserSecurityStorage.setUsername(username!);
-        UserSecurityStorage.setRole(role!); 
-        UserSecurityStorage.setToken(token!);
+        UserSecurityStorage.setPassword(password);
+         UserSecurityStorage.setToken(token!);
+        // UserSecurityStorage.setRole(role!); 
+       
         //lay ngay het han cua token
         // DateTime expirationDate =
         //     JwtDecoder.getExpirationDate(token.toString());
