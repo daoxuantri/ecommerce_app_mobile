@@ -22,16 +22,16 @@ class UserLogin {
 class Data {
   String? username;
   String? email;
-  bool? role;
+  // String? role;
   String? id;
   String? accessToken;
 
-  Data({this.username, this.email, this.role, this.id, this.accessToken});
+  Data({this.username, this.email,this.id, this.accessToken});
 
   Data.fromJson(Map<String, dynamic> json) {
     username = json['username'];
     email = json['email'];
-    role = json['role'];
+    // role = json['role'];
     id = json['id'];
     accessToken = json['access_token'];
   }
@@ -40,7 +40,7 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['username'] = this.username;
     data['email'] = this.email;
-    data['role'] = this.role;
+    // data['role'] = this.role;
     data['id'] = this.id;
     data['access_token'] = this.accessToken;
     return data;
