@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_mobile/screens/login_register/login/login_screen.dart';
 import 'package:ecommerce_app_mobile/screens/login_register/register/bloc/sign_up_bloc.dart';
 import 'package:ecommerce_app_mobile/screens/login_register/register/components/body.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';
@@ -22,8 +23,9 @@ class SignUpScreen extends StatelessWidget {
         if (state is SignUpClickedSuccessActionState) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBarLoginSuccess('Đăng ký thành công'),
-
           );
+          Navigator.pushReplacementNamed(
+                          context, LoginScreen.routeName);
         }
         else if (state is SignUpClickedErrorActionState) {
           ScaffoldMessenger.of(context).showSnackBar(
