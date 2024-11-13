@@ -3,7 +3,7 @@ import 'package:ecommerce_app_mobile/model/account/account_respone.dart';
 import 'package:http/http.dart' as http;
 
 class ApiServicesAccount {
-  final String _baseUrl = "http://192.168.2.183:4000";
+  final String _baseUrl = "http://172.31.98.146:4000";
 
   Future<void> sendOtp(String email) async {
     var url = Uri.parse("$_baseUrl/users/email_verification/$email");
@@ -71,15 +71,5 @@ Future<void> checkVerifyOTPforEmail(String email, String code) async {
   }
 }
 
-  /// id: vendor id
-  /// code: otp code
-  void confirmEmail(String id, String code) async {
-    var url = Uri.parse("$_baseUrl/account/confirm-email/$id/$code");
-    var headers = {
-      'content-type': 'application/json',
-      'accept': 'application/json',
-    };
-
-    var response = await http.post(url, headers: headers);
-  }
+  
 }

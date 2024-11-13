@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'dart:convert';
 class ApiServiceAuth{
-  static const String baseUrl='http://192.168.2.183:4000';
+  static const String baseUrl='http://172.31.98.146:4000';
 
   String getCookie(String header) {
     int refreshTokenStart = header.indexOf("refreshToken=");
@@ -37,8 +37,6 @@ class ApiServiceAuth{
         String? token = user.data!.accessToken;
         String? username = user.data!.username;
         // String? role = user.data!.role;
-
-        
         //dung secure storage de luu tai khoan
         UserSecurityStorage.setEmail(email);
         UserSecurityStorage.setUsername(username!);
@@ -124,6 +122,8 @@ class ApiServiceAuth{
 
     UserSecurityStorage.deleteAll();
   }
+
+  //Quên mật khẩu
 
   Future<void> sendotp(String email) async {
     var url = Uri.parse('$baseUrl/account/send-otp?email=$email');
