@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:ecommerce_app_mobile/api/authencation.dart';
 import 'package:ecommerce_app_mobile/components_buttons/bottom_navbar_home.dart';
 import 'package:ecommerce_app_mobile/components_buttons/colors.dart';
@@ -37,25 +36,37 @@ class _BodyState extends State<Body> {
     email = await UserSecurityStorage.getEmail();
     password = await UserSecurityStorage.getPassword();
   }
-  void startTimer() {
-    Timer.periodic(const Duration(seconds: 3), (timer) async {
 
-       
-      try {
-        if (email != null && password != null) {
-          // await ApiServiceAuth().login(email!, password!);
-          // Navigator.pushReplacementNamed(
-          //     context, NavigatorBottomBar.routeName);
-           Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-        } else {
-          Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-        }
-      } catch (e) {
+  Timer ?_timer ; 
+  void startTimer() {
+  _timer = Timer.periodic(const Duration(seconds: 3), (timer) async {
+    try {
+      if (!mounted) return; 
+
+      if (email != null && password != null) {
+        await ApiServiceAuth().login(email!, password!);
+        if (!mounted) return; 
+        Navigator.pushReplacementNamed(
+            context, NavigatorBottomBarHome.routeName);
+      } else {
+        if (!mounted) return;
         Navigator.pushReplacementNamed(context, LoginScreen.routeName);
       }
+    } catch (e) {
+      if (mounted) { 
+        Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+      }
+    } finally {
       timer.cancel();
-    });
-  }
+    }
+  });
+}
+
+@override
+void dispose() {
+  _timer?.cancel(); // Hủy bỏ timer nếu nó vẫn còn đang chạy
+  super.dispose();
+}
   @override
   Widget build(BuildContext context) {
     return Container(
