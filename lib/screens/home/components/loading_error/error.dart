@@ -25,7 +25,7 @@ class ErrorStateScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const InputHome(),
-                const SliderHome(),
+                // const SliderHome(),
                 const TextTitle(title: 'Danh mục'),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
