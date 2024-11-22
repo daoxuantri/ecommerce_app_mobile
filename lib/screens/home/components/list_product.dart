@@ -1,13 +1,15 @@
 
 import 'package:ecommerce_app_mobile/model/home/categories.dart';
 import 'package:ecommerce_app_mobile/model/home/products.dart';
+import 'package:ecommerce_app_mobile/screens/home/bloc/home_bloc.dart';
 import 'package:ecommerce_app_mobile/screens/home/components/product_card.dart'; 
 import 'package:flutter/material.dart';
 
 
 class ProductList extends StatelessWidget {
   final List<ProductDataModel> products;
-  const ProductList({super.key, required this.products});
+  final HomeBloc homeBloc;
+  const ProductList({super.key, required this.products, required this.homeBloc});
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +31,20 @@ class ProductList extends StatelessWidget {
                     right: currentIndex == products.length - 1
                         ? 20
                         : 0),
-                padding: const EdgeInsets.only(bottom: 20),
-                child: ProductCard(
-                  images: (products[index].images != null && products[index].images!.isNotEmpty) 
-                      ? products[index].images![0] 
-                      : 'assets/images/notfoundimages.jpg',
-                  name: products[index].name.toString(),
-                  price: products[index].price,
-                  //isTap: products[index].isTap,
+                padding: const EdgeInsets.only(bottom: 15),
+                child: GestureDetector(
+                  onTap: () {
+                    homeBloc.add(HomeProductClickedEvent(productId: products[index].sId.toString()));
+                  },
+                  child: ProductCard(
+                    images: (products[index].images != null && products[index].images!.isNotEmpty) 
+                        ? products[index].images![0] 
+                        : 'assets/images/notfoundimages.jpg',
+                    name: products[index].name.toString(),
+                    price: products[index].price,
+                    rating: products[index].rating
+                    //isTap: products[index].isTap,
+                  ),
                 ),
               );
             },

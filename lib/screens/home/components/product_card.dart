@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_mobile/screens/home/components/favouriteproduct.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';  
@@ -6,6 +7,7 @@ import 'package:intl/intl.dart';
 class ProductCard extends StatelessWidget {
   final String? name;
   final int? price;
+  final int? rating;
   final bool isTap;
   final String images;
 
@@ -13,7 +15,7 @@ class ProductCard extends StatelessWidget {
       {super.key,
         this.name,
         this.price,
-        this.isTap = false, required this.images});
+        this.isTap = false, required this.images, this.rating});
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +86,7 @@ class ProductCard extends StatelessWidget {
                     left: 0,
                     top: 0,
                     child: Text(
-                      'Giá: $formattedPrice',
+                      '$formattedPrice',
                       style: TextStyle(
                        color: Color.fromARGB(164, 183, 16, 16),
                         fontSize: 14,
@@ -97,13 +99,25 @@ class ProductCard extends StatelessWidget {
               ),
             ),
           ),
-          // Positioned(
-          //   left: 241,
-          //   top: 206,
-          //   child: FavouriteFlower(
-          //     isTap: isTap,
-          //   ),
-          // ),
+          Positioned(
+            left: 150,
+            top: 260,
+            child: FavouriteProduct(
+            ),
+          ),
+          Positioned(
+            left: 10,
+            top: 260,
+            child: Row(
+              children: List.generate(5, (index){
+                return Icon(
+                  Icons.star,
+                  color: index < (rating ?? 0) ? Colors.orange : Colors.grey,
+                  size: 20,
+                );
+              }) 
+            )
+          ),
         ],
       ),
     );

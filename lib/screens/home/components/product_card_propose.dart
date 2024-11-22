@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_mobile/screens/home/components/favouriteproduct.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; 
@@ -9,6 +10,7 @@ class ProductCardPropose extends StatelessWidget {
   final String? name; 
   final String image;
   final int ?price;
+  final int ?rating;
   final HomeBloc homeBloc;
   final String id;
   const ProductCardPropose({
@@ -16,7 +18,7 @@ class ProductCardPropose extends StatelessWidget {
     this.name, 
     required this.image,
     required this.homeBloc,
-    required this.id, required this.price,
+    required this.id, required this.price,required this.rating,
   });
   
 
@@ -89,7 +91,7 @@ class ProductCardPropose extends StatelessWidget {
                     left: 0,
                     top: 0,
                     child: Text(
-                      'Giá: $formattedPrice',
+                      '$formattedPrice',
                       style: TextStyle(
                         color: Color.fromARGB(164, 183, 16, 16),
                         fontSize: 14,
@@ -102,56 +104,25 @@ class ProductCardPropose extends StatelessWidget {
               ),
             ),
           ),
-          // Positioned(
-          //   left: 100,
-          //   top: 220,
-          //   child: SizedBox(
-          //     width: 90,
-          //     height: 60,
-          //     child: Stack(
-          //       children: [
-          //         const Positioned(
-          //           left: 0,
-          //           top: 0,
-          //           child: Text(
-          //             'Đơn vị tính',
-          //             style: TextStyle(
-          //               color: Color(0xA5222222),
-          //               fontSize: 17,
-          //               fontWeight: FontWeight.w400,
-          //             ),
-          //           ),
-          //         ),
-          //         Positioned(
-          //           left: 0,
-          //           top: 26,
-          //           child: Text(
-          //             '$unit',
-          //             style: const TextStyle(
-          //               color: Colors.black,
-          //               fontSize: 17,
-          //               fontWeight: FontWeight.w600,
-          //             ),
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
-          // Positioned(
-          //   left: 241,
-          //   top: 206,
-          //   child: FavouriteFlower(
-          //     isTap: isTap,
-          //   ),
-          // ),
-          // Positioned(
-          //   left: 245,
-          //   top: 160,
-          //   child: ColorFlower(
-          //     colorFlower: flowerColor,
-          //   ),
-          // ),
+          Positioned(
+            left: 150,
+            top: 260,
+            child: FavouriteProduct(
+            ),
+          ),
+          Positioned(
+            left: 10,
+            top: 260,
+            child: Row(
+              children: List.generate(5, (index){
+                return Icon(
+                  Icons.star,
+                  color: index < (rating ?? 0) ? Colors.orange : Colors.grey,
+                  size: 20,
+                );
+              }) 
+            )
+          ),
         ],
       ),
     );

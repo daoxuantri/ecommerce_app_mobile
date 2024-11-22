@@ -30,6 +30,9 @@ class ListPropose extends StatelessWidget {
                     right: currentIndex == ratingProducts.length - 1 ? 20 : 0),
                 padding: const EdgeInsets.only(bottom: 15),  
                 child: GestureDetector(
+                  onTap: () {
+                    homeBloc.add(HomeProductClickedEvent(productId: ratingProducts[index].sId.toString()));
+                  },
                   child: ProductCardPropose(
                     name: ratingProducts[index].name,
                     image: (ratingProducts[index].images != null && ratingProducts[index].images!.isNotEmpty) 
@@ -37,7 +40,8 @@ class ListPropose extends StatelessWidget {
                       : 'assets/images/notfoundimages.jpg', 
                     id: ratingProducts[index].sId ?? '', 
                     homeBloc: homeBloc,
-                    price : ratingProducts[index].price
+                    price : ratingProducts[index].price,
+                    rating: ratingProducts[index].rating
                     
                   ),
                 ),
