@@ -1,72 +1,71 @@
-// part of 'product_bloc.dart';
+part of 'product_bloc.dart';
 
-// @immutable
-// abstract class ProductState {
-//   const ProductState();
-// }
+@immutable
+abstract class ProductState {
+  const ProductState();
+}
 
-// abstract class ProductActionState extends ProductState {}
+abstract class ProductActionState extends ProductState {}
 
-// class ProductInitial extends ProductState {}
+class ProductInitial extends ProductState {}
 
-// class ProductLoadingState extends ProductState {}
+class ProductLoadingState extends ProductState {}
 
-// class ProductLoadedSuccessState extends ProductState {
-//   final ProductDataModel product;
-//   final List<DemandDataModel> listDemand0;
-//   final List<DemandDataModel> listDemand1;
+class ProductLoadedSuccessState extends ProductState {
+  final DataDetailProduct product;
+  final List<ProductDataModel>  listproduct;
 
-//   const ProductLoadedSuccessState(
-//       {required this.listDemand0,
-//       required this.listDemand1,
-//       required this.product});
-// }
+  const ProductLoadedSuccessState(
+      {required this.product,
+      required this.listproduct});
+  
+}
 
-// class ProductErrorState extends ProductState {
-//   final String errorMessage;
+class ProductErrorState extends ProductState {
+  final String errorMessage;
 
-//   const ProductErrorState({
-//     required this.errorMessage,
-//   });
-// }
+  const ProductErrorState({
+    required this.errorMessage,
+  });
+}
 
-// class ProductPostClickedActionState extends ProductActionState {
-//   final ProductDataModel product;
+class ProductPostClickedActionState extends ProductActionState {
+  final ProductDataModel product;
 
-//   ProductPostClickedActionState({
-//     required this.product,
-//   });
-// }
+  ProductPostClickedActionState({
+    required this.product,
+  });
+}
 
-// @immutable
-// abstract class ProductSubState extends ProductState {
-//   const ProductSubState();
-// }
+@immutable
+abstract class ProductSubState extends ProductState {
+  const ProductSubState();
+}
 
-// class ProducSubtInitial extends ProductSubState {}
+class ProducSubtInitial extends ProductSubState {}
 
-// class ProductSubSuccess extends ProductSubState {
-//   final bool check;
+class ProductSubSuccess extends ProductSubState {
+  final bool check;
 
-//   ProductSubSuccess({
-//     required this.check,
-//   });
-// }
+  ProductSubSuccess({
+    required this.check,
+  });
+}
 
-// class ProductTab1ClickedActionState extends ProductState {}
+class ProductTab1ClickedActionState extends ProductState {}
 
-// class ProductTab2ClickedActionState extends ProductState {}
+class ProductTab2ClickedActionState extends ProductState {}
 
 
-// class CreateOrderActionState extends ProductActionState{}
-// class CreateOrderErrorActionState extends ProductActionState{
-//   final String message;
+class CreateOrderActionState extends ProductActionState{}
+class CreateOrderErrorActionState extends ProductActionState{
+  final String message;
 
-//   CreateOrderErrorActionState({required this.message});
-// }
+  CreateOrderErrorActionState({required this.message});
+}
 
-// class InitialOrderActionState extends ProductState{
-//   final VendorShippingAddressData? address;
+class InitialOrderActionState extends ProductState{
+  // final VendorShippingAddressData? address;
 
-//   InitialOrderActionState({required this.address});
-// }
+  // InitialOrderActionState({required this.address});
+}
