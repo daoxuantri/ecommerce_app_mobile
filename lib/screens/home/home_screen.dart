@@ -1,14 +1,13 @@
-import 'package:ecommerce_app_mobile/components_buttons/colors.dart';
+
 import 'package:ecommerce_app_mobile/screens/home/bloc/home_bloc.dart';
-import 'package:ecommerce_app_mobile/screens/home/components/base_input.dart';
-import 'package:ecommerce_app_mobile/screens/home/components/category.dart';
+import 'package:ecommerce_app_mobile/screens/home/components/base_input.dart'; 
 import 'package:ecommerce_app_mobile/screens/home/components/list_product.dart';
 import 'package:ecommerce_app_mobile/screens/home/components/loading_error/error.dart';
 import 'package:ecommerce_app_mobile/screens/home/components/slider_home.dart';
+import 'package:ecommerce_app_mobile/screens/product/product_screen.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 
 import '../login_register/login/login_screen.dart';
 import 'components/list-propose.dart';
@@ -45,8 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
           Navigator.pushNamed(context, LoginScreen.routeName);
         }
         if (state is HomeProductClickedState) {
-          // Navigator.pushNamed(context, ProductScreen.routeName,
-          //     arguments: state.productId);
+          Navigator.pushNamed(context, ProductScreen.routeName,
+              arguments: state.productId);
         }
       },
       builder: (context, state) {
@@ -86,11 +85,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       homeBloc: homeBloc,
                     ),
                     const TextTitle(title: 'Điện thoại'),
-                    ProductList(products: successState.categoriesPropose[0].products ?? []),
+                    ProductList(products: successState.categoriesPropose[0].products ?? [], homeBloc: homeBloc),
                     const TextTitle(title: 'Lap Top'),
-                    ProductList(products: successState.categoriesPropose[1].products ?? []),
+                    ProductList(products: successState.categoriesPropose[1].products ?? [], homeBloc: homeBloc),
                     const TextTitle(title: 'Smart Watch'),
-                    ProductList(products: successState.categoriesPropose[2].products ?? []),
+                    ProductList(products: successState.categoriesPropose[2].products ?? [], homeBloc: homeBloc),
 
                    
                     SizedBox(
