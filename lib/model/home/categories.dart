@@ -25,8 +25,6 @@ class CategoriesDataModelRespone {
         brands!.add(new BrandDataModel.fromJson(v));
       });
     }
-
-    print("JSON từ API: $json");
   }
 
   Map<String, dynamic> toJson() {

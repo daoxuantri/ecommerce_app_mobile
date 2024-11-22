@@ -41,8 +41,6 @@ class Data {
       });
     }
 
-    print("JSON từ API: $json");
-
   }
 
   Map<String, dynamic> toJson() {
