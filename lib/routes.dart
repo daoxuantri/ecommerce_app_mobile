@@ -8,6 +8,7 @@ import 'package:ecommerce_app_mobile/screens/home/home_screen.dart';
 import 'package:ecommerce_app_mobile/screens/login_register/login/login_screen.dart';
 import 'package:ecommerce_app_mobile/screens/forget_password/forget_password.dart';
 import 'package:ecommerce_app_mobile/screens/login_register/register/sign_up_screen.dart';
+import 'package:ecommerce_app_mobile/screens/my_cart/my_cart_screen.dart';
 import 'package:ecommerce_app_mobile/screens/product/product_screen.dart';
 import 'package:ecommerce_app_mobile/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,7 @@ final Map<String , WidgetBuilder> routes ={
   //all product screen
   AllProductScreen.routeName :(context) => const AllProductScreen(),
   ProductScreen.routeName :(context) => const ProductScreen(),
+  MyCartScreen.routeName :(context) => const MyCartScreen(),
 
 
 
