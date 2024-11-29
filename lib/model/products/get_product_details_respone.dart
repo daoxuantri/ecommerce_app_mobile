@@ -1,5 +1,4 @@
 import 'package:ecommerce_app_mobile/model/products/data_details_product.dart';
-import 'package:ecommerce_app_mobile/model/products/product_data_model.dart';
 
 class ProductDetailsRespone {
   bool? success;

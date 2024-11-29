@@ -5,7 +5,6 @@ class ProductDataModel {
   String? category;
   String? brand;
   String? description;
-  int? price;
   int? rating;
   int? sold;
   bool? status;
@@ -18,7 +17,6 @@ class ProductDataModel {
       this.category,
       this.brand,
       this.description,
-      this.price,
       this.rating,
       this.sold,
       this.status,
@@ -31,7 +29,6 @@ class ProductDataModel {
     category = json['category'];
     brand = json['brand'];
     description = json['description'];
-    price = json['price'];
     rating = json['rating'];
     sold = json['sold'];
     status = json['status'];
@@ -46,7 +43,6 @@ class ProductDataModel {
     data['category'] = this.category;
     data['brand'] = this.brand;
     data['description'] = this.description;
-    data['price'] = this.price;
     data['rating'] = this.rating;
     data['sold'] = this.sold;
     data['status'] = this.status;
