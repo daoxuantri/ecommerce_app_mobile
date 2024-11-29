@@ -1,14 +1,13 @@
-import 'package:ecommerce_app_mobile/model/home/banners.dart';
-import 'package:ecommerce_app_mobile/model/home/categories.dart';
-import 'package:ecommerce_app_mobile/model/home/products.dart';
+import 'package:ecommerce_app_mobile/model/home/banners/banners.dart';
+import 'package:ecommerce_app_mobile/model/home/categories/categories.dart';
+import 'package:ecommerce_app_mobile/model/home/ratings/rating_product.dart';
 
 class Data {
   List<BannerDataModel>? banners;
   List<CategoriesDataModelRespone>? categories;
-  List<ProductDataModel>? products;
-  List<ProductDataModel>? ratingProducts;
+  List<RatingProductDataModel>? ratingProducts;
 
-  Data({this.banners, this.categories, this.products, this.ratingProducts});
+  Data({this.banners, this.categories, this.ratingProducts});
 
   Data.fromJson(Map<String, dynamic> json) {
     
@@ -25,19 +24,12 @@ class Data {
       json['categories'].forEach((v) {
         categories!.add(new CategoriesDataModelRespone.fromJson(v));
       });
-      print("Đang phân tích banners...");
-    }
-    if (json['products'] != null) {
-      products = <ProductDataModel>[];
-      json['products'].forEach((v) {
-        products!.add(new ProductDataModel.fromJson(v));
-      });
     }
 
     if (json['rating'] != null) {
-      ratingProducts = <ProductDataModel>[];
+      ratingProducts = <RatingProductDataModel>[];
       json['rating'].forEach((v) {
-        ratingProducts!.add(new ProductDataModel.fromJson(v));
+        ratingProducts!.add(new RatingProductDataModel.fromJson(v));
       });
     }
 
@@ -50,9 +42,6 @@ class Data {
     }
     if (this.categories != null) {
       data['categories'] = this.categories!.map((v) => v.toJson()).toList();
-    }
-    if (this.products != null) {
-      data['products'] = this.products!.map((v) => v.toJson()).toList();
     }
     if (this.ratingProducts != null) {
       data['rating'] = this.ratingProducts!.map((v) => v.toJson()).toList();
