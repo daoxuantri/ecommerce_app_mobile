@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ApiServiceProductCategory {
-  static const String baseUrl = 'http://192.168.2.183:4000';
+  static const String baseUrl = 'http://172.31.98.146:4000';
   Future<List<ProductCategoryDataModel>> getListCategory() async {
     // await CheckToken.checkExpireToken();
     var url = Uri.parse('$baseUrl/categories/');

@@ -13,7 +13,7 @@ import '../model/products/product_data_model.dart';
 
 
 class ApiServiceProducts {
-  static const String baseUrl = 'http://192.168.2.183:4000';
+  static const String baseUrl = 'http://172.31.98.146:4000';
 
   Future <Data> getAllProduct() async {
 
@@ -28,7 +28,10 @@ class ApiServiceProducts {
     if (response.statusCode == 200) {
       var responseData = json.decode(response.body);
       if (responseData['success'] == true) {
+        print('qua buoc 1');
         var response = HomeRespone.fromJson(responseData);
+        print('qua buoc nay');
+        
         return response.data!;
       } else {
         throw Exception(responseData['message']);
@@ -40,7 +43,7 @@ class ApiServiceProducts {
     }
   }
 
-  Future<DataDetailProduct?> getDetailProduct(String productId) async {
+  Future<DataDetailProduct> getDetailProduct(String productId) async {
     // await CheckToken.checkExpireToken();
 
     var url = Uri.parse('$baseUrl/products/$productId');
@@ -56,7 +59,8 @@ class ApiServiceProducts {
       var responseData = json.decode(response.body);
       if (responseData['success'] == true) {
       var response = ProductDetailsRespone.fromJson(responseData);
-      return response.data;
+      print('thanhcong doan data');
+      return response.data!;
       } else {
         throw Exception(responseData['message']);
       }
@@ -73,6 +77,7 @@ class ApiServiceProducts {
     var headers = {
       'accept': 'application/json'
     };
+    
 
     var response = await http.get(url, headers: headers);
 
@@ -80,7 +85,7 @@ class ApiServiceProducts {
       var responseData = json.decode(response.body);
       if (responseData['success'] == true) {
       var response = getAllProductResponse.fromJson(responseData);
-      print(response);
+      print('thanhcong 2');
       return response.data;
       } else {
         throw Exception(responseData['message']);

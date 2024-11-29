@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'dart:convert';
 class ApiServiceAuth{
-  static const String baseUrl='http://192.168.2.183:4000';
+  static const String baseUrl='http://172.31.98.146:4000';
 
   String getCookie(String header) {
     int refreshTokenStart = header.indexOf("refreshToken=");
@@ -36,8 +36,10 @@ class ApiServiceAuth{
         var user = UserLogin.fromJson(responseData);
         String? token = user.data!.accessToken;
         String? username = user.data!.username;
+        String? id = user.data!.id;
         // String? role = user.data!.role;
         //dung secure storage de luu tai khoan
+        UserSecurityStorage.setId(id!);
         UserSecurityStorage.setEmail(email);
         UserSecurityStorage.setUsername(username!);
         UserSecurityStorage.setPassword(password);
