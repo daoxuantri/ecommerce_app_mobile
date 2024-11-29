@@ -38,7 +38,6 @@ class ProductList extends StatelessWidget {
                         ? products[index].images![0] 
                         : 'assets/images/notfoundimages.jpg',
                     name: products[index].name.toString(),
-                    price: products[index].price,
                     rating: products[index].rating
                     //isTap: products[index].isTap,
                   ),

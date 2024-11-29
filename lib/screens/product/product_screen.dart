@@ -1,4 +1,5 @@
 import 'package:ecommerce_app_mobile/components_buttons/bottom_navbar_home.dart';
+import 'package:ecommerce_app_mobile/components_buttons/snackbar.dart';
 import 'package:ecommerce_app_mobile/screens/product/components/body_success.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,8 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen> {
   final ProductBloc productBloc = ProductBloc();
+  String? selectedMemory; 
+  String? selectedColor;
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +31,18 @@ class _ProductScreenState extends State<ProductScreen> {
         bloc: productBloc,
         listenWhen: (previous, current) => current is ProductActionState,
         buildWhen: (previous, current) => current is! ProductActionState,
-        listener: (context, state) {
+        listener: (context, state)  {
           if (state is ProductPostClickedActionState) {
             // Navigator.pushNamed(context, DemandScreen.routeName,
             //     arguments: state.product);
+          }
+          if(state is AddProductToCartState){
+              ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBarLoginSuccess('Đã thêm vào giỏ hàng'),);
+                          setState(() {
+            productBloc.add(ProductInitialEvent(productId: productId));
+            
+          });
           }
         },
         builder: (context, state) {
@@ -46,9 +57,19 @@ class _ProductScreenState extends State<ProductScreen> {
                 appBar: buildAppBar(),
                 body: BodySuccess(
                   productDetail: successState.product,
-                  listallproduct: successState.listproduct
+                  // listallproduct: successState.listproduct
+                  onMemorySelected: (memory) {
+                    setState(() {
+                      selectedMemory = memory; 
+                    });
+                  },
+                  onColorSelected: (color) {
+                    setState(() {
+                      selectedColor = color;
+                    });
+                  },
                 ),
-                bottomNavigationBar: buildBottomAppBar(),
+                bottomNavigationBar: buildBottomAppBar(productId),
               );
             case ProductErrorState:
               final errorState = state as ProductErrorState;
@@ -74,48 +95,86 @@ class _ProductScreenState extends State<ProductScreen> {
       },
     ),
     actions: [
-      IconButton(
-        icon: Icon(Icons.home_outlined, size: 30,), // Biểu tượng Home
-        onPressed: () {
-          Navigator.pushReplacementNamed(context, NavigatorBottomBarHome.routeName); // Điều hướng về trang Home
-        },
+      Row(
+        children: [
+          IconButton(
+            icon: Image.asset('assets/images/home_cart.png',width: 20,scale: 20,), // Biểu tượng Home
+            onPressed: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const NavigatorBottomBarHome(currentIndex: 0), // Giả sử giỏ hàng là chỉ số 2
+                ),
+              ); // Điều hướng về trang Home
+            },
+          ),
+          IconButton(
+            icon: Image.asset('assets/images/shopping-cart.png', width: 20, scale: 20), // Biểu tượng giỏ hàng
+            onPressed: () {
+              // Cập nhật currentIndex để hiển thị màn hình giỏ hàng
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const NavigatorBottomBarHome(currentIndex: 2), // Giả sử giỏ hàng là chỉ số 2
+                ),
+              );
+            },
+          ),
+        ],
       ),
     ],
   );
 }
-Widget buildBottomAppBar() {
-    return BottomAppBar(
-      color: Colors.white,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ElevatedButton(
+
+Widget buildBottomAppBar(String productId) {
+  return BottomAppBar(
+    color: Colors.white,
+    child: Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: ElevatedButton(
               onPressed: () {
-                // Add to cart action
+                productBloc.add(AddProductToCartEvent(productId: productId, quantity: 1, color: selectedColor, memory: selectedMemory ));
               },
-              child: Text('Thêm vào giỏ hàng'),
+              child: Text(
+                'Thêm vào giỏ hàng',
+                style: TextStyle(color: Colors.red), // Chữ màu đỏ
+              ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
+                backgroundColor: Colors.white, // Nền trắng
+                side: BorderSide(color: Colors.red), // Viền đỏ
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0), // Bo góc nhẹ
+                ),
+                minimumSize: Size(0, 40), // Chiều cao tối thiểu
               ),
             ),
-            ElevatedButton(
+          ),
+          SizedBox(width: 10), // Khoảng cách giữa hai nút
+          Expanded(
+            child: ElevatedButton(
               onPressed: () {
                 // Buy now action
               },
-              child: Text('Mua ngay'),
+              child: Text(
+                'Mua ngay',
+                style: TextStyle(color: Colors.white), // Chữ trắng
+              ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
+                backgroundColor: Colors.red, // Nền đỏ
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0), // Bo góc nhẹ
+                ),
+                minimumSize: Size(0, 40), // Chiều cao tối thiểu
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-     
-    );
-  }
-
+    ),
+  );
+}
 }
 
 

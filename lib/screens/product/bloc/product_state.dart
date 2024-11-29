@@ -13,11 +13,11 @@ class ProductLoadingState extends ProductState {}
 
 class ProductLoadedSuccessState extends ProductState {
   final DataDetailProduct product;
-  final List<ProductDataModel>  listproduct;
+  // final List<ProductDataModel>  listproduct;
 
   const ProductLoadedSuccessState(
       {required this.product,
-      required this.listproduct});
+      });
   
 }
 
@@ -63,6 +63,9 @@ class CreateOrderErrorActionState extends ProductActionState{
 
   CreateOrderErrorActionState({required this.message});
 }
+
+
+class AddProductToCartState extends ProductActionState{}
 
 class InitialOrderActionState extends ProductState{
   // final VendorShippingAddressData? address;

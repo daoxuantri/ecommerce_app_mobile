@@ -59,3 +59,22 @@ class CreateOrderEvent extends ProductEvent {
 class InitialOrderEvent extends ProductEvent{
   
 }
+
+
+class AddProductToCartEvent extends ProducSubtEvent {
+  final String productId;
+  final int quantity;
+  final String? color ;
+  final String? memory;
+  const AddProductToCartEvent({
+    required this.productId,
+    required this.quantity,
+     this.color,
+     this.memory,
+
+  });
+}
+
+
+
+

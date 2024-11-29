@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:ecommerce_app_mobile/api/mycart.dart';
 import 'package:ecommerce_app_mobile/api/products.dart';
 import 'package:ecommerce_app_mobile/model/products/data_details_product.dart';
 import 'package:ecommerce_app_mobile/model/products/product_data_model.dart';
@@ -16,7 +17,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<ProductPostClickedEvent>(productPostClickedEvent);
     on<ProductTab1ClickedEvent>(productTab1ClickedEvent);
     on<ProductTab2ClickedEvent>(productTab2ClickedEvent);
-    // on<ProductSubInitialEvent>(productSubInitialEvent);
+    on<AddProductToCartEvent>(addProductToCartEvent);
     // on<ProductClickedFavoriteEvent>(productClickedFavoriteEvent);
     // on<CreateOrderEvent>(createOrderEvent);
     // on<InitialOrderEvent>(initialOrderEvent);
@@ -29,10 +30,13 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       DataDetailProduct? product =
           await ApiServiceProducts().getDetailProduct(event.productId);
       // //related product
-      List<ProductDataModel>? listallproduct = await ApiServiceProducts().getRelatedProduct(event.productId);
+
+      //  print('thanhcong 2');
+      // List<ProductDataModel>? listallproduct = await ApiServiceProducts().getRelatedProduct(event.productId);
 
 
-      emit(ProductLoadedSuccessState(product: product!, listproduct: listallproduct!));
+      // emit(ProductLoadedSuccessState(product: product!, listproduct: listallproduct!));
+      emit(ProductLoadedSuccessState(product: product));
     } catch (e) {
       String failToken = e.toString();
       if (failToken.startsWith('Exception: ')) {
@@ -57,16 +61,19 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     emit(ProductTab2ClickedActionState());
   }
 
-  // Future<FutureOr<void>> productSubInitialEvent(
-  //     ProductSubInitialEvent event, Emitter<ProductState> emit) async {
-  //   try {
-  //     bool check = await CheckSubscribe().checkSubscribe(event.productId);
-  //     emit(ProductSubSuccess(check: check));
-  //   } catch (e) {
-  //     print(e);
-  //     emit(ProductSubSuccess(check: false));
-  //   }
-  // }
+  Future<FutureOr<void>> addProductToCartEvent(
+      AddProductToCartEvent event, Emitter<ProductState> emit) async {
+    try {
+      // bool check = await CheckSubscribe().checkSubscribe(event.productId);
+      // emit(ProductSubSuccess(check: check));
+      String message = await ApiServiceCart().updateQuantityProduct(event.productId, event.quantity, event.color, event.memory);
+      
+      emit(AddProductToCartState());
+    } catch (e) {
+      print(e);
+      emit(ProductSubSuccess(check: false));
+    }
+  }
 
   // Future<FutureOr<void>> productClickedFavoriteEvent(
   //     ProductClickedFavoriteEvent event, Emitter<ProductState> emit) async {
