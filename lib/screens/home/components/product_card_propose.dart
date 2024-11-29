@@ -10,6 +10,7 @@ class ProductCardPropose extends StatelessWidget {
   final String? name; 
   final String image;
   final int ?price;
+  final int ? initialprice;
   final int ?rating;
   final HomeBloc homeBloc;
   final String id;
@@ -18,14 +19,15 @@ class ProductCardPropose extends StatelessWidget {
     this.name, 
     required this.image,
     required this.homeBloc,
-    required this.id, required this.price,required this.rating,
+    required this.id,  this.price,required this.rating, this.initialprice,
   });
   
 
   @override
   Widget build(BuildContext context) {
-    String formattedPrice = NumberFormat.currency(locale: 'vi_VN', symbol: 'đ').format(price);
-
+    String formattedPrice = NumberFormat.currency(locale: 'vi_VN', symbol: 'đ').format(price ?? 0);
+    String formattedOldPrice = NumberFormat.currency(locale: 'vi_VN', symbol: 'đ').format(initialprice ?? 0);
+    
     return Container(
       margin: const EdgeInsets.only(left: 15),
       width: SizeConfig.screenWidth * 0.44,
@@ -94,8 +96,8 @@ class ProductCardPropose extends StatelessWidget {
                       '$formattedPrice',
                       style: TextStyle(
                         color: Color.fromARGB(164, 183, 16, 16),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
@@ -104,6 +106,33 @@ class ProductCardPropose extends StatelessWidget {
               ),
             ),
           ),
+          // Chỉ hiển thị giá cũ nếu có giá giảm
+          if (initialprice != null && initialprice! > price!)
+            Positioned(
+              left: 10,
+              top: 233,
+              child: SizedBox(
+                width: 600,
+                height: 400,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      left: 0,
+                      top: 0,
+                      child: Text(
+                        '$formattedOldPrice',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           Positioned(
             left: 150,
             top: 260,
@@ -117,7 +146,7 @@ class ProductCardPropose extends StatelessWidget {
               children: List.generate(5, (index){
                 return Icon(
                   Icons.star,
-                  color: index < (rating ?? 0) ? Colors.orange : Colors.grey,
+                  color: index < (rating?.floor() ?? 0) ? Colors.orange : Colors.grey,
                   size: 20,
                 );
               }) 

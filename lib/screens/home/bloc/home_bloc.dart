@@ -1,13 +1,12 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:ecommerce_app_mobile/api/product_category.dart';
 import 'package:ecommerce_app_mobile/api/products.dart';
-import 'package:ecommerce_app_mobile/model/home/banners.dart';
-import 'package:ecommerce_app_mobile/model/home/categories.dart';
+import 'package:ecommerce_app_mobile/model/home/banners/banners.dart';
+import 'package:ecommerce_app_mobile/model/home/categories/categories.dart';
 import 'package:ecommerce_app_mobile/model/home/data_respone_home.dart';
-import 'package:ecommerce_app_mobile/model/home/products.dart';
-import 'package:ecommerce_app_mobile/model/product_category/product_category_data_model.dart';
+import 'package:ecommerce_app_mobile/model/home/products/products.dart';
+import 'package:ecommerce_app_mobile/model/home/ratings/rating_product.dart';
 import 'package:meta/meta.dart';
 
 
@@ -28,25 +27,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     try {
       // get home
       Data dataHomes = await ApiServiceProducts().getAllProduct();
-      //  print('Data Homes: ${dataHomes.toJson()}');
-
-
-
       //get children (home) -> banner
       List<BannerDataModel>? banners = dataHomes.banners;
 
       //get children(home) -> product for category
       List<CategoriesDataModelRespone>? dataCategory = dataHomes.categories;
 
-      //get children (home) -> all product
-      List<ProductDataModel>? products = dataHomes.products;
-
       //get children (home) -> rating
-      List<ProductDataModel>? ratingProducts = dataHomes.ratingProducts;
+      List<RatingProductDataModel>? ratingProducts = dataHomes.ratingProducts;
+      
+
+      
 
 
 
-      emit(HomeLoadedSuccessState(bannersPropose: banners! , categoriesPropose: dataCategory!, productsPropose: products! , ratingPropose : ratingProducts!));
+      emit(HomeLoadedSuccessState(bannersPropose: banners! , categoriesPropose: dataCategory! , ratingPropose : ratingProducts!));
     } catch (e) {
       String failToken = e.toString();
       if (failToken.startsWith('Exception: ')) {

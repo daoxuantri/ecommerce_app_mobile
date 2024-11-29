@@ -13,12 +13,10 @@ class HomeLoadingState extends HomeState {}
 
 class HomeLoadedSuccessState extends HomeState {
   List<BannerDataModel>? bannersPropose;
-  List<ProductDataModel> productsPropose;
   List<CategoriesDataModelRespone> categoriesPropose;
-  List<ProductDataModel> ratingPropose;
+  List<RatingProductDataModel> ratingPropose;
   HomeLoadedSuccessState({
     required this.bannersPropose,
-    required this.productsPropose,
     required this.categoriesPropose,
     required this.ratingPropose,
   });

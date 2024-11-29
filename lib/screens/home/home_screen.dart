@@ -1,8 +1,10 @@
 
 import 'package:ecommerce_app_mobile/screens/home/bloc/home_bloc.dart';
-import 'package:ecommerce_app_mobile/screens/home/components/base_input.dart'; 
+import 'package:ecommerce_app_mobile/screens/home/components/base_input.dart';
+import 'package:ecommerce_app_mobile/screens/home/components/list_all_product.dart'; 
 import 'package:ecommerce_app_mobile/screens/home/components/list_product.dart';
 import 'package:ecommerce_app_mobile/screens/home/components/loading_error/error.dart';
+import 'package:ecommerce_app_mobile/screens/home/components/product_card_propose.dart';
 import 'package:ecommerce_app_mobile/screens/home/components/slider_home.dart';
 import 'package:ecommerce_app_mobile/screens/product/product_screen.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';
@@ -65,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: getProportionateScreenHeight(20),
                     ),
                     SliderHome(banner: successState.bannersPropose , homeBloc: homeBloc),
+
                     Padding(
                       padding: EdgeInsets.fromLTRB(
                           getProportionateScreenWidth(20),
@@ -90,10 +93,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ProductList(products: successState.categoriesPropose[1].products ?? [], homeBloc: homeBloc),
                     const TextTitle(title: 'Smart Watch'),
                     ProductList(products: successState.categoriesPropose[2].products ?? [], homeBloc: homeBloc),
-
+                    const TextTitle(title: 'Tất cả sản phẩm '),
+                    ListAllProduct(ratingProducts: successState.ratingPropose,
+                      homeBloc: homeBloc,),
                    
                     SizedBox(
-                      height: getProportionateScreenHeight(100),
+                      height: getProportionateScreenHeight(300),
                     )
                   ],
                 ),
@@ -102,6 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
             //xemlai
           case HomeErrorState:
             final errorState = state as HomeErrorState;
+            print('Loi tai day');
             return ErrorStateScreen(
               message: errorState.errorMessage,
               homeBloc: homeBloc,

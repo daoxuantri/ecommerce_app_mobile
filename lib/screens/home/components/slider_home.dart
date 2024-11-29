@@ -1,4 +1,4 @@
-import 'package:ecommerce_app_mobile/model/home/banners.dart';
+import 'package:ecommerce_app_mobile/model/home/banners/banners.dart';
 import 'package:ecommerce_app_mobile/screens/home/bloc/home_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';

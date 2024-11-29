@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 class ProductCard extends StatelessWidget {
   final String? name;
   final int? price;
+  final int ? initialprice;
   final int? rating;
   final bool isTap;
   final String images;
@@ -15,11 +16,12 @@ class ProductCard extends StatelessWidget {
       {super.key,
         this.name,
         this.price,
-        this.isTap = false, required this.images, this.rating});
+        this.isTap = false, required this.images, this.rating, this.initialprice});
 
   @override
   Widget build(BuildContext context) {
-    String formattedPrice = NumberFormat.currency(locale: 'vi_VN', symbol: 'đ').format(price);
+    String formattedPrice = NumberFormat.currency(locale: 'vi_VN', symbol: 'đ').format(price ?? 0);
+    String formattedOldPrice = NumberFormat.currency(locale: 'vi_VN', symbol: 'đ').format(initialprice ?? 0);
     return Container(
       margin: const EdgeInsets.only(left: 15),
       width: SizeConfig.screenWidth * 0.44,
@@ -89,8 +91,8 @@ class ProductCard extends StatelessWidget {
                       '$formattedPrice',
                       style: TextStyle(
                        color: Color.fromARGB(164, 183, 16, 16),
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
@@ -99,6 +101,32 @@ class ProductCard extends StatelessWidget {
               ),
             ),
           ),
+          if (initialprice != null && initialprice! > price!)
+            Positioned(
+              left: 10,
+              top: 233,
+              child: SizedBox(
+                width: 600,
+                height: 400,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      left: 0,
+                      top: 0,
+                      child: Text(
+                        '$formattedOldPrice',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          decoration: TextDecoration.lineThrough,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           Positioned(
             left: 150,
             top: 260,
@@ -109,15 +137,23 @@ class ProductCard extends StatelessWidget {
             left: 10,
             top: 260,
             child: Row(
-              children: List.generate(5, (index){
+              children: List.generate(5, (index) {
+                final int wholeStars = rating?.floor() ?? 0; // Lấy phần nguyên
+                final bool hasHalfStar = (rating ?? 0) % 1 >= 0.5; // Kiểm tra nửa sao
+                
                 return Icon(
-                  Icons.star,
-                  color: index < (rating ?? 0) ? Colors.orange : Colors.grey,
+                  index < wholeStars
+                      ? Icons.star // Sao đầy
+                      : (index == wholeStars && hasHalfStar
+                          ? Icons.star_half // Nửa sao
+                          : Icons.star_border), // Sao rỗng
+                  color: Colors.orange,
                   size: 20,
                 );
-              }) 
-            )
+              }),
+            ),
           ),
+
         ],
       ),
     );

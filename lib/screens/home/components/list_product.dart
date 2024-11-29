@@ -1,6 +1,6 @@
 
-import 'package:ecommerce_app_mobile/model/home/categories.dart';
-import 'package:ecommerce_app_mobile/model/home/products.dart';
+import 'package:ecommerce_app_mobile/model/home/categories/categories.dart';
+import 'package:ecommerce_app_mobile/model/home/products/products.dart';
 import 'package:ecommerce_app_mobile/screens/home/bloc/home_bloc.dart';
 import 'package:ecommerce_app_mobile/screens/home/components/product_card.dart'; 
 import 'package:flutter/material.dart';
@@ -41,8 +41,21 @@ class ProductList extends StatelessWidget {
                         ? products[index].images![0] 
                         : 'assets/images/notfoundimages.jpg',
                     name: products[index].name.toString(),
-                    price: products[index].price,
-                    rating: products[index].rating
+                    price: (products[index].variants != null &&
+                        products[index].variants!.isNotEmpty &&
+                        products[index].variants![0].variantschild != null &&
+                        products[index].variants![0].variantschild!.isNotEmpty)
+                    ? (products[index].variants![0].variantschild![0].price?.discount ??
+                      products[index].variants![0].variantschild![0].price?.initial ?? 0)
+                    : 0,
+                    rating: products[index].rating,
+                    initialprice: (products[index].variants != null &&
+                              products[index].variants!.isNotEmpty &&
+                              products[index].variants![0].variantschild != null &&
+                              products[index].variants![0].variantschild!.isNotEmpty)
+                    ? (products[index].variants![0].variantschild![0].price?.initial ?? 0)
+                    : 0,
+
                     //isTap: products[index].isTap,
                   ),
                 ),

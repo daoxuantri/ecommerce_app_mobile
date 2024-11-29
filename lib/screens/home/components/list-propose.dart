@@ -1,12 +1,11 @@
 
-import 'package:ecommerce_app_mobile/model/home/products.dart';
-import 'package:ecommerce_app_mobile/security_user/change.dart';
+import 'package:ecommerce_app_mobile/model/home/ratings/rating_product.dart';
 import 'package:flutter/material.dart';
 import '../bloc/home_bloc.dart';
 import 'product_card_propose.dart';
 
 class ListPropose extends StatelessWidget {
-  final List<ProductDataModel> ratingProducts;
+  final List<RatingProductDataModel> ratingProducts;
   final HomeBloc homeBloc;
 
   const ListPropose(
@@ -40,8 +39,20 @@ class ListPropose extends StatelessWidget {
                       : 'assets/images/notfoundimages.jpg', 
                     id: ratingProducts[index].sId ?? '', 
                     homeBloc: homeBloc,
-                    price : ratingProducts[index].price,
-                    rating: ratingProducts[index].rating
+                    price: (ratingProducts[index].variants != null &&
+                        ratingProducts[index].variants!.isNotEmpty &&
+                        ratingProducts[index].variants![0].variantschild != null &&
+                        ratingProducts[index].variants![0].variantschild!.isNotEmpty)
+                    ? (ratingProducts[index].variants![0].variantschild![0].price?.discount ??
+                      ratingProducts[index].variants![0].variantschild![0].price?.initial ?? 0)
+                    : 0,
+                    rating: ratingProducts[index].rating,
+                    initialprice: (ratingProducts[index].variants != null &&
+                              ratingProducts[index].variants!.isNotEmpty &&
+                              ratingProducts[index].variants![0].variantschild != null &&
+                              ratingProducts[index].variants![0].variantschild!.isNotEmpty)
+                    ? (ratingProducts[index].variants![0].variantschild![0].price?.initial ?? 0)
+                    : 0,
                     
                   ),
                 ),
@@ -53,3 +64,4 @@ class ListPropose extends StatelessWidget {
     );
   }
 }
+
