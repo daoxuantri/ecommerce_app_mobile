@@ -2,13 +2,19 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class UserSecurityStorage{
   static final _storage = const FlutterSecureStorage();
+  static const _keyId = 'id';
   static const _keyUsername = 'username';
   static const _keyPassword = 'password'; 
-  static const _keyRole = 'role'; 
   static const _keytoken = 'token';
   static const _keyemail = 'email';
 
   UserSecurityStorage._();
+
+  static Future setId(String id) async =>
+      await _storage.write(key: _keyId, value: id);
+
+  static Future<String?> getId() async =>
+      await _storage.read(key: _keyId);
 
   static Future setUsername(String username) async =>
       await _storage.write(key: _keyUsername, value: username);
