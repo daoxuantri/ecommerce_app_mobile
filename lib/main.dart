@@ -9,6 +9,8 @@ void main() {
   runApp(const MyApp());
 }
 
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -22,6 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Ecommerce Electronics',
       debugShowCheckedModeBanner: false,
+      navigatorKey: navigatorKey,
       theme: theme(),
       initialRoute: SplashScreen.routeName,
       routes: routes,

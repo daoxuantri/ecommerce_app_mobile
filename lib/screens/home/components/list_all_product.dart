@@ -34,6 +34,8 @@ class ListAllProduct extends StatelessWidget {
                   //     productId: products[index].sId.toString(),
                   //   ),
                   // );
+
+                  homeBloc.add(HomeProductClickedEvent(productId: ratingProducts[index].sId.toString()));
                 },
                 child: ProductCard(
                   images: (ratingProducts[index].images != null && ratingProducts[index].images!.isNotEmpty) 

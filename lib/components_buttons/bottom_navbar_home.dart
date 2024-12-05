@@ -47,7 +47,8 @@ class _NavigatorBottomBarState extends State<NavigatorBottomBarHome> {
     const HomeScreen(),
     const CategoryScreen(),
     const MyCartScreen(),
-    const MyProfileScreen()
+    const MyCartScreen(),
+    const  MyProfileScreen()
   ];
 
   @override

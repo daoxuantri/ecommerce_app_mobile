@@ -26,15 +26,13 @@ class _ImagesCreenState extends State<ImagesCreen> {
               final banner = widget.images![index]; // Lấy banner từ danh sách
               return Image.network(
                 banner, // Sử dụng URL hình ảnh từ banner
-                height: 211,
-                width: 350,
-                fit: BoxFit.cover, // Đảm bảo hình ảnh được hiển thị đúng
+                width: 300,
               );
             },
             options: CarouselOptions(
               aspectRatio: 10 / 2,
               viewportFraction: 0.8,
-              height: 175,
+              height: 200,
               autoPlay: true,
               enableInfiniteScroll: false,
               autoPlayAnimationDuration: const Duration(seconds: 2),

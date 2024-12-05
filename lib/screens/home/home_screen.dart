@@ -4,7 +4,6 @@ import 'package:ecommerce_app_mobile/screens/home/components/base_input.dart';
 import 'package:ecommerce_app_mobile/screens/home/components/list_all_product.dart'; 
 import 'package:ecommerce_app_mobile/screens/home/components/list_product.dart';
 import 'package:ecommerce_app_mobile/screens/home/components/loading_error/error.dart';
-import 'package:ecommerce_app_mobile/screens/home/components/product_card_propose.dart';
 import 'package:ecommerce_app_mobile/screens/home/components/slider_home.dart';
 import 'package:ecommerce_app_mobile/screens/product/product_screen.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';

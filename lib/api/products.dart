@@ -13,7 +13,7 @@ import '../model/products/product_data_model.dart';
 
 
 class ApiServiceProducts {
-  static const String baseUrl = 'http://172.31.98.146:4000';
+  static const String baseUrl = 'http://192.168.2.183:4000';
 
   Future <Data> getAllProduct() async {
 

@@ -3,7 +3,8 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:ecommerce_app_mobile/api/mycart.dart';
 import 'package:ecommerce_app_mobile/model/cart/my_cart_data_model.dart';
-import 'package:ecommerce_app_mobile/model/cart/product_item_model.dart';   
+import 'package:ecommerce_app_mobile/model/cart/product_item_model.dart';
+import 'package:ecommerce_app_mobile/screens/my_cart/modelselected/selected_model.dart';   
 import 'package:meta/meta.dart';
 
 part 'cart_event.dart';
@@ -18,6 +19,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<RemoveAllProductClickedEvent>(removeAllProductClickedEvent);
     on<RemoveProductClickedEvent>(removeProductClickedEvent);
     on<UpdateProductQuantityEvent>(updateProductQuantityEvent);
+    on<ConfirmOrderClickedEvent>(confirmOrderClickedEvent);
   }
 
   Future<void> cartInitialEvent(
@@ -44,7 +46,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       RemoveAllProductClickedEvent event, Emitter<CartState> emit) async {
     emit(CartLoadingState());    
     try {
-      final String message =  await ApiServiceCart().deleteAllProduct(event.userId!);
+      final String message =  await ApiServiceCart().deleteAllProduct();
 
       await Future.delayed(Duration(seconds: 2));
       emit(RemoveAllProductClickedState(message: message));
@@ -103,5 +105,10 @@ class CartBloc extends Bloc<CartEvent, CartState> {
   FutureOr<void> cartProductClickedEvent(
       CartProductClickedEvent event, Emitter<CartState> emit) {
     emit(CartProductClickedState(productId: event.productId));
+  }
+
+  FutureOr<void> confirmOrderClickedEvent(
+      ConfirmOrderClickedEvent event, Emitter<CartState> emit) {
+    emit(ConfirmOrderClickedState(listproductcart: event.listproductcart));
   }
 }

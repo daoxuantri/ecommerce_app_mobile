@@ -9,7 +9,7 @@ import 'dart:convert';
 
 
 class ApiServiceCart {
-  static const String baseUrl = 'http://172.31.98.146:4000';
+  static const String baseUrl = 'http://192.168.2.183:4000';
 
   Future <MyCartDataModel> getCartById(String userId) async {
 
@@ -38,18 +38,18 @@ class ApiServiceCart {
 
 
 
-  Future<String> deleteAllProduct(String id) async {
+  Future<String> deleteAllProduct() async {
     
 
     var url = Uri.parse('$baseUrl/carts/removeall'); 
-
+    String? userId = await UserSecurityStorage.getId();
     var headers = {
       'accept': 'application/json',
       'Content-Type': 'application/json',
     };
 
     var body = json.encode({
-      'user': id, 
+      'user': userId, 
     });
 
     var response = await http.post(url, headers: headers, body: body);
@@ -141,6 +141,10 @@ class ApiServiceCart {
       throw Exception('fail to call api delete vendor shipping address');
     }
   }
+
+
+
+
 
   
 }

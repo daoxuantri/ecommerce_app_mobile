@@ -27,7 +27,7 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   Future<FutureOr<void>> signUpClickedEvent(
       SignUpClickedEvent event, Emitter<SignUpState> emit) async {
     try {
-      await ApiServiceVendors().signUpMini(event.email,
+      await ApiServiceUsers().signUpMini(event.email,
           event.phone, event.password, event.username);
       emit(SignUpClickedSuccessActionState());
     } catch (e) {

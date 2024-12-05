@@ -68,6 +68,8 @@ class ProductCard extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(10,20,20,20),
               child: Text(
                 '$name',
+                 maxLines: 2, // Giới hạn hiển thị tối đa 1 dòng
+                  overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   color: Colors.black,
                   fontSize: 14,
@@ -138,15 +140,15 @@ class ProductCard extends StatelessWidget {
             top: 260,
             child: Row(
               children: List.generate(5, (index) {
-                final int wholeStars = rating?.floor() ?? 0; // Lấy phần nguyên
-                final bool hasHalfStar = (rating ?? 0) % 1 >= 0.5; // Kiểm tra nửa sao
+                final int wholeStars = rating?.floor() ?? 0; 
+                final bool hasHalfStar = (rating ?? 0) % 1 >= 0.5; 
                 
                 return Icon(
                   index < wholeStars
-                      ? Icons.star // Sao đầy
+                      ? Icons.star 
                       : (index == wholeStars && hasHalfStar
-                          ? Icons.star_half // Nửa sao
-                          : Icons.star_border), // Sao rỗng
+                          ? Icons.star_half 
+                          : Icons.star_border), 
                   color: Colors.orange,
                   size: 20,
                 );

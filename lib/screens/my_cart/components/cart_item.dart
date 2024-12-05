@@ -2,11 +2,14 @@
 import 'dart:async';
 
 import 'package:ecommerce_app_mobile/screens/my_cart/bloc/cart_bloc.dart';
+import 'package:ecommerce_app_mobile/screens/my_cart/modelselected/selected_model.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+
 class CartItem extends StatefulWidget {
   final String? idObject;
   final String? idProduct;
@@ -29,14 +32,21 @@ class CartItem extends StatefulWidget {
     this.memory, required this.cartBloc, required this.idObject,
   });
 
+
+  static List<SelectedProduct> selectedProducts = [];
+
   @override
   State<CartItem> createState() => _CartItemState();
 }
+
 
 class _CartItemState extends State<CartItem> {
   bool isChecked = false; 
   late ValueNotifier<int> quantityNotifier;
   Timer? debounce; 
+
+
+  
 
 
   @override
@@ -110,6 +120,19 @@ class _CartItemState extends State<CartItem> {
               onChanged: (bool? value) {
                 setState(() {
                   isChecked = value ?? false;
+                  if (isChecked) {
+                   CartItem.selectedProducts.add(SelectedProduct(
+                      id: widget.idProduct!,
+                      name: widget.productName!,
+                      price: widget.price!,
+                      quantity: quantityNotifier.value,
+                      color: widget.color,
+                      memory: widget.memory,
+                      images: widget.imageUrl
+                    )); 
+                  } else {
+                   CartItem.selectedProducts.removeWhere((product) => product.id == widget.idProduct); 
+                  }
                 });
               },
               activeColor: Colors.red, // Màu khi được chọn
@@ -188,8 +211,6 @@ class _CartItemState extends State<CartItem> {
                                   onTap: () {
 
                                     Navigator.of(context).pop(); 
-                                    print('Xoa product');
-                                    print(widget.idObject);
                                     widget.cartBloc.add(RemoveProductClickedEvent(productId: widget.idObject));
                                     
                                   },

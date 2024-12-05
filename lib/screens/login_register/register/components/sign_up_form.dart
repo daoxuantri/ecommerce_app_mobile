@@ -509,7 +509,7 @@ class _SignUpFormState extends State<SignUpForm> {
         _formKey.currentState!.save();
         KeyboardUtil.hideKeyboard(context);
         try {
-          await ApiServiceVendors()
+          await ApiServiceUsers()
               .signUpMini(email!, numberPhone!, password!, username!);
           Navigator.pushReplacementNamed(context, LoginScreen.routeName);
           ScaffoldMessenger.of(context).showSnackBar(

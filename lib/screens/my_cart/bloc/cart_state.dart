@@ -55,3 +55,12 @@ class UpdateProductQuantityState extends CartActionState {
     required this.message,
   });
 }
+
+
+class ConfirmOrderClickedState extends CartActionState {
+  final List<SelectedProduct> listproductcart;
+  ConfirmOrderClickedState({
+    required this.listproductcart,
+  });
+}
+

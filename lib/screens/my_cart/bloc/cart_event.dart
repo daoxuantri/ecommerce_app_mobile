@@ -23,10 +23,7 @@ class CartProductClickedEvent extends CartEvent {
 
 //remove all event 
 class RemoveAllProductClickedEvent extends CartEvent {
-  final String? userId;
-  RemoveAllProductClickedEvent({
-    required this.userId,
-  });
+  
 }
 
 //remove product id
@@ -46,5 +43,14 @@ class UpdateProductQuantityEvent extends CartEvent {
     required this.productId,
     required this.newQuantity,
     this.memory,this.color,
+  });
+}
+
+
+
+class ConfirmOrderClickedEvent extends CartEvent {
+  final List<SelectedProduct> listproductcart;
+  ConfirmOrderClickedEvent({
+     required this.listproductcart,
   });
 }
