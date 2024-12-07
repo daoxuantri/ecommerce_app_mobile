@@ -24,23 +24,21 @@ class _AddressButtonState extends State<AddressButton> {
       child: Text(
         'Thêm địa chỉ',
         style: TextStyle(
-          fontSize: 16.0,
-          fontFamily: 'SF Pro Display',
+          fontSize: 14.0,
           fontWeight: FontWeight.w500,
-          fontStyle: FontStyle.normal,
-          letterSpacing: 0.077,
+          color: Colors.white
         ),
       ),
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(AppColor.color0A84FF),
+        backgroundColor: MaterialStateProperty.all(AppColor.colorFF3B30),
         minimumSize: MaterialStateProperty.all(Size(
-            getProportionateScreenHeight(355),
-            getProportionateScreenWidth(55))),
+            getProportionateScreenHeight(300),
+            getProportionateScreenWidth(45))),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-        ),
+        )
       ),
     );
   }

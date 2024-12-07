@@ -8,22 +8,14 @@ class AddAddressInitialEvent extends AddAddressEvent {}
 class AddAddressButtonClickEvent extends AddAddressEvent {
   final String name;
   final String phone;
-  final String addressCountryId;
-  final String addressCityId;
-  final String addressDistrictId;
-  final String addressWardId;
-  final String addressStreet;
-  final String category;
+  final String address;
+  final bool status;
 
   AddAddressButtonClickEvent(
       this.name,
       this.phone,
-      this.addressCountryId,
-      this.addressCityId,
-      this.addressDistrictId,
-      this.addressWardId,
-      this.addressStreet,
-      this.category);
+      this.address,
+      this.status);
 }
 
 class AddAddressCheckInputEvent extends AddAddressEvent {

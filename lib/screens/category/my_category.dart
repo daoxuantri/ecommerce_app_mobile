@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_mobile/components_buttons/loading.dart';
 import 'package:ecommerce_app_mobile/screens/category/bloc/category_bloc.dart';
 import 'package:ecommerce_app_mobile/screens/category/components/category.dart';
 import 'package:ecommerce_app_mobile/screens/category/components/error.dart';
@@ -45,7 +46,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
       builder: (context, state) {
         switch (state.runtimeType) {
           case CategoryLoadingState:
-            return Center(child: const CircularProgressIndicator());
+            return LoadingScreen();
           case CategoryLoadedSuccessState:
             final successState = state as CategoryLoadedSuccessState;
             return Scaffold(

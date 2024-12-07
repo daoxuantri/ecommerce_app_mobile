@@ -4,7 +4,7 @@ class RatingProductDataModel {
   String? sId;
   String? name;
   List<String>? images;
-  int? rating;
+  double? rating;
   int? sold;
   List<VariantDataModel>? variants;
 
@@ -20,7 +20,7 @@ class RatingProductDataModel {
     sId = json['_id'];
     name = json['name'];
     images = json['images'].cast<String>();
-    rating = json['rating'];
+    rating = (json['rating'] != null) ? (json['rating'] as num).toDouble() : null; 
     sold = json['sold'];
     if (json['variants'] != null) {
       variants = <VariantDataModel>[];

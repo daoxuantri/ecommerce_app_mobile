@@ -19,7 +19,7 @@ class _AddressCardState extends State<AddressCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.fromLTRB(8, 8, 8, 5),
       child: Container(
         height: getProportionateScreenHeight(150),
         child: Card(
@@ -42,7 +42,7 @@ class _AddressCardState extends State<AddressCard> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        'Cửa hàng',
+                        'Địa chỉ',
                         style: TextStyle(
                           fontSize: 12.0,
                           fontFamily: 'Inter',
@@ -65,23 +65,13 @@ class _AddressCardState extends State<AddressCard> {
                 ),
                 CustomIconTextRow(
                   icon: Icon(
-                    Icons.location_on_outlined,
-                    color: Color(0xffff9500),
-                  ),
-                  text: widget.addressInf.address.toString() 
-                ),
-                SizedBox(
-                  height: getProportionateScreenHeight(7),
-                ),
-                CustomIconTextRow(
-                  icon: Icon(
                     Icons.person_outline,
                     color: Color(0xffff9500),
                   ),
                   text: widget.addressInf.name.toString(),
                 ),
                 SizedBox(
-                  height: getProportionateScreenHeight(7),
+                  height: getProportionateScreenHeight(5),
                 ),
                 CustomIconTextRow(
                   icon: Icon(
@@ -89,6 +79,19 @@ class _AddressCardState extends State<AddressCard> {
                     color: Color(0xffff9500),
                   ),
                   text: widget.addressInf.phone.toString(),
+                ),
+                SizedBox(
+                  height: getProportionateScreenHeight(5),
+                ),
+                CustomIconTextRow(
+                  icon: Icon(
+                    Icons.location_on_outlined,
+                    color: Color(0xffff9500),
+                  ),
+                  text: widget.addressInf.address.toString() 
+                ),
+                SizedBox(
+                  height: getProportionateScreenHeight(5),
                 ),
               ],
             ),
@@ -116,10 +119,8 @@ class CustomIconTextRow extends StatelessWidget {
             text,
             style: TextStyle(
               fontSize: 13.0,
-              fontFamily: 'SF Pro Display',
               fontWeight: FontWeight.w600,
               fontStyle: FontStyle.normal,
-              letterSpacing: -0.01,
             ),
           ),
         ),

@@ -8,7 +8,7 @@ class ProductCard extends StatelessWidget {
   final String? name;
   final int? price;
   final int ? initialprice;
-  final int? rating;
+  final double? rating;
   final bool isTap;
   final String images;
 
@@ -140,21 +140,31 @@ class ProductCard extends StatelessWidget {
             top: 260,
             child: Row(
               children: List.generate(5, (index) {
-                final int wholeStars = rating?.floor() ?? 0; 
-                final bool hasHalfStar = (rating ?? 0) % 1 >= 0.5; 
-                
-                return Icon(
-                  index < wholeStars
-                      ? Icons.star 
-                      : (index == wholeStars && hasHalfStar
-                          ? Icons.star_half 
-                          : Icons.star_border), 
-                  color: Colors.orange,
-                  size: 20,
-                );
+                if (index < (rating?.floor() ?? 0)) {
+                  // Hiển thị ngôi sao đầy đủ nếu index nhỏ hơn rating làm tròn xuống
+                  return Icon(
+                    Icons.star,
+                    color: Colors.orange,
+                    size: 20,
+                  );
+                } else if (index < (rating ?? 0) && (rating ?? 0) - index >= 0.5) {
+                  // Hiển thị nửa ngôi sao nếu index nằm trong khoảng rating thập phân
+                  return Icon(
+                    Icons.star_half,
+                    color: Colors.orange,
+                    size: 20,
+                  );
+                } else {
+                  // Hiển thị ngôi sao trống nếu không đạt điều kiện trên
+                  return Icon(
+                    Icons.star_border,
+                    color: Colors.grey,
+                    size: 20,
+                  );
+                }
               }),
             ),
-          ),
+          )
 
         ],
       ),

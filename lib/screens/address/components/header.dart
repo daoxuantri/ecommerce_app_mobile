@@ -30,24 +30,22 @@ class _AddressHeaderState extends State<AddressHeader> {
       title: Padding(
         padding: EdgeInsets.only(left: getProportionateScreenWidth(45)),
         child:  const Text(
-          "Địa chỉ nhận hàng",
-          textAlign: TextAlign.center,
+          "Địa chỉ của tôi",
           style: TextStyle(
             color: Colors.black,
-            fontSize: 20.0,
+            fontSize: 18.0,
             fontFamily: 'SF Pro Display',
-            fontWeight: FontWeight.w600,
-            fontStyle: FontStyle.normal,
-            letterSpacing: 0.077,
+            fontWeight: FontWeight.w500, 
           ),
         ),
       ),
+      centerTitle: true,
       leading: Padding(
         padding: EdgeInsets.only(left: 10),
         child: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios_new,
-            size: 30,
+            size: 20,
             color: Colors.black,
           ),
           onPressed: () {

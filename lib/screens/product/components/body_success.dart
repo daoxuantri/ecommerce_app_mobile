@@ -44,22 +44,38 @@ class _BodySuccessState extends State<BodySuccess> {
     details = widget.productDetail.details ?? [];
     variants = widget.productDetail.variants;
 
-    // Gán giá trị mặc định cho memory và màu sắc nếu có
-    if (variants != null && variants!.isNotEmpty) {
-      selectedMemory = variants!.first.memory;
-      selectedColor = variants!.first.variants?[0].color;
+    // // Gán giá trị mặc định cho memory và màu sắc nếu có
+    // if (variants != null && variants!.isNotEmpty) {
+    //   selectedMemory = variants!.first.memory;
+    //   selectedColor = variants!.first.variants?[0].color;
       
-    // Sử dụng addPostFrameCallback để gọi hàm sau khi widget đã được xây dựng
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      widget.onMemorySelected!(selectedMemory!); // Gọi hàm với giá trị đã gán
-      widget.onColorSelected!(selectedColor!);   // Gọi hàm với giá trị đã gán
-    });
+    // // Sử dụng addPostFrameCallback để gọi hàm sau khi widget đã được xây dựng
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   widget.onMemorySelected!(selectedMemory!); // Gọi hàm với giá trị đã gán
+    //   widget.onColorSelected!(selectedColor!);   // Gọi hàm với giá trị đã gán
+    // });
 
-      // Cập nhật giá dựa trên variant đầu tiên
+    //   // Cập nhật giá dựa trên variant đầu tiên
+    //   var firstVariant = variants!.first.variants?.first;
+    //   if (firstVariant != null) {
+    //     selectedPrice = firstVariant.price?.discount ?? firstVariant.price?.initial; // Nếu discount là null, sử dụng giá initial
+    //     selectedOldPrice = firstVariant.price?.initial; // Giá ban đầu
+    //   }
+    // }
+
+    if (variants != null && variants!.isNotEmpty) {
+      selectedMemory = variants!.first.memory ?? "Không có dung lượng"; // Nếu null, gán giá trị mặc định
+      selectedColor = variants!.first.variants?.first.color ?? "Không có màu sắc"; // Nếu null, gán giá trị mặc định
+      
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        widget.onMemorySelected?.call(selectedMemory!);
+        widget.onColorSelected?.call(selectedColor!);
+      });
+
       var firstVariant = variants!.first.variants?.first;
       if (firstVariant != null) {
-        selectedPrice = firstVariant.price?.discount ?? firstVariant.price?.initial; // Nếu discount là null, sử dụng giá initial
-        selectedOldPrice = firstVariant.price?.initial; // Giá ban đầu
+        selectedPrice = firstVariant.price?.discount ?? firstVariant.price?.initial;
+        selectedOldPrice = firstVariant.price?.initial;
       }
     }
   }
@@ -95,55 +111,61 @@ class _BodySuccessState extends State<BodySuccess> {
                     SizedBox(
                       height: getProportionateScreenHeight(10),
                     ),
-                    Text(
-                      'Dung lượng: ${selectedMemory ?? "Không có dung lượng"}',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey,
+                    // Hiển thị phần "Dung lượng" nếu `selectedMemory` không phải "null" hoặc null
+                    if (selectedMemory != null && selectedMemory != "null") ...[
+                      Text(
+                        'Dung lượng: ${selectedMemory ?? "Không có dung lượng"}',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: getProportionateScreenHeight(5)),
-                    Wrap(
-                    spacing: 5,
-                    children: variants?.map<Widget>((variant) {
-                      return ChoiceChip(
-                        label: Text(
-                          '${variant.memory}',
-                          style: TextStyle(
-                            color: selectedMemory == variant.memory ? Colors.red : Colors.black,
-                          ),
-                        ),
-                        selected: selectedMemory == variant.memory,
-                        onSelected: (selected) {
-                          setState(() {
-                            selectedMemory = variant.memory;
+                      SizedBox(height: getProportionateScreenHeight(5)),
+                      Wrap(
+                        spacing: 5,
+                        children: variants?.map<Widget>((variant) {
+                          return ChoiceChip(
+                            label: Text(
+                              '${variant.memory}',
+                              style: TextStyle(
+                                color: selectedMemory == variant.memory ? Colors.red : Colors.black,
+                              ),
+                            ),
+                            selected: selectedMemory == variant.memory,
+                            onSelected: (selected) {
+                              setState(() {
+                                selectedMemory = variant.memory;
 
-                            // Cập nhật giá dựa trên bộ nhớ được chọn
-                            var selectedVariant = variants?.firstWhere(
-                              (v) => v.memory == selectedMemory,
-                            );
-                            if (selectedVariant != null && selectedVariant.variants != null) {
-                              var firstVariant = selectedVariant.variants?.first;
-                              selectedPrice = firstVariant?.price?.discount ?? firstVariant?.price?.initial; // Nếu discount là null, sử dụng giá initial
-                              selectedOldPrice = firstVariant?.price?.initial; // Giá ban đầu
-                              selectedColor = firstVariant?.color; // Cập nhật màu mặc định
-                            }
+                                // Cập nhật giá dựa trên bộ nhớ được chọn
+                                var selectedVariant = variants?.firstWhere(
+                                  (v) => v.memory == selectedMemory,
+                                );
+                                if (selectedVariant != null &&
+                                    selectedVariant.variants != null) {
+                                  var firstVariant = selectedVariant.variants?.first;
+                                  selectedPrice = firstVariant?.price?.discount ??
+                                      firstVariant?.price?.initial; // Giá giảm giá hoặc giá gốc
+                                  selectedOldPrice = firstVariant?.price?.initial; // Giá ban đầu
+                                  selectedColor = firstVariant?.color; // Cập nhật màu mặc định
+                                }
 
-                            widget.onMemorySelected!(selectedMemory ?? 'null');
-                          });
-                        },
-                        selectedColor: Colors.white,
-                        backgroundColor: Colors.white,
-                        side: BorderSide(
-                          color: selectedMemory == variant.memory ? Colors.red : Colors.grey,
-                          width: 1,
-                        ),
-                      );
-                    }).toList() ?? [],
-                  ),
-                    SizedBox(height: getProportionateScreenHeight(10)),
-                  
+                                widget.onMemorySelected!(selectedMemory ?? 'null');
+                              });
+                            },
+                            selectedColor: Colors.white,
+                            backgroundColor: Colors.white,
+                            side: BorderSide(
+                              color: selectedMemory == variant.memory
+                                  ? Colors.red
+                                  : Colors.grey,
+                              width: 1,
+                            ),
+                          );
+                        }).toList() ?? [],
+                      ),
+                      SizedBox(height: getProportionateScreenHeight(10)),
+                    ],
                     // Lựa chọn Màu sắc
                     Text(
                       'Màu sắc : $selectedColor',

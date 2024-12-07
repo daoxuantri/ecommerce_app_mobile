@@ -3,11 +3,13 @@ import 'package:ecommerce_app_mobile/components_buttons/bottom_navbar_home.dart'
 import 'package:ecommerce_app_mobile/components_buttons/loading.dart';
 import 'package:ecommerce_app_mobile/screens/checkout/bloc/checkout_bloc.dart';
 import 'package:ecommerce_app_mobile/screens/checkout/components/body.dart';
+import 'package:ecommerce_app_mobile/screens/my_cart/components/cart_item.dart';
 import 'package:ecommerce_app_mobile/screens/my_cart/modelselected/selected_model.dart';
 import 'package:ecommerce_app_mobile/screens/vnpay/vnpay_screen.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
   static String routeName ="/check_out";
@@ -30,18 +32,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         listenWhen: (previous, current) => current is CheckoutActionState,
         buildWhen: (previous, current) => current is! CheckoutActionState,
         listener: (context, state)  {
-          // if (state is ProductPostClickedActionState) {
-          //   // Navigator.pushNamed(context, DemandScreen.routeName,
-          //   //     arguments: state.product);
-          // }
-          // if(state is AddProductToCartState){
-          //     ScaffoldMessenger.of(context).showSnackBar(
-          //                 SnackBarLoginSuccess('Đã thêm vào giỏ hàng'),);
-          //                 setState(() {
-          //   productBloc.add(ProductInitialEvent(productId: productId));
-            
-          // });
-          // }
+          if (state is VnPaymentClickedState) {
+            Navigator.pushNamed(context, VNPayScreen.routeName,
+                arguments: state.amount);
+          }
         },
         builder: (context, state) {
           switch (state.runtimeType) {
@@ -79,6 +73,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     leading: IconButton(
       icon: Icon(Icons.arrow_back_ios_rounded, size: 20), 
       onPressed: () {
+        CartItem.selectedProducts.clear();
         Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (context) => const NavigatorBottomBarHome(currentIndex: 2), // Giả sử giỏ hàng là chỉ số 2
@@ -105,13 +100,20 @@ Widget buildBottomAppBar() {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
-            child: Text('Tong tien'),
+            child: Text(
+                          _calculateTotalPrice().toString(), 
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                          ),
+                        ),
           ),
           SizedBox(width: 10), 
           Expanded(
             child: ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, VNPayScreen.routeName);
+                checkoutBloc.add(VnPaymentClickedEvent(amount : _calculateTotalPricePayment()));
               },
               child: Text(
                 'Thanh toán',
@@ -131,4 +133,20 @@ Widget buildBottomAppBar() {
     ),
   );
 }
+String _calculateTotalPrice() {
+    double total = 0;
+    for (var product in CartItem.selectedProducts) {
+      total += product.price * product.quantity; 
+    }
+     return NumberFormat.currency(locale: 'vi_VN', symbol: 'đ').format(total);
+  }
+
+int _calculateTotalPricePayment() {
+  int total = 0;
+  for (var product in CartItem.selectedProducts) {
+    total += product.price * product.quantity; 
+  }
+  return total; // Trả về giá trị tổng
 }
+}
+

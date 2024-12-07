@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_mobile/components_buttons/loading.dart';
 import 'package:ecommerce_app_mobile/screens/login_register/login/login_screen.dart';
 import 'package:ecommerce_app_mobile/screens/login_register/register/bloc/sign_up_bloc.dart';
 import 'package:ecommerce_app_mobile/screens/login_register/register/components/body.dart';
@@ -37,7 +38,7 @@ class SignUpScreen extends StatelessWidget {
         switch (state.runtimeType) {
           case SignUpLoadingState:
             return const Center(
-              child: CircularProgressIndicator(),
+              child: LoadingScreen(),
             );
           case SignUpLoadedSuccessState:
             return Scaffold(

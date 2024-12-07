@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_mobile/components_buttons/loading.dart';
 import 'package:ecommerce_app_mobile/model/address/address/get_cities_response.dart';
 import 'package:ecommerce_app_mobile/model/address/address/get_districts_response.dart';
 import 'package:ecommerce_app_mobile/model/address/address/get_wards_response.dart';
@@ -79,7 +80,7 @@ class _ChooseAddressScreenState extends State<ChooseAddressScreen> {
         switch (state.runtimeType) {
           case ChooseAddressLoading:
             return const Center(
-              child: CircularProgressIndicator(),
+              child: LoadingScreen(),
             );
           case ChooseAddressLoaded:
             final successState = state as ChooseAddressLoaded;

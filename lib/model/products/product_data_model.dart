@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 class ProductDataModel {
   String? sId;
   String? name;
@@ -5,7 +7,7 @@ class ProductDataModel {
   String? category;
   String? brand;
   String? description;
-  int? rating;
+  double? rating;
   int? sold;
   bool? status;
   bool? isStock;
@@ -29,7 +31,7 @@ class ProductDataModel {
     category = json['category'];
     brand = json['brand'];
     description = json['description'];
-    rating = json['rating'];
+    rating = (json['rating'] != null) ? (json['rating'] as num).toDouble() : null; 
     sold = json['sold'];
     status = json['status'];
     isStock = json['isStock'];

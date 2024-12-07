@@ -2,6 +2,7 @@ import 'package:ecommerce_app_mobile/model/address/shipping/address_data_model.d
 import 'package:ecommerce_app_mobile/model/address/shipping/list_address_data_respone.dart';
 import 'package:ecommerce_app_mobile/model/user/user_data_model.dart';
 import 'package:ecommerce_app_mobile/model/user/user_data_respone.dart';
+import 'package:ecommerce_app_mobile/model/vnpay/vnpay_data_model_respone.dart';
 import 'package:ecommerce_app_mobile/security_user/secure_storage_user.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -135,6 +136,75 @@ class ApiServiceUsers {
       throw Exception('phiên đăng nhập hết hạn');
     } else {
       throw Exception('fail to call api get vendor shipping address');
+    }
+  }
+
+  Future<String?>
+      getVNPay(int amount ) async {
+    // await CheckToken.checkExpireToken();
+    var url = Uri.parse('$baseUrl/payment/create_payment_url');
+    // final String? token = await UserSecureStorage.getToken();
+
+    // var headers = {
+    //   'accept': 'application/json',
+    //   'Authorization': 'Bearer $token',
+    // };
+
+    var headers = {
+      'accept': 'application/json',
+      'Content-Type': 'application/json',
+    };
+    var body = json.encode({
+      'amount': amount, 
+    });
+    print(amount);
+
+    print('Payload body: $body');
+
+
+    var response = await http.post(url, headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      var responseData = json.decode(response.body);
+      if (responseData['success'] == true) {
+        var response = VnPayRespone.fromJson(responseData);
+               
+        return response.paymentUrl;
+      } else {
+        throw Exception(responseData['message']);
+      }
+    } else if (response.statusCode == 401) {
+      throw Exception('phiên đăng nhập hết hạn');
+    } else {
+      throw Exception('fail to call api get vendor shipping address');
+    }
+  }
+
+
+  Future<String?> createAddressByUser(String address, String name , String phone, bool status) async {
+    var url = Uri.parse('$baseUrl/address/create');
+    String? idUser = await UserSecurityStorage.getId();
+
+    var headers = {
+      'accept': 'application/json',
+      'Content-Type': 'application/json',
+    };
+    var body = json.encode({
+      'userId':idUser,
+      'address': address, 
+      'name': name ,
+      'phone': phone , 
+      'status': status
+    });
+
+    var response = await http.post(url, headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      var responseData = json.decode(response.body); 
+      return responseData['message']; 
+    } else {
+      print('Loi tai nay');
+      throw Exception('fail to call api get wards');
     }
   }
 

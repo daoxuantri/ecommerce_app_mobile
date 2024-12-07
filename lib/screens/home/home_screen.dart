@@ -1,4 +1,5 @@
 
+import 'package:ecommerce_app_mobile/components_buttons/loading.dart';
 import 'package:ecommerce_app_mobile/screens/home/bloc/home_bloc.dart';
 import 'package:ecommerce_app_mobile/screens/home/components/base_input.dart';
 import 'package:ecommerce_app_mobile/screens/home/components/list_all_product.dart'; 
@@ -52,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context, state) {
         switch (state.runtimeType) {
           case HomeLoadingState:
-            return const Loading();
+            return const LoadingScreen();
           case HomeLoadedSuccessState:
             final successState = state as HomeLoadedSuccessState;
 

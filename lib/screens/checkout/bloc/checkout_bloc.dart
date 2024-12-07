@@ -15,6 +15,7 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     on<TypeAndStatusChangedEvent>(typeAndStatusChangedEvent);
     on<DemandToDemandDetailEvent>(demandToDemandDetailEvent);
     on<CheckoutDetailClickedEvent>(checkoutDetailClickedEvent);
+    on<VnPaymentClickedEvent>(vnPaymentClickedEvent);
   }
 
   FutureOr<void> checkoutInitialEvent(
@@ -43,6 +44,20 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
       //   productId: null,
       // );
       // emit(OrderListLoaded(orderList));
+    } catch (e) {
+      String failToken = e.toString();
+      if (failToken.startsWith('Exception: ')) {
+        failToken = failToken.substring('Exception: '.length);
+      }
+      emit(CheckoutError(failToken));
+    }
+  }
+
+  FutureOr<void> vnPaymentClickedEvent(
+      VnPaymentClickedEvent event, Emitter<CheckoutState> emit) async {
+    emit(CheckoutLoading());
+    try {
+      emit(VnPaymentClickedState(amount: event.amount));
     } catch (e) {
       String failToken = e.toString();
       if (failToken.startsWith('Exception: ')) {

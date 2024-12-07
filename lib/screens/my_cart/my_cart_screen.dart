@@ -1,5 +1,6 @@
 
 import 'package:ecommerce_app_mobile/components_buttons/bottom_navbar_home.dart';
+import 'package:ecommerce_app_mobile/components_buttons/loading.dart';
 import 'package:ecommerce_app_mobile/components_buttons/snackbar.dart';
 import 'package:ecommerce_app_mobile/screens/checkout/checkout_screen.dart';
 import 'package:ecommerce_app_mobile/screens/login_register/login/components/default_button.dart';
@@ -75,7 +76,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
       builder: (context, state) {
   switch (state.runtimeType) {
     case CartLoadingState:
-      return const Center(child: CircularProgressIndicator());
+      return LoadingScreen();
     case CartLoadedSuccessState:
       final successState = state as CartLoadedSuccessState;
       final String formattedPrice =
@@ -260,6 +261,12 @@ Widget buildBottomAppBar(String formattedPrice) {
             Text('$formattedPrice',style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, color: Colors.red),),
             GestureDetector(
                 onTap: () {
+                  if (CartItem.selectedProducts.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Vui lòng chọn ít nhất một sản phẩm để thanh toán.')),
+                    );
+                    return; // Không chuyển đến Checkout nếu không có sản phẩm nào được chọn
+                  }
                   Navigator.of(context).pop();
                   cartBloc.add(ConfirmOrderClickedEvent(listproductcart: CartItem.selectedProducts));
 

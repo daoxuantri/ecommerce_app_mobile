@@ -24,3 +24,11 @@ class CheckoutDetailClickedEvent extends CheckoutEvent {
     required this.orderId,
   });
 }
+
+
+class VnPaymentClickedEvent extends CheckoutEvent {
+  final int  amount;
+  VnPaymentClickedEvent({
+    required this.amount,
+  });
+}

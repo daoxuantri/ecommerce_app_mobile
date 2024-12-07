@@ -27,9 +27,9 @@ class AddAddressError extends AddAddressState {
 }
 
 class AddAddressButtonClickActionState extends AddAddressActionState{
-  final Map<String,UserShippingAddressData> addressInf;
+  final String? message;
 
-  AddAddressButtonClickActionState({required this.addressInf});
+  AddAddressButtonClickActionState({this.message});
 }
 
 class AddAddressCheckInputActionState extends AddAddressActionState{

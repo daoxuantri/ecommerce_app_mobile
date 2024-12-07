@@ -25,7 +25,6 @@ class AddAddressBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -35,7 +34,7 @@ class AddAddressBody extends StatelessWidget {
             listDistrict: listDistrict,
             listWard: listWard,
           ),
-          SizedBox(height: getProportionateScreenHeight(110),),
+          SizedBox(height: getProportionateScreenHeight(100),),
           ButtonNewAddress(
             addAddressBloc: addAddressBloc,
           ),

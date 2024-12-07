@@ -22,9 +22,8 @@ class AddressBody extends StatelessWidget {
     return Align(
       alignment: Alignment.center,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: getProportionateScreenHeight(55)),
           Stack(
             children: [
               Center(
@@ -35,16 +34,16 @@ class AddressBody extends StatelessWidget {
                       child: SizedBox(height: getProportionateScreenHeight(20)),
                     ),
                     Visibility(visible: isvisible, child: NoAddress()),
-                    Visibility(
-                      visible: isvisible,
-                      child: SizedBox(height: getProportionateScreenHeight(85)),
-                    ),
-                    Visibility(
-                      visible: !isvisible,
-                      child: SizedBox(
-                        height: getProportionateScreenHeight(395),
-                      ),
-                    )
+                    // Visibility(
+                    //   visible: isvisible,
+                    //   child: SizedBox(height: getProportionateScreenHeight(85)),
+                    // ),
+                    // Visibility(
+                    //   visible: !isvisible,
+                    //   child: SizedBox(
+                    //     height: getProportionateScreenHeight(395),
+                    //   ),
+                    // )
                   ],
                 ),
               ),
@@ -62,8 +61,8 @@ class AddressBody extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: getProportionateScreenHeight(40)),
-          AddressButton(addressBloc: addressBloc,),
+          SizedBox(height: getProportionateScreenHeight(150)),
+          Center(child: AddressButton(addressBloc: addressBloc,)),
         ],
       ),
     );

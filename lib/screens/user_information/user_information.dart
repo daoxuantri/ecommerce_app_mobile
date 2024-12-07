@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_mobile/components_buttons/loading.dart';
 import 'package:ecommerce_app_mobile/screens/user_information/bloc/user_infomation_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -94,7 +95,7 @@ class UserInformationScreen extends StatelessWidget {
       builder: (context, state) {
         switch (state.runtimeType) {
           case UserInformationLoading:
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: LoadingScreen());
           case UserInformationLoaded:
             final loadedState = state as UserInformationLoaded;
             return _buildBody(context, loadedState);

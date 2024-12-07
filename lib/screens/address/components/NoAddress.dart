@@ -14,10 +14,10 @@ class _NoAddressState extends State<NoAddress> {
     return Column(
       children: [
         Image.asset(
-          "assets/images/information-point.png",
-          //fit: BoxFit.fill,
-          width: getProportionateScreenWidth(300),
-          height: getProportionateScreenHeight(300),
+          "assets/images/location.png",
+          fit: BoxFit.fill,
+          width: getProportionateScreenWidth(150),
+          height: getProportionateScreenHeight(150),
         ),
         SizedBox(height: getProportionateScreenHeight(30)),
         const Text(
@@ -28,8 +28,6 @@ class _NoAddressState extends State<NoAddress> {
             fontSize: 22.0,
             fontFamily: 'SF Pro Display',
             fontWeight: FontWeight.w600,
-            fontStyle: FontStyle.normal,
-            letterSpacing: 0.077,
           ),
         ),
         SizedBox(height: getProportionateScreenHeight(20)),
@@ -41,8 +39,6 @@ class _NoAddressState extends State<NoAddress> {
             fontSize: 15.0,
             fontFamily: 'SF Pro Display',
             fontWeight: FontWeight.w400,
-            fontStyle: FontStyle.normal,
-            letterSpacing: -0.006,
           ),
         ),
       ],

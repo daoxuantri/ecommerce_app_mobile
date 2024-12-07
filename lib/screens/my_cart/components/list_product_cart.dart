@@ -18,6 +18,7 @@ class ListProductCart extends StatefulWidget {
 
 class _ListProductCartState extends State<ListProductCart> {
 
+  
   @override
   Widget build(BuildContext context) {
     String formattedPrice = NumberFormat.currency(locale: 'vi_VN', symbol: 'đ').format(widget.total!);

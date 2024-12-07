@@ -11,7 +11,7 @@ class ProductCardPropose extends StatelessWidget {
   final String image;
   final int ?price;
   final int ? initialprice;
-  final int ?rating;
+  final double ?rating;
   final HomeBloc homeBloc;
   final String id;
   const ProductCardPropose({
@@ -19,7 +19,7 @@ class ProductCardPropose extends StatelessWidget {
     this.name, 
     required this.image,
     required this.homeBloc,
-    required this.id,  this.price,required this.rating, this.initialprice,
+    required this.id,  this.price, this.rating, this.initialprice,
   });
   
 
@@ -143,15 +143,33 @@ class ProductCardPropose extends StatelessWidget {
             left: 10,
             top: 260,
             child: Row(
-              children: List.generate(5, (index){
-                return Icon(
-                  Icons.star,
-                  color: index < (rating?.floor() ?? 0) ? Colors.orange : Colors.grey,
-                  size: 20,
-                );
-              }) 
-            )
-          ),
+              children: List.generate(5, (index) {
+                if (index < (rating?.floor() ?? 0)) {
+                  // Hiển thị ngôi sao đầy đủ nếu index nhỏ hơn rating làm tròn xuống
+                  return Icon(
+                    Icons.star,
+                    color: Colors.orange,
+                    size: 20,
+                  );
+                } else if (index < (rating ?? 0) && (rating ?? 0) - index >= 0.5) {
+                  // Hiển thị nửa ngôi sao nếu index nằm trong khoảng rating thập phân
+                  return Icon(
+                    Icons.star_half,
+                    color: Colors.orange,
+                    size: 20,
+                  );
+                } else {
+                  // Hiển thị ngôi sao trống nếu không đạt điều kiện trên
+                  return Icon(
+                    Icons.star_border,
+                    color: Colors.grey,
+                    size: 20,
+                  );
+                }
+              }),
+            ),
+          )
+
         ],
       ),
     );

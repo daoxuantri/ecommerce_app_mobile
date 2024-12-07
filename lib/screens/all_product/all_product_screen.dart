@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_mobile/components_buttons/loading.dart';
 import 'package:ecommerce_app_mobile/model/products/product_data_model.dart';
 import 'package:ecommerce_app_mobile/screens/all_product/bloc/all_product_bloc.dart';
 import 'package:ecommerce_app_mobile/screens/all_product/components/body.dart';
@@ -64,7 +65,7 @@ class _AllProductScreenState extends State<AllProductScreen> {
         switch (state.runtimeType) {
           case AllProductLoadingState:
             return const Center(
-              child: CircularProgressIndicator(),
+              child: LoadingScreen(),
             );
           case AllProductLoadedState:
             final successState = state as AllProductLoadedState;

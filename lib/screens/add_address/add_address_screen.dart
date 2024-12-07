@@ -1,9 +1,12 @@
+import 'package:ecommerce_app_mobile/components_buttons/bottom_navbar_home.dart';
+import 'package:ecommerce_app_mobile/components_buttons/loading.dart';
 import 'package:ecommerce_app_mobile/model/address/address/get_cities_response.dart';
 import 'package:ecommerce_app_mobile/model/address/address/get_districts_response.dart';
 import 'package:ecommerce_app_mobile/model/address/address/get_wards_response.dart';
 import 'package:ecommerce_app_mobile/screens/add_address/bloc/add_address_bloc.dart';
 import 'package:ecommerce_app_mobile/screens/add_address/bloc/add_address_state.dart';
 import 'package:ecommerce_app_mobile/screens/add_address/components/body.dart';
+import 'package:ecommerce_app_mobile/screens/address/address_screen.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,7 +56,11 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
               backgroundColor: Colors.green,
             ),
           );
-          Navigator.pop(context, state.addressInf);
+          Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => const NavigatorBottomBarHome(currentIndex: 4),  
+                        ),
+                      );
         } else if (state is AddAddressCheckInputActionState) {
           setState(() {
             checkErr = state.err;
@@ -87,18 +94,17 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
         switch (state.runtimeType) {
           case AddAddressLoading:
             return const Center(
-              child: CircularProgressIndicator(),
+              child: LoadingScreen(),
             );
           case AddAddressLoaded:
             final successState = state as AddAddressLoaded;
             return Scaffold(
                 appBar: AppBar(
-                  title: Center(
-                    child: Text(
+                  title:  Text(
                       "Thêm địa chỉ mới",
                       style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
                     ),
-                  ),
+                  centerTitle: true,
                 ),
                 body: AddAddressBody(
                   addAddressBloc: addAddressBloc,

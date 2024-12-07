@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:ecommerce_app_mobile/api/address.dart';
+import 'package:ecommerce_app_mobile/api/user_signin.dart';
 import 'package:ecommerce_app_mobile/model/address/address/get_cities_response.dart';
 import 'package:ecommerce_app_mobile/model/address/address/get_districts_response.dart';
 import 'package:ecommerce_app_mobile/model/address/address/get_wards_response.dart'; 
@@ -40,19 +41,13 @@ class AddAddressBloc extends Bloc<AddAddressEvent, AddAddressState> {
   Future<FutureOr<void>> addAddressButtonClickEvent(
       AddAddressButtonClickEvent event, Emitter<AddAddressState> emit) async {
     try {
-      // AddVendorAddressResponse response =
-      //     await ApiServiceVendors.addVendorAddress(
-      //         event.name,
-      //         event.phone,
-      //         event.addressCountryId,
-      //         event.addressCityId,
-      //         event.addressDistrictId,
-      //         event.addressWardId,
-      //         event.addressStreet);
-      // Map<String, VendorShippingAddressData> addressInf = {event.category.toString():response.data!};
-      // if (response.success == true) {
-      //   emit(AddAddressButtonClickActionState(addressInf: addressInf));
-      // }
+      String? response =
+          await ApiServiceUsers().createAddressByUser(
+              event.name,
+              event.address,
+              event.phone,
+              event.status);
+        emit(AddAddressButtonClickActionState(message: response));
     } catch (e) {
       String failToken = e.toString();
       if (failToken.startsWith('Exception: ')) {

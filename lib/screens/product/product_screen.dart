@@ -1,4 +1,5 @@
 import 'package:ecommerce_app_mobile/components_buttons/bottom_navbar_home.dart';
+import 'package:ecommerce_app_mobile/components_buttons/loading.dart';
 import 'package:ecommerce_app_mobile/components_buttons/snackbar.dart';
 import 'package:ecommerce_app_mobile/screens/product/components/body_success.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';
@@ -49,7 +50,7 @@ class _ProductScreenState extends State<ProductScreen> {
           switch (state.runtimeType) {
             case ProductLoadingState:
               return const Center(
-                child: CircularProgressIndicator(),
+                child: LoadingScreen(),
               );
             case ProductLoadedSuccessState:
               final successState = state as ProductLoadedSuccessState;

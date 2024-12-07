@@ -40,3 +40,10 @@ class CheckoutDepositClickedState extends CheckoutActionState {
     required this.orderId,
   });
 }
+
+class VnPaymentClickedState extends CheckoutActionState {
+  final int amount;
+  VnPaymentClickedState({
+    required this.amount,
+  });
+}
