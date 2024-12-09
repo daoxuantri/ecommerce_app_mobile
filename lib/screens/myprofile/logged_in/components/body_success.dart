@@ -31,10 +31,10 @@ class BodySuccess extends StatelessWidget {
                 ProfileAvatar(isLogin: true, profile: profile),
 
                 // Account Post Info
-                const Padding(
+                 Padding(
                   padding: EdgeInsets.only(top: 27.0),
                   child: AccountPostInfo(
-                      post: 4, order: 1, favourite: 8, transaction: 20),
+                      profile: profile),
                 ),
 
                 // Account option

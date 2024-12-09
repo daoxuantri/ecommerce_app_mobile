@@ -22,7 +22,7 @@ class FormNewAddress extends StatefulWidget {
   final List<CitiData> listCity;
   final List<DistrictData> listDistrict;
   final List<WardData> listWard;
-  static final List<dynamic> listValue = ['', '', '', '', '', '', '',false];
+  static final List<dynamic> listValue = ['', '', '', '', '', '', '', false];
 
   @override
   State<FormNewAddress> createState() => _FormFormNewAddressState();
@@ -51,7 +51,7 @@ class _FormFormNewAddressState extends State<FormNewAddress> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(15,8,8,8),
+          padding: const EdgeInsets.fromLTRB(15, 8, 8, 8),
           child: Text(
             'THÔNG TIN NGƯỜI NHẬN',
             style: TextStyle(
@@ -64,7 +64,7 @@ class _FormFormNewAddressState extends State<FormNewAddress> {
             color: Colors.white,
           ),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(15,8,8,8),
+            padding: const EdgeInsets.fromLTRB(15, 8, 8, 8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -193,7 +193,7 @@ class _FormFormNewAddressState extends State<FormNewAddress> {
           height: getProportionateScreenHeight(8),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(15,8,8,8),
+          padding: const EdgeInsets.fromLTRB(15, 8, 8, 8),
           child: Text(
             'ĐỊA CHỈ NHẬN HÀNG',
             style: TextStyle(
@@ -206,7 +206,7 @@ class _FormFormNewAddressState extends State<FormNewAddress> {
             color: Colors.white,
           ),
           child: Padding(
-            padding: EdgeInsets.fromLTRB(15,8,8,8),
+            padding: EdgeInsets.fromLTRB(15, 8, 8, 8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -267,17 +267,45 @@ class _FormFormNewAddressState extends State<FormNewAddress> {
                                   ),
                                 ));
                           }).toList(),
+                          // onChanged: (value) {
+                          //   FormNewAddress.listValue[0] =
+                          //       value!.provinceName.toString();
+                          //   cityselectedValue = value!;
+                          //   AddAddressScreen.cityName = value;
+                          //   widget.addAddressBloc.add(AddAddressCheckInputEvent(
+                          //       0, FormNewAddress.checkErr));
+                          //   widget.addAddressBloc.add(
+                          //       AddAddressAfterSeclectedCityEvent(
+                          //           value.provinceId.toString()));
+                          // },
+
                           onChanged: (value) {
-                            FormNewAddress.listValue[0] =
-                                value!.provinceName.toString();
-                            cityselectedValue = value!;
-                            AddAddressScreen.cityName = value;
-                            widget.addAddressBloc.add(AddAddressCheckInputEvent(
-                                0, FormNewAddress.checkErr));
-                            widget.addAddressBloc.add(
-                                AddAddressAfterSeclectedCityEvent(
-                                    value.provinceId.toString()));
+                            setState(() {
+                              FormNewAddress.listValue[0] =
+                                  value!.provinceName.toString();
+                              cityselectedValue = value!;
+                              AddAddressScreen.cityName = value;
+
+                              // Đặt lại quận và xã khi thành phố thay đổi
+                              districtselectedValue = widget.listDistrict[
+                                  0]; // Đặt lại thành quận đầu tiên
+                              wardselectedValue = widget
+                                  .listWard[0]; // Đặt lại thành xã đầu tiên
+
+                              FormNewAddress.listValue[1] =
+                                  districtselectedValue.districtName.toString();
+                              FormNewAddress.listValue[2] =
+                                  wardselectedValue.wardName.toString();
+
+                              widget.addAddressBloc.add(
+                                  AddAddressCheckInputEvent(
+                                      0, FormNewAddress.checkErr));
+                              widget.addAddressBloc.add(
+                                  AddAddressAfterSeclectedCityEvent(
+                                      value.provinceId.toString()));
+                            });
                           },
+
                           isExpanded: true,
                           style: const TextStyle(
                             color: Color.fromRGBO(17, 17, 19, 0.6),
@@ -348,11 +376,31 @@ class _FormFormNewAddressState extends State<FormNewAddress> {
                                 ));
                           }).toList(),
                           onChanged: (value) {
+                            // setState(() {
+                            //   FormNewAddress.listValue[1] =
+                            //       value!.districtName.toString();
+                            //   districtselectedValue = value!;
+                            //   AddAddressScreen.districtName = value;
+                            //   widget.addAddressBloc.add(
+                            //       AddAddressCheckInputEvent(
+                            //           1, FormNewAddress.checkErr));
+                            //   widget.addAddressBloc.add(
+                            //       AddAddressAfterSeclectedDistrictEvent(
+                            //           value.districtId.toString()));
+                            // });
+
                             setState(() {
                               FormNewAddress.listValue[1] =
                                   value!.districtName.toString();
                               districtselectedValue = value!;
                               AddAddressScreen.districtName = value;
+
+                              // Đặt lại xã khi quận thay đổi
+                              wardselectedValue = widget
+                                  .listWard[0]; // Đặt lại thành xã đầu tiên
+                              FormNewAddress.listValue[2] =
+                                  wardselectedValue.wardName.toString();
+
                               widget.addAddressBloc.add(
                                   AddAddressCheckInputEvent(
                                       1, FormNewAddress.checkErr));
@@ -508,9 +556,11 @@ class _FormFormNewAddressState extends State<FormNewAddress> {
                     ),
                   ),
                 ),
-                SizedBox(height: getProportionateScreenHeight(8),),
+                SizedBox(
+                  height: getProportionateScreenHeight(8),
+                ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(0,8,25,0),
+                  padding: const EdgeInsets.fromLTRB(0, 8, 25, 0),
                   child: Row(
                     children: [
                       Text(
@@ -522,27 +572,28 @@ class _FormFormNewAddressState extends State<FormNewAddress> {
                       ),
                       Spacer(),
                       SizedBox(
-                        width: getProportionateScreenWidth(15), // Thay đổi chiều rộng
-                        height: getProportionateScreenHeight(30), // Thay đổi chiều cao
+                        width: getProportionateScreenWidth(
+                            15), // Thay đổi chiều rộng
+                        height: getProportionateScreenHeight(
+                            30), // Thay đổi chiều cao
                         child: Switch(
                           value: isDefaultAddress,
                           onChanged: (value) {
                             setState(() {
                               isDefaultAddress = value;
-                               FormNewAddress.listValue[6] = value;
+                              FormNewAddress.listValue[6] = value;
                             });
                           },
                           activeColor: Colors.red,
                           inactiveThumbColor: Colors.grey,
                         ),
                       ),
-                      
                     ],
                   ),
                 ),
-                SizedBox(height: getProportionateScreenHeight(8),),
-                
-
+                SizedBox(
+                  height: getProportionateScreenHeight(8),
+                ),
               ],
             ),
           ),

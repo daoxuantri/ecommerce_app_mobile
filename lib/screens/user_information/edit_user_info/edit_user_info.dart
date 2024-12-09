@@ -1,4 +1,6 @@
+import 'package:ecommerce_app_mobile/components_buttons/bottom_navbar_home.dart';
 import 'package:ecommerce_app_mobile/components_buttons/loading.dart';
+import 'package:ecommerce_app_mobile/components_buttons/snackbar.dart';
 import 'package:ecommerce_app_mobile/model/user/user_data_model.dart';
 import 'package:ecommerce_app_mobile/screens/user_information/bloc/user_infomation_bloc.dart';
 import 'package:ecommerce_app_mobile/screens/user_information/edit_user_info/components/body.dart';
@@ -33,6 +35,17 @@ class _EditUserInfoState extends State<EditUserInfo> {
       listenWhen: (previous, current) => current is UserInformationActionState,
       buildWhen: (previous, current) => current is! UserInformationActionState,
       listener: (context, state) {
+        if(state is ResetPassEventClickState){
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBarLoginSuccess('Đổi mật khẩu thành công.'),
+            
+          );
+          Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) => const NavigatorBottomBarHome(currentIndex: 4),  
+                        ),
+                      );
+        }
       },
       builder: (context, state) {
         switch (state.runtimeType) {

@@ -1,15 +1,21 @@
+
 import 'package:ecommerce_app_mobile/model/address/shipping/address_data_model.dart';
 import 'package:ecommerce_app_mobile/model/address/shipping/shipping_address_model.dart';
+import 'package:ecommerce_app_mobile/screens/address/bloc/address_bloc.dart';
+import 'package:ecommerce_app_mobile/screens/address/bloc/address_event.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart'; 
 
+
+
 class AddressCard extends StatefulWidget {
-  const AddressCard({super.key, required this.child, required this.addressInf});
+  const AddressCard({super.key, required this.child, required this.addressInf, required this.addressBloc});
 
   final String child;
 
   final AddressDataModel addressInf;
+  final AddressBloc addressBloc; 
 
   @override
   State<AddressCard> createState() => _AddressCardState();
@@ -54,7 +60,9 @@ class _AddressCardState extends State<AddressCard> {
                         width: getProportionateScreenWidth(36),
                         height: getProportionateScreenHeight(36),
                         child: IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                             _showDeleteConfirmationDialog(context);
+                          },
                           icon: Icon(
                             Icons.more_horiz,
                           ),
@@ -100,7 +108,37 @@ class _AddressCardState extends State<AddressCard> {
       ),
     );
   }
+  void _showDeleteConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Xác nhận xóa'),
+          content: Text('Bạn có chắc chắn muốn xóa địa chỉ này không?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Đóng hộp thoại
+              },
+              child: Text('Hủy'),
+            ),
+            TextButton(
+              onPressed: () {
+                print(widget.addressInf.sId);
+                widget.addressBloc.add(AddressRemoveClickEvent(widget.addressInf.sId)); 
+                Navigator.of(context).pop(); 
+              },
+              child: Text('Xóa'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }
+
+
 
 class CustomIconTextRow extends StatelessWidget {
   final Icon icon;
@@ -127,4 +165,8 @@ class CustomIconTextRow extends StatelessWidget {
       ],
     );
   }
+
+
+  
+  
 }

@@ -3,7 +3,8 @@ import 'package:ecommerce_app_mobile/screens/add_address/add_address_screen.dart
 import 'package:ecommerce_app_mobile/screens/address/address_screen.dart';
 import 'package:ecommerce_app_mobile/screens/all_product/all_product_screen.dart';
 import 'package:ecommerce_app_mobile/screens/category/my_category.dart';
-import 'package:ecommerce_app_mobile/screens/checkout/checkout_screen.dart'; 
+import 'package:ecommerce_app_mobile/screens/checkout/checkout_screen.dart';
+import 'package:ecommerce_app_mobile/screens/filter_category/list_product_cate_screen.dart'; 
 import 'package:ecommerce_app_mobile/screens/forget_password/components/email_password/form_id_email/id_email.dart';
 import 'package:ecommerce_app_mobile/screens/forget_password/components/reset_password/reset_pass.dart';
 import 'package:ecommerce_app_mobile/screens/home/home_screen.dart';
@@ -11,6 +12,7 @@ import 'package:ecommerce_app_mobile/screens/login_register/login/login_screen.d
 import 'package:ecommerce_app_mobile/screens/forget_password/forget_password.dart';
 import 'package:ecommerce_app_mobile/screens/login_register/register/sign_up_screen.dart';
 import 'package:ecommerce_app_mobile/screens/my_cart/my_cart_screen.dart';
+import 'package:ecommerce_app_mobile/screens/my_order/my_order_screen.dart';
 import 'package:ecommerce_app_mobile/screens/myprofile/my_profile_screen.dart';
 import 'package:ecommerce_app_mobile/screens/product/product_screen.dart';
 import 'package:ecommerce_app_mobile/screens/splash/splash_screen.dart';
@@ -67,6 +69,10 @@ final Map<String , WidgetBuilder> routes ={
   //check-out
   CheckoutScreen.routeName : (context) => const CheckoutScreen(),
   VNPayScreen.routeName : (context) => const VNPayScreen(),
+
+  ListAllProductCategoryScreen.routeName  : (context) => const ListAllProductCategoryScreen(),
+  MyOrdersScreen.routeName : (context) => const MyOrdersScreen(),
+
 
 
 

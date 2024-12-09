@@ -29,9 +29,9 @@ class CategoryErrorState extends CategoryState {
 class CategoryErrorScreenToLoginState extends CategoryActionState {}
 
 class CategoryProductClickedState extends CategoryActionState {
-  final String productId;
+  final String categoryId;
   CategoryProductClickedState({
-    required this.productId,
+    required this.categoryId,
   });
 }
 

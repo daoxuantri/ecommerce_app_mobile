@@ -31,3 +31,7 @@ class VNPayErrorState extends VNPayState {
 //     required this.product,
 //   });
 // }
+
+class VNPayTransactionFailedState extends VNPayActionState {}
+
+class VNPayTransactionSuccessState extends VNPayActionState {}

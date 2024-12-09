@@ -1,4 +1,5 @@
 import 'package:ecommerce_app_mobile/model/address/shipping/address_data_model.dart';
+import 'package:ecommerce_app_mobile/screens/checkout/components/payment_method_selection.dart';
 import 'package:ecommerce_app_mobile/screens/my_cart/modelselected/selected_model.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,17 @@ class CheckoutBody extends StatefulWidget {
 }
 
 class _CheckoutBodyState extends State<CheckoutBody> {
+   String selectedPaymentMethod = 'COD'; // Khởi tạo giá trị mặc định
+
+  void _onPaymentMethodChanged(String method) {
+    if (mounted) {
+      setState(() {
+        selectedPaymentMethod = method; // Cập nhật phương thức thanh toán
+      });
+      print('Selected payment method: $selectedPaymentMethod'); // Debug
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -62,51 +74,65 @@ class _CheckoutBodyState extends State<CheckoutBody> {
                     if (widget.addressDataModel != null) ...[
                       Row(
                         children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    '${widget.addressDataModel!.name ?? 'null'}',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      '${widget.addressDataModel!.name ?? 'null'}',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: getProportionateScreenWidth(10),
-                                  ),
-                                  Text(
-                                    widget.addressDataModel!.status == true
-                                        ? 'MẶC ĐỊNH'
-                                        : '', // Nếu false thì không hiện gì
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w600,
+                                    SizedBox(
+                                      width: getProportionateScreenWidth(10),
                                     ),
+                                    Text(
+                                      widget.addressDataModel!.status == true
+                                          ? 'MẶC ĐỊNH'
+                                          : '',
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      softWrap: true, // Cho phép xuống dòng
+                                      maxLines: 3, 
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  '${widget.addressDataModel!.phone ?? 'null'}',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
                                   ),
-                                ],
-                              ),
-                              Text(
-                                '${widget.addressDataModel!.phone ?? 'null'}',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w400,
+                                  softWrap: true, // Cho phép xuống dòng
+                                  maxLines: 2, // Giới hạn tối đa 2 dòng
+                                  overflow: TextOverflow
+                                      .ellipsis, // Hiển thị "..." nếu vượt quá 2 dòng
                                 ),
-                              ),
-                              Text(
-                                '${widget.addressDataModel!.address ?? 'null'}',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w400,
+                                Text(
+                                  '${widget.addressDataModel!.address ?? 'null'}',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                  softWrap: true, // Cho phép xuống dòng
+                                  maxLines: 3, // Giới hạn tối đa 2 dòng
+                                  overflow: TextOverflow
+                                      .ellipsis, // Hiển thị "..." nếu vượt quá 2 dòng
                                 ),
-                              ),
-                            ],
+                            
+                                SizedBox(height: getProportionateScreenHeight(30),)
+                              ],
+                            ),
                           ),
                           Spacer(),
                           IconButton(
@@ -116,7 +142,7 @@ class _CheckoutBodyState extends State<CheckoutBody> {
                               color: Colors.black,
                             ),
                             onPressed: () {
-                              //chuyen man hinh sang thay doi dia chi
+                              // Chuyển màn hình sang thay đổi địa chỉ
                             },
                           ),
                         ],
@@ -132,7 +158,9 @@ class _CheckoutBodyState extends State<CheckoutBody> {
                       ),
                       SizedBox(height: getProportionateScreenHeight(10)),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          // Chuyển đến màn hình thêm địa chỉ
+                        },
                         child: Text('Thêm địa chỉ'),
                       ),
                     ]
@@ -178,10 +206,11 @@ class _CheckoutBodyState extends State<CheckoutBody> {
                       ),
                       Spacer(),
                       Text(
-                        '25.000đ',
+                        'Miễn phí',
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
+                          color: Colors.green
                         ),
                       ),
                     ],
@@ -214,17 +243,40 @@ class _CheckoutBodyState extends State<CheckoutBody> {
                       getProportionateScreenHeight(10),
                       getProportionateScreenWidth(20),
                       getProportionateScreenHeight(15)),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Thanh toán khi nhận hàng',
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  )),
+                  child: GestureDetector(
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) => PaymentMethodSelection(
+  onPaymentMethodSelected: _onPaymentMethodChanged,
+),
+                );
+              },
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all(color: Colors.grey[300]!),
+                ),
+                child: Row(
+                  children: [
+                    Text(
+                      selectedPaymentMethod == 'VNPay'
+                          ? 'Thanh toán qua VNPay'
+                          : 'Thanh toán khi nhận hàng (COD)',
+                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                    ),
+                    const Spacer(),
+                    const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
+                  ],
+                ),
+              ),
+            ),
+            // Các thành phần khác của màn hình
+                  
+                  ),
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(
@@ -412,28 +464,6 @@ class _CheckoutBodyState extends State<CheckoutBody> {
                       Row(
                         children: [
                           Text(
-                            'Tổng tạm tính',
-                            style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.grey),
-                          ),
-                          Spacer(),
-                          Text(
-                            '25.000đ',
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: getProportionateScreenHeight(5),
-                      ),
-                      Row(
-                        children: [
-                          Text(
                             'Phí vận chuyển',
                             style: TextStyle(
                                 fontSize: 13,
@@ -442,10 +472,11 @@ class _CheckoutBodyState extends State<CheckoutBody> {
                           ),
                           Spacer(),
                           Text(
-                            '25.000đ',
+                            'Miễn phí',
                             style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
+                              color: Colors.green
                             ),
                           )
                         ],

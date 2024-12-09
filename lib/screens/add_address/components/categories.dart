@@ -125,7 +125,6 @@ class _NewAddressCategoriesState extends State<NewAddressCategories> {
                 value: isSwitched,
                 activeColor: Colors.green,
                 onChanged: (bool value) {
-                  print(value);
                   setState((){
                     isSwitched = value;
                   });

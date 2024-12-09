@@ -12,3 +12,6 @@ class VNPayInitialEvent extends VNPayEvent {
     required this.amount
   });
 }
+class VNPayTransactionFailedEvent extends VNPayEvent {}
+
+class VNPayTransactionSuccessEvent extends VNPayEvent {}

@@ -1,4 +1,6 @@
+import 'package:ecommerce_app_mobile/components_buttons/bottom_navbar_home.dart';
 import 'package:ecommerce_app_mobile/components_buttons/loading.dart';
+import 'package:ecommerce_app_mobile/components_buttons/snackbar.dart';
 import 'package:ecommerce_app_mobile/model/address/shipping/address_data_model.dart';
 import 'package:ecommerce_app_mobile/screens/add_address/add_address_screen.dart';
 import 'package:ecommerce_app_mobile/screens/address/components/body.dart';
@@ -47,6 +49,14 @@ class _AddressScreenState extends State<AddressScreen> {
               addressBloc.add(AddressInitialEvent());
             });
           }
+        }else if (state is AddressRemoveClickState){
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBarLoginSuccess('Cập nhật thành công'),
+          );
+          setState(() {
+            addressBloc.add(AddressInitialEvent());
+          });
+
         }
       },
       builder: (context, state) {

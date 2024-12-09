@@ -9,6 +9,8 @@ part 'vnpay_state.dart';
 class VNPayBloc extends Bloc<VNPayEvent, VNPayState> {
   VNPayBloc() : super(VNPayInitial()) {
     on<VNPayInitialEvent>(vnPayInitialEvent);
+    on<VNPayTransactionFailedEvent>(vnPayTransactionFailedEvent);
+    on<VNPayTransactionSuccessEvent>(vnPayTransactionSuccessEvent);
   }
 
   Future<FutureOr<void>> vnPayInitialEvent(
@@ -26,3 +28,13 @@ class VNPayBloc extends Bloc<VNPayEvent, VNPayState> {
     }
   }
 }
+ Future<void> vnPayTransactionFailedEvent(
+      VNPayTransactionFailedEvent event, Emitter<VNPayState> emit) async {
+        print('no da bao toi day');
+    emit(VNPayTransactionFailedState());
+  }
+
+  Future<void> vnPayTransactionSuccessEvent(
+      VNPayTransactionSuccessEvent event, Emitter<VNPayState> emit) async {
+    emit(VNPayTransactionSuccessState());
+  }

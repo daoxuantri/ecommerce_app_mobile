@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 
 class ProductCard extends StatelessWidget {
+  final String? id;
   final String? name;
   final int? price;
   final int ? initialprice;
@@ -16,7 +17,7 @@ class ProductCard extends StatelessWidget {
       {super.key,
         this.name,
         this.price,
-        this.isTap = false, required this.images, this.rating, this.initialprice});
+        this.isTap = false, required this.images, this.rating, this.initialprice, this.id});
 
   @override
   Widget build(BuildContext context) {

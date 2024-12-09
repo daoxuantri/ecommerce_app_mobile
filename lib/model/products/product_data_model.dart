@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 class ProductDataModel {
   String? sId;

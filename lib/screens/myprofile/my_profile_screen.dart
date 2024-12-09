@@ -1,5 +1,6 @@
 import 'package:ecommerce_app_mobile/components_buttons/loading.dart';
 import 'package:ecommerce_app_mobile/screens/address/address_screen.dart';
+import 'package:ecommerce_app_mobile/screens/my_order/my_order_screen.dart';
 import 'package:ecommerce_app_mobile/screens/myprofile/bloc/profile_bloc.dart';
 import 'package:ecommerce_app_mobile/screens/myprofile/logged_in/components/body_success.dart';
 import 'package:ecommerce_app_mobile/screens/user_information/edit_user_info/edit_user_info.dart';
@@ -35,6 +36,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
               arguments: state.profile)
           }else if (state is ProfileToAddressScreenActionState){
             Navigator.pushNamed(context, AddressScreen.routeName)
+          }else if (state is ProfileToMyOrdersScreenState){
+            Navigator.pushNamed(context, MyOrdersScreen.routeName)
           }
 
        },
@@ -47,6 +50,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
             return  BodySuccess(profile: loadedState.profile, profileBloc: profileBloc,);
           case ProfileError:
             final errorState = state as ProfileError;
+            print('kiem tra');
             return Center(child: Text(errorState.message));
           default:
             return const Center(child: Text('Profile Default'));

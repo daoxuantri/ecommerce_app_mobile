@@ -20,7 +20,6 @@ class _ButtonNewAddressState extends State<ButtonNewAddress> {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        print(FormNewAddress.checkErr);
         if (FormNewAddress.checkErr.contains(1) ||
             FormNewAddress.checkErr.contains(0)) {
           // widget.addAddressBloc.add(AddAddressButtonClickErrorEvent());
@@ -36,13 +35,13 @@ class _ButtonNewAddressState extends State<ButtonNewAddress> {
           //   FormNewAddress.listValue[6],
           // ));
 
-          print(FormNewAddress.listValue[4]);
-          print(FormNewAddress.listValue[5]);
-          print(FormNewAddress.listValue[0]);
+          print(FormNewAddress.listValue[4]); //dao xuan tri
+          print(FormNewAddress.listValue[5]); // phone
+          print(FormNewAddress.listValue[0]); //citi
 
-          print(FormNewAddress.listValue[1]);
-          print(FormNewAddress.listValue[2]);
-          print(FormNewAddress.listValue[3]);
+          print(FormNewAddress.listValue[1]); //huyen
+          print(FormNewAddress.listValue[2]); //xa
+          print(FormNewAddress.listValue[3]); //dc cu the
           print(FormNewAddress.listValue[6]);
 
           String fullAddress = [
@@ -51,12 +50,17 @@ class _ButtonNewAddressState extends State<ButtonNewAddress> {
             FormNewAddress.listValue[1],
             FormNewAddress.listValue[0],
           ].join(', ');
-          print(fullAddress);
-
-
-          widget.addAddressBloc.add(AddAddressButtonClickEvent(
+          if (FormNewAddress.listValue[6] == '') {
+            widget.addAddressBloc.add(AddAddressButtonClickEvent(
+            FormNewAddress.listValue[4], FormNewAddress.listValue[5], fullAddress, false
+          ));
+          }else{
+            widget.addAddressBloc.add(AddAddressButtonClickEvent(
             FormNewAddress.listValue[4], FormNewAddress.listValue[5], fullAddress, FormNewAddress.listValue[6]
           ));
+          }
+
+          
         }
       },
       style: ButtonStyle(

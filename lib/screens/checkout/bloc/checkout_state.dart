@@ -47,3 +47,7 @@ class VnPaymentClickedState extends CheckoutActionState {
     required this.amount,
   });
 }
+
+
+class CheckoutNoAddress extends CheckoutState {
+}

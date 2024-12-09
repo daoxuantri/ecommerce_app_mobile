@@ -37,6 +37,7 @@ class _AddressHeaderState extends State<AddressHeader> {
             fontFamily: 'SF Pro Display',
             fontWeight: FontWeight.w500, 
           ),
+          
         ),
       ),
       centerTitle: true,

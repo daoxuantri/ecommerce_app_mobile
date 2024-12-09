@@ -28,9 +28,8 @@ class ApiServiceProducts {
     if (response.statusCode == 200) {
       var responseData = json.decode(response.body);
       if (responseData['success'] == true) {
-        print('qua buoc 1');
+        
         var response = HomeRespone.fromJson(responseData);
-        print('qua buoc nay');
         
         return response.data!;
       } else {
@@ -59,7 +58,6 @@ class ApiServiceProducts {
       var responseData = json.decode(response.body);
       if (responseData['success'] == true) {
       var response = ProductDetailsRespone.fromJson(responseData);
-      print('thanhcong doan data');
       return response.data!;
       } else {
         throw Exception(responseData['message']);
@@ -85,7 +83,6 @@ class ApiServiceProducts {
       var responseData = json.decode(response.body);
       if (responseData['success'] == true) {
       var response = getAllProductResponse.fromJson(responseData);
-      print('thanhcong 2');
       return response.data;
       } else {
         throw Exception(responseData['message']);

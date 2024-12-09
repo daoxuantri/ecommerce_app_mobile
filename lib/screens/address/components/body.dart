@@ -55,6 +55,7 @@ class AddressBody extends StatelessWidget {
                     return AddressCard(
                       addressInf: listAddressInf[index],
                       child: 'Card',
+                      addressBloc: addressBloc,
                     );
                   },
                 ),

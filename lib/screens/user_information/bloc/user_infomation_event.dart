@@ -37,3 +37,10 @@ class UserInfoUpdateEvent extends UserInformationEvent {
   UserInfoUpdateEvent(this.profile);
 }
 
+class ResetPassEventClickEvent extends UserInformationEvent {
+  final String password;
+  final String email; 
+  ResetPassEventClickEvent(this.password, this.email);
+}
+ 
+

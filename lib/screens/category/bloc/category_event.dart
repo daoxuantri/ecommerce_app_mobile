@@ -11,8 +11,8 @@ class CategoryInitialEvent extends CategoryEvent {}
 class CategoryErrorScreenToLoginEvent extends CategoryEvent {}
 
 class CategoryProductClickedEvent extends CategoryEvent {
-  final String productId;
+  final String categoryId;
   const CategoryProductClickedEvent({
-    required this.productId,
+    required this.categoryId,
   });
 }

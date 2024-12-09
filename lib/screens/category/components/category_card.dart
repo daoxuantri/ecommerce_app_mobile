@@ -7,13 +7,11 @@ class CategoryCard extends StatelessWidget {
   final String? name;
   final String? images;
   final String id ;
-  final VoidCallback press;
-  const CategoryCard({super.key, required this.name, required this.images, required this.press, required this.id});
+  const CategoryCard({super.key, required this.name, required this.images, required this.id});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: press,
       child: Column(
         children: [
           Container(

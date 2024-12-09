@@ -10,6 +10,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
   AddressBloc() : super(AddressInitialState()) {
     on<AddressInitialEvent>(addressInitialEvent);
     on<AddressButtonClickEvent>(addressButtonClickEvent);
+    on<AddressRemoveClickEvent>(addressRemoveClickEvent);
   }
 
   Future<FutureOr<void>> addressInitialEvent(
@@ -24,8 +25,6 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
       else{
         isvisible = false;
       }
-       print('Da thanh cong toi day');
-       print(isvisible);
       emit(AddressLoaded(listAddressInf: response, isvisible: isvisible));
     } catch (e) {
       String failToken = e.toString();
@@ -40,4 +39,20 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
       AddressButtonClickEvent event, Emitter<AddressState> emit) {
     emit(AddressButtonClickState());
   }
+
+  Future<FutureOr<void>> addressRemoveClickEvent(
+      AddressRemoveClickEvent event, Emitter<AddressState> emit) async {
+        try {
+      String? response = await ApiServiceUsers().addressRemoveAddressByUser(event.idAddress);
+      emit(AddressRemoveClickState(errMessage: response!));
+    } catch (e) {
+      String failToken = e.toString();
+      if (failToken.startsWith('Exception: ')) {
+        failToken = failToken.substring('Exception: '.length);
+      }
+      emit(AddressError(errMessage: failToken));
+    }
+    
+  }
+
 }

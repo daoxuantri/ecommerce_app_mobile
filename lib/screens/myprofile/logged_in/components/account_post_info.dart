@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_mobile/model/user/user_data_model.dart';
 import 'package:ecommerce_app_mobile/screens/myprofile/components/container_rad35.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,16 +6,11 @@ import 'package:flutter/material.dart';
 
 class AccountPostInfo extends StatelessWidget {
   const AccountPostInfo(
-      {super.key,
-      required this.post,
-      required this.order,
-      required this.favourite,
-      required this.transaction});
+      {super.key, required this.profile,
+      });
 
-  final int post;
-  final int order;
-  final int favourite;
-  final int transaction;
+    final UserDataModel profile;
+
 
   @override
   Widget build(BuildContext context) {
@@ -24,18 +20,18 @@ class AccountPostInfo extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         // Post
-        customText(post, "Điểm tích lũy"),
+        customText(profile.bonuspoint, "Điểm tích lũy"),
         verticalDivider(),
-        customText(order, "Đơn hàng"),
+        customText(profile.ordersTotalItems, "Đơn hàng"),
         verticalDivider(),
-        customText(favourite, "Yêu thích"),
+        customText(0, "Yêu thích"),
         verticalDivider(),
-        customText(transaction, "Giỏ hàng"),
+        customText(profile.cartTotalItems, "Giỏ hàng"),
       ],
     ));
   }
 
-  Widget customText(int number, String text) {
+  Widget customText(int? number, String text) {
     return Column(children: [
       Center(
         child: Text(

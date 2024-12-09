@@ -43,8 +43,8 @@ class AddAddressBloc extends Bloc<AddAddressEvent, AddAddressState> {
     try {
       String? response =
           await ApiServiceUsers().createAddressByUser(
-              event.name,
               event.address,
+              event.name,
               event.phone,
               event.status);
         emit(AddAddressButtonClickActionState(message: response));

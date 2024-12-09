@@ -5,6 +5,7 @@ import 'package:ecommerce_app_mobile/api/address.dart';
 import 'package:ecommerce_app_mobile/api/orders.dart';
 import 'package:ecommerce_app_mobile/api/user_signin.dart';
 import 'package:ecommerce_app_mobile/model/address/shipping/address_data_model.dart';
+import 'package:ecommerce_app_mobile/screens/checkout/components/model.dart';
 import 'package:flutter/material.dart';
 part 'checkout_event.dart';
 part 'checkout_state.dart';
@@ -23,12 +24,19 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     emit(CheckoutLoading());
     try {
       final AddressDataModel? addressDataModel =await ApiServiceUsers().getDefaultAddressShiping();
-      emit(CheckoutLoaded(address: addressDataModel!));
+      if (addressDataModel == null) {
+        print('da vao day1');
+      emit(CheckoutNoAddress());
+    } else {
+      print('da vao day2');
+      emit(CheckoutLoaded(address: addressDataModel));
+    }
     } catch (e) {
       String failToken = e.toString();
       if (failToken.startsWith('Exception: ')) {
         failToken = failToken.substring('Exception: '.length);
       }
+      print('da vao day3');
       emit(CheckoutError(failToken));
     }
   }

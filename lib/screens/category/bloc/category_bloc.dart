@@ -21,6 +21,8 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
       //get categories
       List<ProductCategoryDataModel> listCategories =
           await ApiServiceProductCategory().getListCategory();
+          bool isvisible ;
+       
 
 
         emit(CategoryLoadedSuccessState( categoriesPropose: listCategories!));
@@ -40,7 +42,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
 
   FutureOr<void> categoryProductClickedEvent(
       CategoryProductClickedEvent event, Emitter<CategoryState> emit) {
-    // emit(categoryProductClickedState(productId: event.productId));
+    emit(CategoryProductClickedState(categoryId: event.categoryId));
   }
 
 }

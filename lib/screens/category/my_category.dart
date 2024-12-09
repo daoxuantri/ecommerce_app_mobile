@@ -3,6 +3,7 @@ import 'package:ecommerce_app_mobile/screens/category/bloc/category_bloc.dart';
 import 'package:ecommerce_app_mobile/screens/category/components/category.dart';
 import 'package:ecommerce_app_mobile/screens/category/components/error.dart';
 import 'package:ecommerce_app_mobile/screens/category/components/text_title.dart';
+import 'package:ecommerce_app_mobile/screens/filter_category/list_product_cate_screen.dart';
 import 'package:ecommerce_app_mobile/screens/home/components/base_input.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';
 import 'package:flutter/material.dart';
@@ -35,8 +36,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
       listenWhen: (previous, current) => current is CategoryActionState,
       buildWhen: (previous, current) => current is! CategoryActionState,
       listener: (context, state) {
-        if (state is CategoryErrorScreenToLoginState) {
-          // Navigator.pushNamed(context, LoginScreen.routeName);
+        if (state is CategoryProductClickedState) {
+             Navigator.pushNamed(context, ListAllProductCategoryScreen.routeName,
+              arguments: state.categoryId);
         }
         // if (state is HomeProductClickedState) {
         //   // Navigator.pushNamed(context, ProductScreen.routeName,

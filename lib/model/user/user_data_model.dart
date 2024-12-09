@@ -4,8 +4,11 @@ class UserDataModel {
   String? images;
   int? bonuspoint;
   String? id;
+  int? cartTotalItems;
+  int? ordersTotalItems;
 
-  UserDataModel({this.username, this.email, this.images, this.bonuspoint, this.id});
+  UserDataModel({this.username, this.email, this.images, this.bonuspoint, this.id, this.cartTotalItems,
+      this.ordersTotalItems});
 
   UserDataModel.fromJson(Map<String, dynamic> json) {
     username = json['username'];
@@ -13,6 +16,8 @@ class UserDataModel {
     images = json['images'];
     bonuspoint = json['bonuspoint'];
     id = json['id'];
+     cartTotalItems = json['cartTotalItems'];
+    ordersTotalItems = json['ordersTotalItems'];
   }
 
   Map<String, dynamic> toJson() {
@@ -22,6 +27,8 @@ class UserDataModel {
     data['images'] = this.images;
     data['bonuspoint'] = this.bonuspoint;
     data['id'] = this.id;
+    data['cartTotalItems'] = this.cartTotalItems;
+    data['ordersTotalItems'] = this.ordersTotalItems;
     return data;
   }
 }

@@ -27,15 +27,12 @@ class Category extends StatelessWidget {
           itemBuilder: (context, index) {
             return InkWell(
               onTap: () {
-                // Chuyển đến trang sản phẩm theo danh mục
+                categoryBloc.add(CategoryProductClickedEvent(categoryId: categories[index].sId.toString()));
               },
               child: CategoryCard(
                 name: categories[index].name.toString(),
                 images: categories[index].images.toString(),
                 id: categories[index].sId.toString(),
-                press: () {
-                  // Chuyển đến trang sản phẩm theo danh mục
-                },
               ),
             );
           },

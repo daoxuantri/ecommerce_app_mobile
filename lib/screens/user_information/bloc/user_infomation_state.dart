@@ -59,3 +59,5 @@ class UserInformationToEditUserInfoScreenActionState extends UserInformationActi
 class UserInformationToActivateEmailScreenActionState extends UserInformationActionState {}
 
 class UserInfoUpdateSuccessActionState extends UserInformationActionState {}
+
+class ResetPassEventClickState extends UserInformationActionState {}

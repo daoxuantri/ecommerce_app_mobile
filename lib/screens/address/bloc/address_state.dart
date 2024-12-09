@@ -26,3 +26,8 @@ class AddressError extends AddressState {
 class AddressButtonClickState extends AddressActionState{}
 
 
+class AddressRemoveClickState extends AddressActionState{
+  final String errMessage;
+  AddressRemoveClickState({required this.errMessage});
+}
+
