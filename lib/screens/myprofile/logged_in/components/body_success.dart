@@ -54,22 +54,22 @@ class BodySuccess extends StatelessWidget {
                               iconPath: "assets/images/IC_Information.png",
                               content: "Thông tin cá nhân"),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            profileBloc.add(ProfileToWalletScreenEvent());
-                          },
-                          child: const ProfileLine(
-                              iconPath: "assets/images/IC_Wallet.png",
-                              content: "Ví của tôi"),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            profileBloc.add(ProfileToFavouriteEvent());
-                          },
-                          child: const ProfileLine(
-                              iconPath: "assets/images/IC_Start.png",
-                              content: "Mục yêu thích"),
-                        ),
+                        // GestureDetector(
+                        //   onTap: () {
+                        //     profileBloc.add(ProfileToWalletScreenEvent());
+                        //   },
+                        //   child: const ProfileLine(
+                        //       iconPath: "assets/images/IC_Wallet.png",
+                        //       content: "Ví của tôi"),
+                        // ),
+                        // GestureDetector(
+                        //   onTap: () {
+                        //     profileBloc.add(ProfileToFavouriteEvent());
+                        //   },
+                        //   child: const ProfileLine(
+                        //       iconPath: "assets/images/IC_Start.png",
+                        //       content: "Mục yêu thích"),
+                        // ),
                         GestureDetector(
                           onTap: () {
                             profileBloc.add(ProfileToMyOrdersScreenEvent());
@@ -107,11 +107,11 @@ class BodySuccess extends StatelessWidget {
                               iconPath: "assets/images/settings.png",
                               content: "Cài đặt"),
                         ),
-                        const ProfileLine(
-                          iconPath: "assets/images/settings.png",
-                          content: "Về chúng tôi",
-                          isLastElement: true,
-                        ),
+                        // const ProfileLine(
+                        //   iconPath: "assets/images/settings.png",
+                        //   content: "Về chúng tôi",
+                        //   isLastElement: true,
+                        // ),
                       ],
                     ),
                   ),

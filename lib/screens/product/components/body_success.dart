@@ -16,10 +16,14 @@ class BodySuccess extends StatefulWidget {
   final Function(String)? onMemorySelected;
   final Function(String)? onColorSelected;
   // final List<ProductDataModel> listallproduct;
-  
+
   // const BodySuccess({super.key, required this.productDetail, required this.listallproduct});
 
-const BodySuccess({super.key, required this.productDetail, this.onMemorySelected,  this.onColorSelected});
+  const BodySuccess(
+      {super.key,
+      required this.productDetail,
+      this.onMemorySelected,
+      this.onColorSelected});
   @override
   State<BodySuccess> createState() => _BodySuccessState();
 }
@@ -34,9 +38,6 @@ class _BodySuccessState extends State<BodySuccess> {
   int? selectedPrice;
   int? selectedOldPrice;
 
-  
-
-  
   @override
   void initState() {
     super.initState();
@@ -48,7 +49,7 @@ class _BodySuccessState extends State<BodySuccess> {
     // if (variants != null && variants!.isNotEmpty) {
     //   selectedMemory = variants!.first.memory;
     //   selectedColor = variants!.first.variants?[0].color;
-      
+
     // // Sử dụng addPostFrameCallback để gọi hàm sau khi widget đã được xây dựng
     // WidgetsBinding.instance.addPostFrameCallback((_) {
     //   widget.onMemorySelected!(selectedMemory!); // Gọi hàm với giá trị đã gán
@@ -64,9 +65,11 @@ class _BodySuccessState extends State<BodySuccess> {
     // }
 
     if (variants != null && variants!.isNotEmpty) {
-      selectedMemory = variants!.first.memory ?? "Không có dung lượng"; // Nếu null, gán giá trị mặc định
-      selectedColor = variants!.first.variants?.first.color ?? "Không có màu sắc"; // Nếu null, gán giá trị mặc định
-      
+      selectedMemory = variants!.first.memory ??
+          "Không có dung lượng"; // Nếu null, gán giá trị mặc định
+      selectedColor = variants!.first.variants?.first.color ??
+          "Không có màu sắc"; // Nếu null, gán giá trị mặc định
+
       WidgetsBinding.instance.addPostFrameCallback((_) {
         widget.onMemorySelected?.call(selectedMemory!);
         widget.onColorSelected?.call(selectedColor!);
@@ -74,7 +77,8 @@ class _BodySuccessState extends State<BodySuccess> {
 
       var firstVariant = variants!.first.variants?.first;
       if (firstVariant != null) {
-        selectedPrice = firstVariant.price?.discount ?? firstVariant.price?.initial;
+        selectedPrice =
+            firstVariant.price?.discount ?? firstVariant.price?.initial;
         selectedOldPrice = firstVariant.price?.initial;
       }
     }
@@ -82,16 +86,19 @@ class _BodySuccessState extends State<BodySuccess> {
 
   @override
   Widget build(BuildContext context) {
-    String formattedPrice = NumberFormat.currency(locale: 'vi_VN', symbol: 'đ').format(selectedPrice ?? 0);
-    String formattedOldPrice = NumberFormat.currency(locale: 'vi_VN', symbol: 'đ').format(selectedOldPrice ?? 0);
+    String formattedPrice = NumberFormat.currency(locale: 'vi_VN', symbol: 'đ')
+        .format(selectedPrice ?? 0);
+    String formattedOldPrice =
+        NumberFormat.currency(locale: 'vi_VN', symbol: 'đ')
+            .format(selectedOldPrice ?? 0);
     SizeConfig().init(context);
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.fromLTRB(
-          getProportionateScreenWidth(0),
-          getProportionateScreenHeight(0),
-          getProportionateScreenWidth(0),
-          getProportionateScreenHeight(15)),
+            getProportionateScreenWidth(0),
+            getProportionateScreenHeight(0),
+            getProportionateScreenWidth(0),
+            getProportionateScreenHeight(15)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -100,19 +107,23 @@ class _BodySuccessState extends State<BodySuccess> {
               color: Colors.white,
               child: Padding(
                 padding: EdgeInsets.fromLTRB(
-                  getProportionateScreenWidth(20),
-                  getProportionateScreenHeight(15),
-                  getProportionateScreenWidth(20),
-                  getProportionateScreenHeight(15)),
+                    getProportionateScreenWidth(20),
+                    getProportionateScreenHeight(15),
+                    getProportionateScreenWidth(20),
+                    getProportionateScreenHeight(15)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ImagesCreen(images : product?.images),
+                    ImagesCreen(images: product?.images),
                     SizedBox(
                       height: getProportionateScreenHeight(10),
                     ),
                     // Hiển thị phần "Dung lượng" nếu `selectedMemory` không phải "null" hoặc null
-                    if (selectedMemory != null && selectedMemory != "null") ...[
+                    if (selectedMemory != null &&
+                        selectedMemory != "null" &&
+                        variants!.any((variant) =>
+                            variant.memory != null &&
+                            variant.memory!.isNotEmpty)) ...[
                       Text(
                         'Dung lượng: ${selectedMemory ?? "Không có dung lượng"}',
                         style: TextStyle(
@@ -125,44 +136,53 @@ class _BodySuccessState extends State<BodySuccess> {
                       Wrap(
                         spacing: 5,
                         children: variants?.map<Widget>((variant) {
-                          return ChoiceChip(
-                            label: Text(
-                              '${variant.memory}',
-                              style: TextStyle(
-                                color: selectedMemory == variant.memory ? Colors.red : Colors.black,
-                              ),
-                            ),
-                            selected: selectedMemory == variant.memory,
-                            onSelected: (selected) {
-                              setState(() {
-                                selectedMemory = variant.memory;
+                              return ChoiceChip(
+                                label: Text(
+                                  '${variant.memory}',
+                                  style: TextStyle(
+                                    color: selectedMemory == variant.memory
+                                        ? Colors.red
+                                        : Colors.black,
+                                  ),
+                                ),
+                                selected: selectedMemory == variant.memory,
+                                onSelected: (selected) {
+                                  setState(() {
+                                    selectedMemory = variant.memory;
 
-                                // Cập nhật giá dựa trên bộ nhớ được chọn
-                                var selectedVariant = variants?.firstWhere(
-                                  (v) => v.memory == selectedMemory,
-                                );
-                                if (selectedVariant != null &&
-                                    selectedVariant.variants != null) {
-                                  var firstVariant = selectedVariant.variants?.first;
-                                  selectedPrice = firstVariant?.price?.discount ??
-                                      firstVariant?.price?.initial; // Giá giảm giá hoặc giá gốc
-                                  selectedOldPrice = firstVariant?.price?.initial; // Giá ban đầu
-                                  selectedColor = firstVariant?.color; // Cập nhật màu mặc định
-                                }
+                                    // Cập nhật giá dựa trên bộ nhớ được chọn
+                                    var selectedVariant = variants?.firstWhere(
+                                      (v) => v.memory == selectedMemory,
+                                    );
+                                    if (selectedVariant != null &&
+                                        selectedVariant.variants != null) {
+                                      var firstVariant =
+                                          selectedVariant.variants?.first;
+                                      selectedPrice = firstVariant
+                                              ?.price?.discount ??
+                                          firstVariant?.price
+                                              ?.initial; // Giá giảm giá hoặc giá gốc
+                                      selectedOldPrice = firstVariant
+                                          ?.price?.initial; // Giá ban đầu
+                                      selectedColor = firstVariant
+                                          ?.color; // Cập nhật màu mặc định
+                                    }
 
-                                widget.onMemorySelected!(selectedMemory ?? 'null');
-                              });
-                            },
-                            selectedColor: Colors.white,
-                            backgroundColor: Colors.white,
-                            side: BorderSide(
-                              color: selectedMemory == variant.memory
-                                  ? Colors.red
-                                  : Colors.grey,
-                              width: 1,
-                            ),
-                          );
-                        }).toList() ?? [],
+                                    widget.onMemorySelected!(
+                                        selectedMemory ?? 'null');
+                                  });
+                                },
+                                selectedColor: Colors.white,
+                                backgroundColor: Colors.white,
+                                side: BorderSide(
+                                  color: selectedMemory == variant.memory
+                                      ? Colors.red
+                                      : Colors.grey,
+                                  width: 1,
+                                ),
+                              );
+                            }).toList() ??
+                            [],
                       ),
                       SizedBox(height: getProportionateScreenHeight(10)),
                     ],
@@ -177,77 +197,93 @@ class _BodySuccessState extends State<BodySuccess> {
                     ),
                     SizedBox(height: getProportionateScreenHeight(5)),
                     Wrap(
-                    spacing: 5,
-                    children: variants!
-                        .firstWhere((v) => v.memory == selectedMemory)
-                        .variants
-                        ?.map<Widget>((colorVariant) {
-                      return ChoiceChip(
-                        label: Text(
-                          '${colorVariant.color}', // Hiển thị tên màu sắc
-                          style: TextStyle(
-                            color: selectedColor == colorVariant.color ? Colors.red : Colors.black,
-                          ),
-                        ),
-                        selected: selectedColor == colorVariant.color,
-                        onSelected: (selected) {
-                          setState(() {
-                            selectedColor = colorVariant.color;
-                            // Cập nhật giá dựa trên màu sắc được chọn
-                            var selectedVariant = variants!
-                                .firstWhere((v) => v.memory == selectedMemory)
-                                .variants
-                                ?.firstWhere((cv) => cv.color == selectedColor);
-                            selectedPrice = selectedVariant?.price?.discount ?? selectedVariant?.price?.initial; // Nếu discount là null, sử dụng giá initial
-                            selectedOldPrice = selectedVariant?.price?.initial; // Giá ban đầu
+                      spacing: 5,
+                      children: variants!
+                              .firstWhere((v) => v.memory == selectedMemory)
+                              .variants
+                              ?.map<Widget>((colorVariant) {
+                            return ChoiceChip(
+                              label: Text(
+                                '${colorVariant.color}', // Hiển thị tên màu sắc
+                                style: TextStyle(
+                                  color: selectedColor == colorVariant.color
+                                      ? Colors.red
+                                      : Colors.black,
+                                ),
+                              ),
+                              selected: selectedColor == colorVariant.color,
+                              onSelected: (selected) {
+                                setState(() {
+                                  selectedColor = colorVariant.color;
+                                  // Cập nhật giá dựa trên màu sắc được chọn
+                                  var selectedVariant = variants!
+                                      .firstWhere(
+                                          (v) => v.memory == selectedMemory)
+                                      .variants
+                                      ?.firstWhere(
+                                          (cv) => cv.color == selectedColor);
+                                  selectedPrice = selectedVariant
+                                          ?.price?.discount ??
+                                      selectedVariant?.price
+                                          ?.initial; // Nếu discount là null, sử dụng giá initial
+                                  selectedOldPrice = selectedVariant
+                                      ?.price?.initial; // Giá ban đầu
 
-                            widget.onColorSelected!(selectedColor ?? 'null');
-                          });
-                        },
-                        selectedColor: Colors.white,
-                        backgroundColor: Colors.white,
-                        side: BorderSide(
-                          color: selectedColor == colorVariant.color ? Colors.red : Colors.grey,
-                          width: 1,
-                        ),
-                      );
-                    }).toList() ?? [],
-                  ),
-                 
+                                  widget.onColorSelected!(
+                                      selectedColor ?? 'null');
+                                });
+                              },
+                              selectedColor: Colors.white,
+                              backgroundColor: Colors.white,
+                              side: BorderSide(
+                                color: selectedColor == colorVariant.color
+                                    ? Colors.red
+                                    : Colors.grey,
+                                width: 1,
+                              ),
+                            );
+                          }).toList() ??
+                          [],
+                    ),
+
                     SizedBox(
                       height: getProportionateScreenHeight(10),
                     ),
                     Text(
                       '$formattedPrice',
                       style: TextStyle(
-                      color: Colors.red,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                     if (selectedOldPrice != null && selectedOldPrice! > 0) // Chỉ hiển thị giá cũ nếu có
-                    if (selectedOldPrice != null && selectedOldPrice! > 0 && selectedPrice! < selectedOldPrice!) 
-                    Text(
-                      '$formattedOldPrice',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 15,
+                        color: Colors.red,
+                        fontSize: 20,
                         fontWeight: FontWeight.w700,
-                        decoration: TextDecoration.lineThrough, // Gạch ngang
                       ),
                     ),
+                    if (selectedOldPrice != null &&
+                        selectedOldPrice! > 0) // Chỉ hiển thị giá cũ nếu có
+                      if (selectedOldPrice != null &&
+                          selectedOldPrice! > 0 &&
+                          selectedPrice! < selectedOldPrice!)
+                        Text(
+                          '$formattedOldPrice',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            decoration:
+                                TextDecoration.lineThrough, // Gạch ngang
+                          ),
+                        ),
 
                     SizedBox(
                       height: getProportionateScreenHeight(5),
                     ),
                     //thuonghieu
                     Text(
-                        product?.name ?? 'null',
-                        style: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
+                      product?.name ?? 'null',
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ],
                 ),
@@ -261,81 +297,82 @@ class _BodySuccessState extends State<BodySuccess> {
             SizedBox(
               height: getProportionateScreenHeight(10),
             ),
-            //product details -> sẽ làm tại này 
+            //product details -> sẽ làm tại này
             Container(
               width: getFullWidth(),
               color: Colors.white,
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(
                     getProportionateScreenWidth(20),
                     getProportionateScreenHeight(10),
                     getProportionateScreenWidth(20),
                     getProportionateScreenHeight(15)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Chi tiết sản phẩm',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15)),
+                    const Divider(),
+                    SizedBox(
+                      height: getProportionateScreenHeight(5),
+                    ),
+                    if (details != null && details!.isNotEmpty)
+                      for (var detailCategory
+                          in details!.take(1)) // Lặp qua từng danh mục chi tiết
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Hiển thị tên danh mục
+                            Text(
+                              detailCategory.category ?? 'Không có danh mục',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
+                            ),
+                            SizedBox(height: getProportionateScreenHeight(5)),
+
+                            // Lặp qua từng chi tiết trong danh mục
+                            if (detailCategory.details != null &&
+                                detailCategory.details!.isNotEmpty)
+                              for (var detail in detailCategory.details!)
+                                Text(
+                                  '${detail.key ?? 'Không có key'}: ${detail.value ?? 'Không có giá trị'}',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w300,
+                                  ),
+                                ),
+                            SizedBox(height: getProportionateScreenHeight(10)),
+                          ],
+                        )
+                    else
+                      // Hiển thị thông báo nếu không có dữ liệu
                       Text(
-                        'Chi tiết sản phẩm',
+                        'Không có chi tiết sản phẩm',
                         style: TextStyle(
                           color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15
-                        )
-                      ),
-                      const Divider(),
-                      SizedBox(
-                        height: getProportionateScreenHeight(5),
-                      ),
-                      if (details != null && details!.isNotEmpty)
-                        for (var detailCategory in details!.take(1)) // Lặp qua từng danh mục chi tiết
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Hiển thị tên danh mục
-                              Text(
-                                detailCategory.category ?? 'Không có danh mục',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              SizedBox(height: getProportionateScreenHeight(5)),
-
-                              // Lặp qua từng chi tiết trong danh mục
-                              if (detailCategory.details != null &&
-                                  detailCategory.details!.isNotEmpty)
-                                for (var detail in detailCategory.details!)
-                                  Text(
-                                    '${detail.key ?? 'Không có key'}: ${detail.value ?? 'Không có giá trị'}',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w300,
-                                    ),
-                                  ),
-                              SizedBox(height: getProportionateScreenHeight(10)),
-                            ],
-                          )
-                      else
-                        // Hiển thị thông báo nếu không có dữ liệu
-                        Text(
-                          'Không có chi tiết sản phẩm',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                          ),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
                         ),
-                    SizedBox(
-                        height: getProportionateScreenHeight(5),
                       ),
+                    SizedBox(
+                      height: getProportionateScreenHeight(5),
+                    ),
                     const Divider(),
                     GestureDetector(
-                      onTap: () =>{
-                        Navigator.push(context,MaterialPageRoute(builder: (context) =>
-                                    SpecificationScreen(details: details),
-                              ),
-                            )
+                      onTap: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                SpecificationScreen(details: details),
+                          ),
+                        )
                       },
                       child: Center(
                         child: Text(
@@ -344,37 +381,38 @@ class _BodySuccessState extends State<BodySuccess> {
                             fontSize: 13,
                             fontWeight: FontWeight.w300,
                             color: Colors.grey,
-                          ),), ),
+                          ),
+                        ),
+                      ),
                     ),
-                      // Lặp qua danh sách details
-                      // for (var detailCategory in details ?? [])
-                      //   Column(
-                      //     crossAxisAlignment: CrossAxisAlignment.start,
-                      //     children: [
-                      //       Text(
-                      //         detailCategory.category,
-                      //         style: TextStyle(
-                      //           fontWeight: FontWeight.bold,
-                      //           fontSize: 14,
-                      //         ),
-                      //       ),
-                      //       SizedBox(height: getProportionateScreenHeight(5)),
-                      //       for (var detail in detailCategory.details)
-                      //         Text(
-                      //           '${detail.key}: ${detail.value}',
-                      //           style: TextStyle(
-                      //             color: Colors.black,
-                      //             fontSize: 13,
-                      //             fontWeight: FontWeight.w300,
-                      //           ),
-                      //         ),
-                      //       SizedBox(height: getProportionateScreenHeight(10)),
-                      //     ],
-                      //   ),
-
-                    ],
-                  ),
+                    // Lặp qua danh sách details
+                    // for (var detailCategory in details ?? [])
+                    //   Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     children: [
+                    //       Text(
+                    //         detailCategory.category,
+                    //         style: TextStyle(
+                    //           fontWeight: FontWeight.bold,
+                    //           fontSize: 14,
+                    //         ),
+                    //       ),
+                    //       SizedBox(height: getProportionateScreenHeight(5)),
+                    //       for (var detail in detailCategory.details)
+                    //         Text(
+                    //           '${detail.key}: ${detail.value}',
+                    //           style: TextStyle(
+                    //             color: Colors.black,
+                    //             fontSize: 13,
+                    //             fontWeight: FontWeight.w300,
+                    //           ),
+                    //         ),
+                    //       SizedBox(height: getProportionateScreenHeight(10)),
+                    //     ],
+                    //   ),
+                  ],
                 ),
+              ),
             ),
             SizedBox(
               height: getProportionateScreenHeight(10),
@@ -382,38 +420,34 @@ class _BodySuccessState extends State<BodySuccess> {
             Container(
               width: getFullWidth(),
               color: Colors.white,
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(
                     getProportionateScreenWidth(20),
                     getProportionateScreenHeight(10),
                     getProportionateScreenWidth(20),
                     getProportionateScreenHeight(15)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Mô tả sản phẩm',
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Mô tả sản phẩm',
                         style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15
-                        )
-                      ),
-                      SizedBox(
-                        height: getProportionateScreenHeight(5),
-                      ),
-                      Text(
-                        product?.description ?? 'null',
-                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15)),
+                    SizedBox(
+                      height: getProportionateScreenHeight(5),
+                    ),
+                    Text(
+                      product?.description ?? 'null',
+                      style: TextStyle(
                         color: Colors.black,
                         fontSize: 13,
                         fontWeight: FontWeight.w300,
                       ),
-                  
-                      )
-                    ],
-                  ),
+                    )
+                  ],
                 ),
+              ),
             ),
 
             SizedBox(
@@ -422,99 +456,71 @@ class _BodySuccessState extends State<BodySuccess> {
             Container(
               width: getFullWidth(),
               color: Colors.white,
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(
                     getProportionateScreenWidth(5),
                     getProportionateScreenHeight(10),
                     getProportionateScreenWidth(20),
                     getProportionateScreenHeight(15)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(
                               getProportionateScreenWidth(15),
                               getProportionateScreenHeight(0),
                               getProportionateScreenWidth(0),
                               getProportionateScreenHeight(0)),
-                            child: Text(
-                              'Một số sản phẩm liên quan',
-                              style: TextStyle(
+                          child: Text(
+                            'Một số sản phẩm liên quan',
+                            style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w500,
-                                fontSize: 15
-                              ),
-                              textAlign: TextAlign.start,
-                            ),
+                                fontSize: 15),
+                            textAlign: TextAlign.start,
                           ),
-                          Spacer(),
-                          GestureDetector(
-                            onTap: () => {},
-                            child: Row(
-                              children: [
-                                Text(
-                                  "Xem tất cả",
-                                  style: TextStyle(
-                                    fontSize: getProportionateScreenWidth(14),
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.w300,
-                                    decorationThickness: 2.0,
-                                  ),
-                                  textAlign: TextAlign.end,
-                                
+                        ),
+                        Spacer(),
+                        GestureDetector(
+                          onTap: () => {},
+                          child: Row(
+                            children: [
+                              Text(
+                                "Xem tất cả",
+                                style: TextStyle(
+                                  fontSize: getProportionateScreenWidth(14),
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.w300,
+                                  decorationThickness: 2.0,
                                 ),
-
-                                Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 13,)
-                              ],
-                            ),
-                            
+                                textAlign: TextAlign.end,
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                color: Colors.grey,
+                                size: 13,
+                              )
+                            ],
                           ),
-
-                        ],
-                      ),
-                      SizedBox(
-                        height: getProportionateScreenHeight(13),
-                      ),
-                      // ProductList(products: widget.listallproduct)
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: getProportionateScreenHeight(13),
+                    ),
+                    // ProductList(products: widget.listallproduct)
+                  ],
                 ),
+              ),
             ),
- 
           ],
         ),
       ),
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import 'package:ecommerce_app_mobile/model/products/data_details_product.dart';
 // import 'package:ecommerce_app_mobile/model/products/product_data_model.dart';
@@ -532,7 +538,7 @@ class _BodySuccessState extends State<BodySuccess> {
 // class BodySuccess extends StatefulWidget {
 //   final DataDetailProduct productDetail;
 //   // final List<ProductDataModel> listallproduct;
-  
+
 //   // const BodySuccess({super.key, required this.productDetail, required this.listallproduct});
 
 // const BodySuccess({super.key, required this.productDetail});
@@ -550,13 +556,10 @@ class _BodySuccessState extends State<BodySuccess> {
 //   int? selectedPrice;
 //   int? selectedOldPrice;
 
-  
-
-  
 //   @override
 //   void initState() {
 //     // TODO: implement initState
-   
+
 //     super.initState();
 //     product = widget.productDetail.product;
 //     details = widget.productDetail.details ?? [];
@@ -741,7 +744,7 @@ class _BodySuccessState extends State<BodySuccess> {
 //             SizedBox(
 //               height: getProportionateScreenHeight(10),
 //             ),
-//             //product details -> sẽ làm tại này 
+//             //product details -> sẽ làm tại này
 //             Container(
 //               width: getFullWidth(),
 //               color: Colors.white,
@@ -889,7 +892,7 @@ class _BodySuccessState extends State<BodySuccess> {
 //                         fontSize: 13,
 //                         fontWeight: FontWeight.w300,
 //                       ),
-                  
+
 //                       )
 //                     ],
 //                   ),
@@ -943,13 +946,13 @@ class _BodySuccessState extends State<BodySuccess> {
 //                                     decorationThickness: 2.0,
 //                                   ),
 //                                   textAlign: TextAlign.end,
-                                
+
 //                                 ),
 
 //                                 Icon(Icons.arrow_forward_ios, color: Colors.grey, size: 13,)
 //                               ],
 //                             ),
-                            
+
 //                           ),
 
 //                         ],
@@ -962,7 +965,7 @@ class _BodySuccessState extends State<BodySuccess> {
 //                   ),
 //                 ),
 //             ),
- 
+
 //           ],
 //         ),
 //       ),

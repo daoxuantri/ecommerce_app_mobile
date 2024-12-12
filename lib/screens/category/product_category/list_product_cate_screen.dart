@@ -1,6 +1,6 @@
 import 'package:ecommerce_app_mobile/components_buttons/loading.dart';
-import 'package:ecommerce_app_mobile/screens/filter_category/bloc/filter_bloc.dart';
-import 'package:ecommerce_app_mobile/screens/filter_category/components/body_filter.dart';
+import 'package:ecommerce_app_mobile/screens/category/product_category/bloc/filter_bloc.dart';
+import 'package:ecommerce_app_mobile/screens/category/product_category/components/body_filter.dart';
 import 'package:ecommerce_app_mobile/screens/home/components/base_input.dart';
 import 'package:ecommerce_app_mobile/screens/product/product_screen.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';
@@ -72,5 +72,3 @@ class _ListAllProductCategoryScreenState extends State<ListAllProductCategoryScr
     );
   }
 }
-
-

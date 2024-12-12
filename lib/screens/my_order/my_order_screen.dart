@@ -1,3 +1,4 @@
+import 'package:ecommerce_app_mobile/components_buttons/snackbar.dart';
 import 'package:ecommerce_app_mobile/screens/my_order/bloc/my_order_bloc.dart';
 import 'package:ecommerce_app_mobile/screens/my_order/components/body.dart';
 import 'package:flutter/material.dart';
@@ -28,9 +29,14 @@ class _MyOrdersScreensState extends State<MyOrdersScreen> {
       listenWhen: (previous, current) => current is MyOrderActionState,
       buildWhen: (previous, current) => current is! MyOrderActionState,
       listener: (context, state) {
-        // if (state is OrderDepositClickedState) {
-        //   _navigateToProductDetail(state.orderId);
-        // }
+        if (state is CancelOrderClickedState){
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBarLoginSuccess(state.message!),
+          );
+          setState(() {
+            myOrderBloc.add(MyOrderInitialEvent());
+          });
+        }
       },
       builder: (context, state) {
         switch (state.runtimeType){

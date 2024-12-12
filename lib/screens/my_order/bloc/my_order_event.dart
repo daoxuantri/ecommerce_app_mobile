@@ -23,3 +23,12 @@ class OrderDetailClickedEvent extends MyOrderEvent {
     required this.orderId,
   });
 }
+class CancelOrderClickedEvent extends MyOrderEvent {
+  final String orderId;
+  final String statusOrder;
+  CancelOrderClickedEvent({
+     required this.orderId,
+     required this.statusOrder,
+
+  });
+}

@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:ecommerce_app_mobile/model/address/shipping/address_data_model.dart';
+import 'package:ecommerce_app_mobile/screens/checkout/components/model.dart';
 import 'package:ecommerce_app_mobile/screens/checkout/components/payment_method_selection.dart';
 import 'package:ecommerce_app_mobile/screens/my_cart/modelselected/selected_model.dart';
+import 'package:ecommerce_app_mobile/security_user/secure_storage_user.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -13,6 +17,10 @@ class CheckoutBody extends StatefulWidget {
   });
   final List<SelectedProduct> listSelectedProduct;
   final AddressDataModel? addressDataModel;
+
+
+
+  static Order? order; 
   @override
   State<CheckoutBody> createState() => _CheckoutBodyState();
 }
@@ -25,9 +33,46 @@ class _CheckoutBodyState extends State<CheckoutBody> {
       setState(() {
         selectedPaymentMethod = method; // Cập nhật phương thức thanh toán
       });
+       checkout();
       print('Selected payment method: $selectedPaymentMethod'); // Debug
+      
     }
   }
+  @override
+void didChangeDependencies() {
+  super.didChangeDependencies();
+  // Gọi lại checkout() để cập nhật dữ liệu khi quay lại
+  checkout();
+}
+
+
+  Future<void> checkout() async {
+    String? userId = await UserSecurityStorage.getId();
+    
+    CheckoutBody.order = Order( 
+      user: userId ?? '', 
+      productItem: widget.listSelectedProduct.map((product) {
+        return ProductItem(
+          product: product.id,
+          name: product.name,
+          quantity: product.quantity,
+          images: product.images ?? 'assets/images/notfoundimages.jpg',
+          price: product.price!,
+          color: product.color ?? 'null',
+          memory: product.memory ?? 'null',
+        );
+      }).toList(),
+      informationUser:  InformationUser (
+        address: widget.addressDataModel?.address ?? 'null',
+        phone: widget.addressDataModel?.phone ?? 'null',
+        name: widget.addressDataModel?.name ?? 'null',
+      ),
+      paid: selectedPaymentMethod == 'VNPay'// Set paid status to false
+    );
+
+    print('Order Data: ${json.encode(CheckoutBody.order?.toJson())}');
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +103,7 @@ class _CheckoutBodyState extends State<CheckoutBody> {
             ),
             Container(
               width: getFullWidth(),
+              height: getProportionateScreenHeight(125),
               decoration: BoxDecoration(
                 color: Colors.white, // Đưa màu nền vào đây
                 borderRadius: BorderRadius.circular(15), // Bo tròn 4 góc
@@ -67,14 +113,14 @@ class _CheckoutBodyState extends State<CheckoutBody> {
                     getProportionateScreenWidth(15),
                     getProportionateScreenHeight(10),
                     getProportionateScreenWidth(0),
-                    getProportionateScreenHeight(15)),
+                    getProportionateScreenHeight(5)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (widget.addressDataModel != null) ...[
                       Row(
                         children: [
-                          Expanded(
+                          Flexible(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -134,7 +180,6 @@ class _CheckoutBodyState extends State<CheckoutBody> {
                               ],
                             ),
                           ),
-                          Spacer(),
                           IconButton(
                             icon: const Icon(
                               Icons.keyboard_arrow_right,

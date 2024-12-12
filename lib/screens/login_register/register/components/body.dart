@@ -89,50 +89,50 @@ class Body extends StatelessWidget {
                   height: getProportionateScreenHeight(20),
                 ),
 
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      height: getProportionateScreenHeight(2),
-                      color: Colors.grey[400],
-                    ),
-                    Container(
-                      color: Colors.transparent,
-                      child: Text(
-                        "Hoặc đăng ký bằng",
-                        style: TextStyle(
-                          fontSize: getProportionateScreenWidth(15),
-                          //color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: getProportionateScreenHeight(20),
-                ),
-                Center(
-                  child: Container(
-                    padding: const EdgeInsets.all(
-                      10,
-                    ),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Colors.black,
-                        width: 1,
-                      ),
-                    ),
-                    child: Image.asset(
-                      'assets/images/Google_Icon.png',
-                      width: 24,
-                      height: 24,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: getProportionateScreenHeight(30),
-                ),
+                // Stack(
+                //   alignment: Alignment.center,
+                //   children: [
+                //     Container(
+                //       height: getProportionateScreenHeight(2),
+                //       color: Colors.grey[400],
+                //     ),
+                //     Container(
+                //       color: Colors.transparent,
+                //       child: Text(
+                //         "Hoặc đăng ký bằng",
+                //         style: TextStyle(
+                //           fontSize: getProportionateScreenWidth(15),
+                //           //color: Colors.grey,
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // SizedBox(
+                //   height: getProportionateScreenHeight(20),
+                // ),
+                // Center(
+                //   child: Container(
+                //     padding: const EdgeInsets.all(
+                //       10,
+                //     ),
+                //     decoration: BoxDecoration(
+                //       shape: BoxShape.circle,
+                //       border: Border.all(
+                //         color: Colors.black,
+                //         width: 1,
+                //       ),
+                //     ),
+                //     child: Image.asset(
+                //       'assets/images/Google_Icon.png',
+                //       width: 24,
+                //       height: 24,
+                //     ),
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: getProportionateScreenHeight(30),
+                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

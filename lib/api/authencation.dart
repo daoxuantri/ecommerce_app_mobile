@@ -16,6 +16,8 @@ class ApiServiceAuth{
 
   Future<void> login(String email, String password) async {
     var url = Uri.parse('$baseUrl/users/login');
+  
+
 
     var headers = {
       'accept': 'application/json',
@@ -42,7 +44,7 @@ class ApiServiceAuth{
         UserSecurityStorage.setId(id!);
         UserSecurityStorage.setEmail(email);
         UserSecurityStorage.setUsername(username!);
-        UserSecurityStorage.setPassword(password);
+        // UserSecurityStorage.setPassword(password);
          UserSecurityStorage.setToken(token!);
         // UserSecurityStorage.setRole(role!); 
        
@@ -54,7 +56,7 @@ class ApiServiceAuth{
         // String header = response.headers.toString();
         // String Cookie = getCookie(header);
         // UserSecurityStorage.setCookie(Cookie);
-        // print('thanh cong ');
+        print('thanh cong ');
 
       } else {
         throw Exception(responseData['message']);

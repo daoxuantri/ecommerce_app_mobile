@@ -58,7 +58,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
           );
           Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
-                          builder: (context) => const NavigatorBottomBarHome(currentIndex: 4),  
+                          builder: (context) => const NavigatorBottomBarHome(currentIndex: 3),  
                         ),
                       );
         } else if (state is AddAddressCheckInputActionState) {

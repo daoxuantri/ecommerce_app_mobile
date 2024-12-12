@@ -142,6 +142,45 @@ class ApiServiceUsers {
     }
   }
 
+
+  Future<String?>
+      setDefaultAddressShiping(String? idAddress) async {
+    String? idUser = await UserSecurityStorage.getId();
+    var url = Uri.parse('$baseUrl/address/');
+    // final String? token = await UserSecureStorage.getToken();
+
+    // var headers = {
+    //   'accept': 'application/json',
+    //   'Authorization': 'Bearer $token',
+    // };
+    String? userId = await UserSecurityStorage.getId();
+    var headers = {
+      'accept': 'application/json',
+      'Content-Type': 'application/json',
+    };
+     var body = json.encode({
+    'userId': idUser ,
+    'addressId': idAddress,
+  });
+    print(userId);
+    print(idAddress);
+
+    var response = await http.put(url, headers: headers, body : body);
+
+    if (response.statusCode == 200) {
+      var responseData = json.decode(response.body);
+      if (responseData['success'] == true) {
+        return responseData['message'];
+      } else {
+        throw Exception(responseData['message']);
+      }
+    } else if (response.statusCode == 401) {
+      throw Exception('phiên đăng nhập hết hạn');
+    } else {
+      throw Exception('fail to call api get vendor shipping address');
+    }
+  }
+
   Future<String?> createAddressByUser(String address, String name , String phone, bool status) async {
     var url = Uri.parse('$baseUrl/address/create');
     String? idUser = await UserSecurityStorage.getId();

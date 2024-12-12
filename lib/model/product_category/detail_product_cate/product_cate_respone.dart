@@ -1,19 +1,20 @@
-import 'package:ecommerce_app_mobile/model/filter_product_category/product_filter_data_model.dart';
+ 
+import 'package:ecommerce_app_mobile/model/product_category/detail_product_cate/product_cate_data_model.dart';
 
-class FilterProductCategoriesRespone {
+class ProductDetailCategoriesRespone {
   bool? success;
   String? message;
-  List<ProductFilterDataModel>? data;
+  List<ProductCateDataModel>? data;
 
-  FilterProductCategoriesRespone({this.success, this.message, this.data});
+  ProductDetailCategoriesRespone({this.success, this.message, this.data});
 
-  FilterProductCategoriesRespone.fromJson(Map<String, dynamic> json) {
+  ProductDetailCategoriesRespone.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
     if (json['data'] != null) {
-      data = <ProductFilterDataModel>[];
+      data = <ProductCateDataModel>[];
       json['data'].forEach((v) {
-        data!.add(new ProductFilterDataModel.fromJson(v));
+        data!.add(new ProductCateDataModel.fromJson(v));
       });
     }
   }

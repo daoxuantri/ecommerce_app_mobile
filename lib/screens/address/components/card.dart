@@ -1,21 +1,22 @@
-
 import 'package:ecommerce_app_mobile/model/address/shipping/address_data_model.dart';
 import 'package:ecommerce_app_mobile/model/address/shipping/shipping_address_model.dart';
 import 'package:ecommerce_app_mobile/screens/address/bloc/address_bloc.dart';
 import 'package:ecommerce_app_mobile/screens/address/bloc/address_event.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart'; 
-
-
+import 'package:flutter/material.dart';
 
 class AddressCard extends StatefulWidget {
-  const AddressCard({super.key, required this.child, required this.addressInf, required this.addressBloc});
+  const AddressCard(
+      {super.key,
+      required this.child,
+      required this.addressInf,
+      required this.addressBloc});
 
   final String child;
 
   final AddressDataModel addressInf;
-  final AddressBloc addressBloc; 
+  final AddressBloc addressBloc;
 
   @override
   State<AddressCard> createState() => _AddressCardState();
@@ -32,7 +33,9 @@ class _AddressCardState extends State<AddressCard> {
           //color: Colors.blueGrey,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
-            side: BorderSide(color: Color(0xff8E8E93), width: getProportionateScreenWidth(1)),
+            side: BorderSide(
+                color: Color(0xff8E8E93),
+                width: getProportionateScreenWidth(1)),
           ),
           child: Padding(
             padding: EdgeInsets.only(left: getProportionateScreenWidth(17)),
@@ -47,21 +50,34 @@ class _AddressCardState extends State<AddressCard> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Địa chỉ',
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w400,
-                          fontStyle: FontStyle.normal,
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            'Địa chỉ: ',
+                            style: TextStyle(
+                                fontSize: 12.0, fontWeight: FontWeight.w400),
+                          ),
+                          SizedBox(
+                            width: getProportionateScreenWidth(5),
+                          ),
+                          if (widget.addressInf.status ==
+                              true) // Kiểm tra trạng thái
+                            Text(
+                              'MẶC ĐỊNH',
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            )
+                        ],
                       ),
                       Container(
                         width: getProportionateScreenWidth(36),
                         height: getProportionateScreenHeight(36),
                         child: IconButton(
                           onPressed: () {
-                             _showDeleteConfirmationDialog(context);
+                            _showDeleteConfirmationDialog(context);
                           },
                           icon: Icon(
                             Icons.more_horiz,
@@ -92,12 +108,11 @@ class _AddressCardState extends State<AddressCard> {
                   height: getProportionateScreenHeight(5),
                 ),
                 CustomIconTextRow(
-                  icon: Icon(
-                    Icons.location_on_outlined,
-                    color: Color(0xffff9500),
-                  ),
-                  text: widget.addressInf.address.toString() 
-                ),
+                    icon: Icon(
+                      Icons.location_on_outlined,
+                      color: Color(0xffff9500),
+                    ),
+                    text: widget.addressInf.address.toString()),
                 SizedBox(
                   height: getProportionateScreenHeight(5),
                 ),
@@ -108,6 +123,7 @@ class _AddressCardState extends State<AddressCard> {
       ),
     );
   }
+
   void _showDeleteConfirmationDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -125,8 +141,9 @@ class _AddressCardState extends State<AddressCard> {
             TextButton(
               onPressed: () {
                 print(widget.addressInf.sId);
-                widget.addressBloc.add(AddressRemoveClickEvent(widget.addressInf.sId)); 
-                Navigator.of(context).pop(); 
+                widget.addressBloc
+                    .add(AddressRemoveClickEvent(widget.addressInf.sId));
+                Navigator.of(context).pop();
               },
               child: Text('Xóa'),
             ),
@@ -135,10 +152,7 @@ class _AddressCardState extends State<AddressCard> {
       },
     );
   }
-
 }
-
-
 
 class CustomIconTextRow extends StatelessWidget {
   final Icon icon;
@@ -165,8 +179,4 @@ class CustomIconTextRow extends StatelessWidget {
       ],
     );
   }
-
-
-  
-  
 }

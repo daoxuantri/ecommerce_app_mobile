@@ -42,7 +42,7 @@ class _EditUserInfoState extends State<EditUserInfo> {
           );
           Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
-                          builder: (context) => const NavigatorBottomBarHome(currentIndex: 4),  
+                          builder: (context) => const NavigatorBottomBarHome(currentIndex: 3),  
                         ),
                       );
         }

@@ -3,8 +3,8 @@ import 'package:ecommerce_app_mobile/screens/add_address/add_address_screen.dart
 import 'package:ecommerce_app_mobile/screens/address/address_screen.dart';
 import 'package:ecommerce_app_mobile/screens/all_product/all_product_screen.dart';
 import 'package:ecommerce_app_mobile/screens/category/my_category.dart';
+import 'package:ecommerce_app_mobile/screens/category/product_category/list_product_cate_screen.dart';
 import 'package:ecommerce_app_mobile/screens/checkout/checkout_screen.dart';
-import 'package:ecommerce_app_mobile/screens/filter_category/list_product_cate_screen.dart'; 
 import 'package:ecommerce_app_mobile/screens/forget_password/components/email_password/form_id_email/id_email.dart';
 import 'package:ecommerce_app_mobile/screens/forget_password/components/reset_password/reset_pass.dart';
 import 'package:ecommerce_app_mobile/screens/home/home_screen.dart';
@@ -70,8 +70,10 @@ final Map<String , WidgetBuilder> routes ={
   CheckoutScreen.routeName : (context) => const CheckoutScreen(),
   VNPayScreen.routeName : (context) => const VNPayScreen(),
 
-  ListAllProductCategoryScreen.routeName  : (context) => const ListAllProductCategoryScreen(),
+  
   MyOrdersScreen.routeName : (context) => const MyOrdersScreen(),
+  ListAllProductCategoryScreen.routeName : (context) => const ListAllProductCategoryScreen(),
+  
 
 
 

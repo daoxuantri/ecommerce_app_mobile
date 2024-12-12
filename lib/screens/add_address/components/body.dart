@@ -34,7 +34,7 @@ class AddAddressBody extends StatelessWidget {
             listDistrict: listDistrict,
             listWard: listWard,
           ),
-          SizedBox(height: getProportionateScreenHeight(100),),
+          SizedBox(height: getProportionateScreenHeight(30),),
           ButtonNewAddress(
             addAddressBloc: addAddressBloc,
           ),

@@ -34,16 +34,32 @@ class VnPaymentClickedEvent extends CheckoutEvent {
 }
 
 class createOrderClickedEvent extends CheckoutEvent {
+  // final String userId;
+  // final List<ProductItem> productItems; // Giả sử bạn có một lớp ProductItem để đại diện cho sản phẩm
+  // final UserInformation userInformation; // Giả sử bạn có một lớp UserInformation để đại diện cho thông tin người dùng
+  // final bool paid;
+
+  // createOrderClickedEvent({
+  //   required this.userId,
+  //   required this.productItems,
+  //   required this.userInformation,
+  //   required this.paid,
+  // });
+}
+
+class CheckoutClickedEvent extends CheckoutEvent {
   final String userId;
   final List<ProductItem> productItems; // Giả sử bạn có một lớp ProductItem để đại diện cho sản phẩm
-  final UserInformation userInformation; // Giả sử bạn có một lớp UserInformation để đại diện cho thông tin người dùng
+  final InformationUser userInformation; // Giả sử bạn có một lớp UserInformation để đại diện cho thông tin người dùng
   final bool paid;
+  final int totalPayment;
 
-  createOrderClickedEvent({
+  CheckoutClickedEvent({
     required this.userId,
     required this.productItems,
     required this.userInformation,
     required this.paid,
+     required this.totalPayment,
   });
 }
 

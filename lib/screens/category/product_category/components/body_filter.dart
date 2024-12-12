@@ -1,11 +1,12 @@
-import 'package:ecommerce_app_mobile/model/filter_product_category/product_filter_data_model.dart';
-import 'package:ecommerce_app_mobile/screens/filter_category/bloc/filter_bloc.dart';
-import 'package:ecommerce_app_mobile/screens/filter_category/components/No_product_filter.dart';
+
+import 'package:ecommerce_app_mobile/model/product_category/detail_product_cate/product_cate_data_model.dart';
+import 'package:ecommerce_app_mobile/screens/category/product_category/bloc/filter_bloc.dart';
+import 'package:ecommerce_app_mobile/screens/category/product_category/components/No_product_filter.dart';
 import 'package:ecommerce_app_mobile/screens/home/components/product_card.dart';
 import 'package:flutter/material.dart';
 
 class BodyFilter extends StatelessWidget {
-  final List<ProductFilterDataModel> listProduct ; 
+  final List<ProductCateDataModel> listProduct ; 
   final FilterBloc filterBloc ;
   final bool isvisible ; 
   const BodyFilter({super.key, required this.listProduct, required this.filterBloc, required this.isvisible});

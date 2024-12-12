@@ -65,6 +65,7 @@ class _SignInFormState extends State<SignInForm> {
                   _formKey.currentState!.save();
                   KeyboardUtil.hideKeyboard(context);
                   try {
+                      
                         await authentication.login(email!, password!);
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBarLoginSuccess('Đăng nhập thành công'),);

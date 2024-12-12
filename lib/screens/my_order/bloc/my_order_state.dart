@@ -44,3 +44,11 @@ class OrderDepositClickedState extends MyOrderActionState {
   });
 }
 
+class CancelOrderClickedState extends MyOrderActionState {
+  final String? message;
+  CancelOrderClickedState({
+     this.message,
+  });
+}
+
+

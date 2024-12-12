@@ -32,7 +32,7 @@ class Data {
     username = json['username'];
     email = json['email'];
     // role = json['role'];
-    id = json['id'];
+    id = json['_id'];
     accessToken = json['access_token'];
   }
 
@@ -41,7 +41,7 @@ class Data {
     data['username'] = this.username;
     data['email'] = this.email;
     // data['role'] = this.role;
-    data['id'] = this.id;
+    data['_id'] = this.id;
     data['access_token'] = this.accessToken;
     return data;
   }

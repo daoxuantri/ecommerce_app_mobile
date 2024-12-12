@@ -1,11 +1,11 @@
-class Specifications {
+class SpecificationsDataModel {
   String? key;
   String? value;
   String? sId;
 
-  Specifications({this.key, this.value, this.sId});
+  SpecificationsDataModel({this.key, this.value, this.sId});
 
-  Specifications.fromJson(Map<String, dynamic> json) {
+  SpecificationsDataModel.fromJson(Map<String, dynamic> json) {
     key = json['key'];
     value = json['value'];
     sId = json['_id'];

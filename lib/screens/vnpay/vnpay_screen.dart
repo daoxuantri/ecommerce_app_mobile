@@ -1,6 +1,7 @@
 import 'package:ecommerce_app_mobile/components_buttons/bottom_navbar_home.dart';
 import 'package:ecommerce_app_mobile/components_buttons/loading.dart';
 import 'package:ecommerce_app_mobile/components_buttons/snackbar.dart';
+import 'package:ecommerce_app_mobile/screens/checkout/components/model.dart';
 import 'package:ecommerce_app_mobile/screens/my_cart/components/cart_item.dart';
 import 'package:ecommerce_app_mobile/screens/vnpay/bloc/vnpay_bloc.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';
@@ -29,8 +30,17 @@ class _VNPayScreenState extends State<VNPayScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    final int amount = ModalRoute.of(context)!.settings.arguments as int;
-    vnPayBloc.add(VNPayInitialEvent(amount: amount));
+   final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    
+    // Extract individual arguments
+    final String userId = args['userId'];
+    final List<ProductItem> productItems = args['productItems'];
+    final InformationUser userInformation = args['userInformation'];
+    final bool paid = args['paid'];
+    final int totalPayment = args['totalPayment'];
+
+    // Now you can use these variables in your widget
+    vnPayBloc.add(VNPayInitialEvent(amount: totalPayment));
     return BlocConsumer<VNPayBloc, VNPayState>(
         bloc: vnPayBloc,
         listenWhen: (previous, current) => current is VNPayActionState,
@@ -85,7 +95,12 @@ class _VNPayScreenState extends State<VNPayScreen> {
                       return NavigationDecision.prevent;
                     } else if (request.url.contains('vnp_ResponseCode=00')) {
                       // Giao dịch thành công (ResponseCode = 00)
-                      vnPayBloc.add(VNPayTransactionSuccessEvent());
+                      // vnPayBloc.add(VNPayTransactionSuccessEvent(userId: userId, productItems: productItems, userInformation: userInformation, paid: paid, totalPayment: totalPayment));
+                       final uri = Uri.parse(request.url);
+                       //bill code
+                      final transactionNo = uri.queryParameters['vnp_TxnRef'];
+                     String billCode=  transactionNo.toString();
+                     vnPayBloc.add(VNPayTransactionSuccessEvent(userId: userId, productItems: productItems, userInformation: userInformation, paid: paid, totalPayment: totalPayment, billCode: billCode));
                       return NavigationDecision.prevent;
                     }
                     return NavigationDecision.navigate;

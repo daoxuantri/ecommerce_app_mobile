@@ -20,12 +20,24 @@ class _ProductScreenState extends State<ProductScreen> {
   final ProductBloc productBloc = ProductBloc();
   String? selectedMemory; 
   String? selectedColor;
+  String? productId;
 
+@override
+void initState() {
+  super.initState();
+}
+@override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Truy cập vào context ở đây
+    if (productId == null) { // Chỉ gán giá trị nếu chưa có
+      productId = ModalRoute.of(context)?.settings.arguments as String; // Gán giá trị cho productId
+      productBloc.add(ProductInitialEvent(productId: productId!)); // Sử dụng productId
+    }
+  }
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    final productId = ModalRoute.of(context)?.settings.arguments as String;
-    productBloc.add(ProductInitialEvent(productId: productId));
     return BlocProvider(
       create: (context) => ProductBloc(),
       child: BlocConsumer<ProductBloc, ProductState>(
@@ -41,7 +53,7 @@ class _ProductScreenState extends State<ProductScreen> {
               ScaffoldMessenger.of(context).showSnackBar(
                           SnackBarLoginSuccess('Đã thêm vào giỏ hàng'),);
                           setState(() {
-            productBloc.add(ProductInitialEvent(productId: productId));
+            productBloc.add(ProductInitialEvent(productId: productId!));
             
           });
           }
@@ -70,7 +82,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     });
                   },
                 ),
-                bottomNavigationBar: buildBottomAppBar(productId),
+                bottomNavigationBar: buildBottomAppBar(productId!),
               );
             case ProductErrorState:
               final errorState = state as ProductErrorState;

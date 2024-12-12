@@ -140,8 +140,8 @@ class _CartItemState extends State<CartItem> {
             ),
           ),
           Positioned(
-            right: 20,
-            top: 15,
+            right: 15,
+            top: 10,
             child: GestureDetector(
               onTap: () {
                 BuildContext? dialogContext = navigatorKey.currentContext ?? context;
@@ -242,8 +242,8 @@ class _CartItemState extends State<CartItem> {
               },
               child: Image.asset(
                 'assets/images/x_product.png',
-                width: 10,
-                height: 10,
+                width: 12,
+                height: 12,
               ),
             ),
           ),

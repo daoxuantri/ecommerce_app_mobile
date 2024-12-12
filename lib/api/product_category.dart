@@ -1,4 +1,6 @@
 
+import 'package:ecommerce_app_mobile/model/product_category/detail_product_cate/product_cate_data_model.dart';
+import 'package:ecommerce_app_mobile/model/product_category/detail_product_cate/product_cate_respone.dart';
 import 'package:ecommerce_app_mobile/model/product_category/get_children_by_id_category_response.dart';
 import 'package:ecommerce_app_mobile/model/product_category/get_list_category_response.dart';
 import 'package:ecommerce_app_mobile/model/product_category/product_category_data_model.dart';
@@ -104,6 +106,27 @@ class ApiServiceProductCategory {
       throw Exception('phiên đăng nhập hết hạn');
     } else {
       throw Exception('fail to call api get list product colors');
+    }
+  }
+
+
+
+  Future<List<ProductCateDataModel>> getListProductByCategory(String idCategory) async {
+    var url = Uri.parse('$baseUrl/categories/${idCategory}/productsflutter');
+
+    var headers = {
+      'accept': 'application/json',
+    };
+
+    var response = await http.get(url, headers: headers);
+    var responseData = json.decode(response.body);
+    if (response.statusCode == 200) {
+      
+      var respone = ProductDetailCategoriesRespone.fromJson(responseData);
+      return respone.data!;
+ 
+    } else {
+      throw Exception('Fail to call API getlist');
     }
   }
 

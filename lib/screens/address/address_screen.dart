@@ -57,6 +57,10 @@ class _AddressScreenState extends State<AddressScreen> {
             addressBloc.add(AddressInitialEvent());
           });
 
+        }else if (state is AddressRemoveClickState){
+          setState(() {
+              addressBloc.add(AddressInitialEvent());
+            });
         }
       },
       builder: (context, state) {

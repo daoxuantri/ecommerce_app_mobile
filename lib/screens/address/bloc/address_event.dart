@@ -15,6 +15,12 @@ class AddressRemoveClickEvent extends AddressEvent{
   AddressRemoveClickEvent(
      this.idAddress
   );
+}
 
+class AddressSetDefaultClickedEvent extends AddressEvent{
+  final String? idAddress ; 
+  AddressSetDefaultClickedEvent(
+     this.idAddress
+  );
 }
 

@@ -31,3 +31,8 @@ class AddressRemoveClickState extends AddressActionState{
   AddressRemoveClickState({required this.errMessage});
 }
 
+
+class AddressSetDefaultClickedState extends AddressActionState{
+  final String errMessage;
+  AddressSetDefaultClickedState({required this.errMessage});
+}

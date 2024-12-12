@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:ecommerce_app_mobile/api/category.dart';
-import 'package:ecommerce_app_mobile/model/filter_product_category/product_filter_data_model.dart';
+import 'package:ecommerce_app_mobile/api/product_category.dart';
+import 'package:ecommerce_app_mobile/model/product_category/detail_product_cate/product_cate_data_model.dart';
 import 'package:flutter/material.dart';
-
 part 'filter_event.dart';
 part 'filter_state.dart';
 
@@ -19,8 +19,8 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
     emit(FilterLoadingState());
     try {
       // Gọi API để lấy danh sách filter
-      List<ProductFilterDataModel> listFilters =
-          await ApiServiceCategory().getListProductByCategory(event.categoryId);
+      List<ProductCateDataModel> listFilters =
+          await ApiServiceProductCategory().getListProductByCategory(event.categoryId);
           bool isvisible;
            if(listFilters.length ==0 )
         {
@@ -28,7 +28,6 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         }else{
           isvisible = false;
         }
-
       emit(FilterLoadedSuccessState(filtersProduct: listFilters!, isvisible: isvisible));
     } catch (e) {
       String errorMessage = e.toString();

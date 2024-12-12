@@ -1,6 +1,7 @@
-import 'package:ecommerce_app_mobile/model/filter_product_category/specification_data_model.dart';
 
-class ProductFilterDataModel {
+import 'package:ecommerce_app_mobile/model/product_category/detail_product_cate/specification_data_model.dart';
+
+class ProductCateDataModel {
   String? sId;
   String? name;
   List<String>? images;
@@ -14,13 +15,13 @@ class ProductFilterDataModel {
   String? createdAt;
   String? updatedAt;
   int? iV;
-  List<Specifications>? specifications;
+  List<SpecificationsDataModel>? specifications;
   List<String>? memories;
   List<String>? colors;
   int? initPrice;
   int? discPrice;
 
-  ProductFilterDataModel(
+  ProductCateDataModel(
       {this.sId,
       this.name,
       this.images,
@@ -40,7 +41,7 @@ class ProductFilterDataModel {
       this.initPrice,
       this.discPrice});
 
-  ProductFilterDataModel.fromJson(Map<String, dynamic> json) {
+  ProductCateDataModel.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
     images = json['images'].cast<String>();
@@ -55,9 +56,9 @@ class ProductFilterDataModel {
     updatedAt = json['updatedAt'];
     iV = json['__v'];
     if (json['specifications'] != null) {
-      specifications = <Specifications>[];
+      specifications = <SpecificationsDataModel>[];
       json['specifications'].forEach((v) {
-        specifications!.add(new Specifications.fromJson(v));
+        specifications!.add(new SpecificationsDataModel.fromJson(v));
       });
     }
     memories = json['memories'].cast<String>();

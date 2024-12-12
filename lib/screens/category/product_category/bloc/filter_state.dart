@@ -12,7 +12,7 @@ class FilterInitial extends FilterState {}
 class FilterLoadingState extends FilterState {}
 
 class FilterLoadedSuccessState extends FilterState {
-  final List<ProductFilterDataModel> filtersProduct; // Danh sách các bộ lọc được tải
+  final List<ProductCateDataModel> filtersProduct; // Danh sách các bộ lọc được tải
   final bool isvisible ;
   FilterLoadedSuccessState({
     required this.filtersProduct,

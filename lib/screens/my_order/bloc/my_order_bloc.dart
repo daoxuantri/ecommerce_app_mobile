@@ -16,6 +16,7 @@ class MyOrderBloc extends Bloc<MyOrderEvent, MyOrderState> {
     on<TypeAndStatusChangedEvent >(typeAndStatusChangedEvent);
     on<DemandToDemandDetailEvent>(demandToDemandDetailEvent);
     on<OrderDetailClickedEvent>(orderDetailClickedEvent);
+    on<CancelOrderClickedEvent>(cancelOrderClickedEvent);
 
   }
 
@@ -58,6 +59,23 @@ class MyOrderBloc extends Bloc<MyOrderEvent, MyOrderState> {
       emit(MyOrderError(failToken));
     }
   }
+
+  FutureOr<void> cancelOrderClickedEvent (
+      CancelOrderClickedEvent event, Emitter<MyOrderState> emit) async {
+    emit(MyOrderLoading());
+    try {
+     String? message = await ApiServiceOrders().cancelOrder(event.orderId, 'CANCELED');
+      
+      emit(CancelOrderClickedState(message: message));
+    } catch (e) {
+      String failToken = e.toString();
+      if (failToken.startsWith('Exception: ')) {
+        failToken = failToken.substring('Exception: '.length);
+      }
+      emit(MyOrderError(failToken));
+    }
+  }
+
 
   FutureOr<void> demandToDemandDetailEvent(DemandToDemandDetailEvent event, Emitter<MyOrderState> emit) {
     emit(DemandToDemandDetailActionState(event.id));

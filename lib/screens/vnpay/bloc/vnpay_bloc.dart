@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:ecommerce_app_mobile/api/user_signin.dart';  
+import 'package:ecommerce_app_mobile/api/checkout.dart';
+import 'package:ecommerce_app_mobile/api/user_signin.dart';
+import 'package:ecommerce_app_mobile/screens/checkout/components/model.dart';  
 import 'package:flutter/material.dart';
 
 part 'vnpay_event.dart';
@@ -36,5 +38,6 @@ class VNPayBloc extends Bloc<VNPayEvent, VNPayState> {
 
   Future<void> vnPayTransactionSuccessEvent(
       VNPayTransactionSuccessEvent event, Emitter<VNPayState> emit) async {
+        String message = await ApiServiceCheckout().createOrderByUser(event.userId,event.productItems, event.userInformation, event.paid, event.billCode);
     emit(VNPayTransactionSuccessState());
   }

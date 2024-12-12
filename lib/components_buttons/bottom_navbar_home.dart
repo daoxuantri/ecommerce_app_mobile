@@ -29,7 +29,6 @@ class _NavigatorBottomBarState extends State<NavigatorBottomBarHome> {
     "IC_Home.png",
     "IC_Category.png",
     "IC_Cart.png",
-    "IC_Cart.png",
     "IC_Profile.png",
   ];
 
@@ -38,7 +37,6 @@ class _NavigatorBottomBarState extends State<NavigatorBottomBarHome> {
     "Home",
     "Category",
     "Cart",
-    "Favorite",
     "Profile",
   ];
 
@@ -46,7 +44,6 @@ class _NavigatorBottomBarState extends State<NavigatorBottomBarHome> {
   final screens = [
     const HomeScreen(),
     const CategoryScreen(),
-    const MyCartScreen(),
     const MyCartScreen(),
     const  MyProfileScreen()
   ];

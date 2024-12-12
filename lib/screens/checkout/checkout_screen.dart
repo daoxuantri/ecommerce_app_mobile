@@ -1,5 +1,6 @@
 import 'package:ecommerce_app_mobile/components_buttons/bottom_navbar_home.dart';
 import 'package:ecommerce_app_mobile/components_buttons/loading.dart';
+import 'package:ecommerce_app_mobile/components_buttons/snackbar.dart';
 import 'package:ecommerce_app_mobile/screens/checkout/bloc/checkout_bloc.dart';
 import 'package:ecommerce_app_mobile/screens/checkout/components/body.dart';
 import 'package:ecommerce_app_mobile/screens/my_cart/components/cart_item.dart';
@@ -17,15 +18,20 @@ class CheckoutScreen extends StatefulWidget {
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
 }
+ 
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
   final CheckoutBloc checkoutBloc = CheckoutBloc();
+  @override
+  void initState() {
+    super.initState();
+    checkoutBloc.add(CheckoutInitialEvent());
+  }
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     final listSelectedProduct =
         ModalRoute.of(context)?.settings.arguments as List<SelectedProduct>;
-    checkoutBloc.add(CheckoutInitialEvent());
     return BlocProvider(
       create: (context) => CheckoutBloc(),
       child: BlocConsumer<CheckoutBloc, CheckoutState>(
@@ -34,14 +40,33 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         buildWhen: (previous, current) => current is! CheckoutActionState,
         listener: (context, state) {
           if (state is VnPaymentClickedState) {
-            Navigator.pushNamed(context, VNPayScreen.routeName,
-                arguments: state.amount);
+            Navigator.pushNamed(
+              context,
+              VNPayScreen.routeName,
+              arguments: {
+                'userId': state.userId,
+                'productItems': state.productItems,
+                'userInformation': state.userInformation,
+                'paid': state.paid,
+                'totalPayment': state.totalPayment,
+              },
+            );
+          } else if (state is CODClickedState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBarLoginSuccess('Tạo đơn hàng thành công'),
+            );
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) =>
+                    const NavigatorBottomBarHome(currentIndex: 3),
+              ),
+            );
           }
         },
         builder: (context, state) {
           switch (state.runtimeType) {
             case CheckoutLoading:
-              return const Center(
+              return Center(
                 child: LoadingScreen(),
               );
             case CheckoutLoaded:
@@ -75,7 +100,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         icon: Icon(Icons.arrow_back_ios_rounded, size: 20),
         onPressed: () {
           CartItem.selectedProducts.clear();
-          Navigator.of(context).pushReplacement(
+          Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => const NavigatorBottomBarHome(
                   currentIndex: 2), // Giả sử giỏ hàng là chỉ số 2
@@ -116,8 +141,18 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             Expanded(
               child: ElevatedButton(
                 onPressed: () {
-                  checkoutBloc.add(VnPaymentClickedEvent(
-                      amount: _calculateTotalPricePayment()));
+                  // checkoutBloc.add(VnPaymentClickedEvent(
+                  //     amount: _calculateTotalPricePayment()));
+
+                  checkoutBloc.add(CheckoutClickedEvent(
+                      userId: CheckoutBody.order!.user, // Truyền userId
+                      productItems: CheckoutBody
+                          .order!.productItem, // Truyền danh sách sản phẩm
+                      userInformation: CheckoutBody.order!
+                          .informationUser, // Truyền thông tin người dùng
+                      paid: CheckoutBody.order!.paid,
+                      totalPayment: _calculateTotalPricePayment()));
+                  print(CheckoutBody.order!.toJson());
                 },
                 child: Text(
                   'Thanh toán',

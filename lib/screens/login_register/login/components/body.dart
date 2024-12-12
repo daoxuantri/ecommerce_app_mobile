@@ -58,55 +58,55 @@ class _BodyState extends State<Body> {
                 SizedBox(
                   height: getProportionateScreenHeight(20),
                 ),
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Container(
-                      height: getProportionateScreenHeight(2),
-                      color: Colors.grey[400],
-                    ),
-                    Container(
-                      color: Colors.transparent,
-                      child: Text(
-                        "Hoặc đăng nhập bằng",
-                        style: TextStyle(
-                          fontSize: getProportionateScreenWidth(15),
-                          //color: Colors.grey,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: getProportionateScreenHeight(25),
-                ),
-                Center(
-                  child: Container(
-                    padding: const EdgeInsets.all(
-                      10,
-                    ),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: Colors.black,
-                        width: 1,
-                      ),
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
+                // Stack(
+                //   alignment: Alignment.center,
+                //   children: [
+                //     Container(
+                //       height: getProportionateScreenHeight(2),
+                //       color: Colors.grey[400],
+                //     ),
+                //     Container(
+                //       color: Colors.transparent,
+                //       child: Text(
+                //         "Hoặc đăng nhập bằng",
+                //         style: TextStyle(
+                //           fontSize: getProportionateScreenWidth(15),
+                //           //color: Colors.grey,
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // SizedBox(
+                //   height: getProportionateScreenHeight(25),
+                // ),
+                // Center(
+                //   child: Container(
+                //     padding: const EdgeInsets.all(
+                //       10,
+                //     ),
+                //     decoration: BoxDecoration(
+                //       shape: BoxShape.circle,
+                //       border: Border.all(
+                //         color: Colors.black,
+                //         width: 1,
+                //       ),
+                //     ),
+                //     child: GestureDetector(
+                //       onTap: () {
 
-                      },
-                      child: Image.asset(
-                        'assets/images/Google_Icon.png',
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: getProportionateScreenHeight(25),
-                ),
+                //       },
+                //       child: Image.asset(
+                //         'assets/images/Google_Icon.png',
+                //         width: 24,
+                //         height: 24,
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                // SizedBox(
+                //   height: getProportionateScreenHeight(25),
+                // ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -135,20 +135,7 @@ class _BodyState extends State<Body> {
                     ),
                     SizedBox(
                   height: getProportionateScreenHeight(15), ),
-                    GestureDetector(
-                      onTap: () => {},
-                      child: Text(
-                        "Xem chính sách ưu đãi member",
-                        style: TextStyle(
-                          fontSize: getProportionateScreenWidth(15),
-                          color: Colors.red,
-                          fontWeight: FontWeight.w500,
-                          decoration: TextDecoration.underline, 
-                          decorationColor: Colors.red,
-                          decorationThickness: 2.0,
-                        ),
-                      ),
-                    ),
+                    
 
                   ],
                 ),

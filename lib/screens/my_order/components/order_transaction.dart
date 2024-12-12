@@ -1,3 +1,4 @@
+
 import 'package:ecommerce_app_mobile/components_buttons/colors.dart';
 import 'package:ecommerce_app_mobile/model/orders/order_data_model.dart';
 import 'package:ecommerce_app_mobile/model/orders/order_detail_data_model.dart';
@@ -29,7 +30,7 @@ class _OrderTransactionState extends State<OrderTransaction> {
   List<String> statusValues = [
     "", // Tất cả
     "PROGRESS", // Đang xử lý
-    "", // Đang giao
+    "DELIVERY", // Đang giao
     "COMPLETED", // Hoàn tất
     "CANCELED", // Đơn hủy
   ];
@@ -58,100 +59,98 @@ class _OrderTransactionState extends State<OrderTransaction> {
           ? null
           : statusValues[currentStatus], // Truyền giá trị trạng thái tương ứng
     ));
-    return Expanded(
-      child: Column(
-        children: [
-          // Horizontal status tab list
-          Container(
-            margin: EdgeInsets.only(top: getProportionateScreenHeight(5)),
-            height: size.height * 0.04,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: statusTabs.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        currentStatus = index;
-                        orderTransactionBloc.add(TypeAndStatusChangedEvent(
-                          statusValues[
-                              currentStatus], // Truyền giá trị trạng thái tương ứng
-                        ));
-                      });
-                    },
-                    child: Container(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            statusTabs[index],
-                            style: TextStyle(
-                              color: currentStatus == index
-                                  ? Colors.black
-                                  : Colors.grey,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                            ),
+    return Column(
+      children: [
+        // Horizontal status tab list
+        Container(
+          margin: EdgeInsets.only(top: getProportionateScreenHeight(5)),
+          height: size.height * 0.04,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: statusTabs.length,
+            itemBuilder: (context, index) {
+              return Container(
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      currentStatus = index;
+                      orderTransactionBloc.add(TypeAndStatusChangedEvent(
+                        statusValues[
+                            currentStatus], // Truyền giá trị trạng thái tương ứng
+                      ));
+                    });
+                  },
+                  child: Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          statusTabs[index],
+                          style: TextStyle(
+                            color: currentStatus == index
+                                ? Colors.black
+                                : Colors.grey,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
                           ),
-                          AnimatedContainer(
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.fastLinearToSlowEaseIn,
-                            width: currentStatus == index
-                                ? getProportionateScreenWidth(150)
-                                : getProportionateScreenWidth(150),
-                            height: getProportionateScreenHeight(2),
-                            decoration: BoxDecoration(
-                              color: currentStatus == index
-                                  ? Colors.black
-                                  : Colors.transparent,
-                            ),
+                        ),
+                        AnimatedContainer(
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.fastLinearToSlowEaseIn,
+                          width: currentStatus == index
+                              ? getProportionateScreenWidth(150)
+                              : getProportionateScreenWidth(150),
+                          height: getProportionateScreenHeight(2),
+                          decoration: BoxDecoration(
+                            color: currentStatus == index
+                                ? Colors.black
+                                : Colors.transparent,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                );
+                ),
+              );
+            },
+          ),
+        ),
+    
+        // Selected tab content
+        Expanded(
+          child: Container(
+            color: const Color(0xfff4f4f4),
+            child: BlocConsumer<MyOrderBloc, MyOrderState>(
+              bloc: orderTransactionBloc,
+              listenWhen: (previous, current) =>
+                  current is MyOrderActionState,
+              buildWhen: (previous, current) =>
+                  current is! MyOrderActionState,
+              listener: (context, state) {
+                // ... (your listener logic)
+              },
+              builder: (context, state) {
+                switch (state.runtimeType) {
+                  case MyOrderLoading:
+                    return const Center(child: CircularProgressIndicator());
+                  case OrderListLoaded:
+                    final buyAndSellState = state as OrderListLoaded;
+                    return _tabItem(size, buyAndSellState.orderrList);
+                  case MyOrderError:
+                    final errorState = state as MyOrderError;
+                    return Center(
+                      child: Text(errorState.message),
+                    );
+                  default:
+                    return const Center(
+                      child: Text("Demand Default"),
+                    );
+                }
               },
             ),
           ),
-
-          // Selected tab content
-          Expanded(
-            child: Container(
-              color: const Color(0xfff4f4f4),
-              child: BlocConsumer<MyOrderBloc, MyOrderState>(
-                bloc: orderTransactionBloc,
-                listenWhen: (previous, current) =>
-                    current is MyOrderActionState,
-                buildWhen: (previous, current) =>
-                    current is! MyOrderActionState,
-                listener: (context, state) {
-                  // ... (your listener logic)
-                },
-                builder: (context, state) {
-                  switch (state.runtimeType) {
-                    case MyOrderLoading:
-                      return const Center(child: CircularProgressIndicator());
-                    case OrderListLoaded:
-                      final buyAndSellState = state as OrderListLoaded;
-                      return _tabItem(size, buyAndSellState.orderrList);
-                    case MyOrderError:
-                      final errorState = state as MyOrderError;
-                      return Center(
-                        child: Text(errorState.message),
-                      );
-                    default:
-                      return const Center(
-                        child: Text("Demand Default"),
-                      );
-                  }
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -164,17 +163,12 @@ class _OrderTransactionState extends State<OrderTransaction> {
         SizedBox(
           height: getProportionateScreenHeight(5),
         ),
-        Expanded(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8,8,8,0),
-                child: SizedBox(
-                  height: SizeConfig.screenHeight * 0.7,
-                  child: _buildListProduct(orderList),
-                ),
-              ),
-            ],
+        // Không cần Expanded ở đây
+        Padding(
+          padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+          child: SizedBox(
+            height: SizeConfig.screenHeight * 0.7,
+            child: _buildListProduct(orderList),
           ),
         ),
       ],
@@ -205,114 +199,116 @@ class _OrderTransactionState extends State<OrderTransaction> {
     );
   }
 
- Widget _buildListProduct(List<OrderDataModel> orderList) {
-  return ListView.separated(
-    itemCount: orderList.length,
-    separatorBuilder: (context, index) => Divider(
-        height: getProportionateScreenHeight(15),
-        color: const Color(0xFFE8E8E8)),
-    itemBuilder: (context, index) {
-      final order = orderList[index];
-      return Container(
-        padding: const EdgeInsets.all(15),
-        decoration: BoxDecoration(
-          color: AppColor.colorWhite,
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: Offset(0, 3), // changes position of shadow
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Hiển thị thông tin đơn hàng
-            Row(
-              children: [
-                Text(
-                  'TECH ZONE',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                Spacer(),
-                Text(
-                  "${_getOrderStatusMessage(order.orderStatus!)}",
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.red,
-                  ),
-                ),
-              ],
-            ),
-            Divider(),
-            SizedBox(height: getProportionateScreenHeight(5)),
-            // Lặp qua danh sách sản phẩm trong đơn hàng
-            Column(
-              children: order.productItem!.map((product) {
-                return Column(
-                  children: [
-                    _buildOrderItem(product), // Hiển thị thông tin sản phẩm
-                    SizedBox(height: getProportionateScreenHeight(5),)
-                  ],
-                );
-              }).toList(),
-            ),
-            SizedBox(height: 10),
-            // Hiển thị tổng giá trị đơn hàng
-            Align(
-              alignment: Alignment.centerRight,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+  Widget _buildListProduct(List<OrderDataModel> orderList) {
+    return ListView.separated(
+      itemCount: orderList.length,
+      separatorBuilder: (context, index) => Divider(
+          height: getProportionateScreenHeight(15),
+          color: const Color(0xFFE8E8E8)),
+      itemBuilder: (context, index) {
+        final order = orderList[index];
+        return Container(
+          padding: const EdgeInsets.all(15),
+          decoration: BoxDecoration(
+            color: AppColor.colorWhite,
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: Offset(0, 3), // changes position of shadow
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Hiển thị thông tin đơn hàng
+              Row(
                 children: [
                   Text(
-                    "Tổng số tiền: ${NumberFormat.currency(locale: 'vi_VN', symbol: 'đ').format(order.total)}",
+                    'TECH ZONE',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: AppColor.colorBlack,
                     ),
                   ),
-                  SizedBox(
-                    height: getProportionateScreenHeight(10),
-                  ),
-                  // Check if the order status is "PROGRESS" before showing the button
-                  if (order.orderStatus == "PROGRESS")
-                    SizedBox(
-                      width: getProportionateScreenWidth(130),
-                      height: getProportionateScreenHeight(40),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          //xu ly
-                        },
-                        child: Text(
-                          'Hủy đơn',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          minimumSize: Size(0, 40),
-                        ),
-                      ),
+                  Spacer(),
+                  Text(
+                    "${_getOrderStatusMessage(order.orderStatus!)}",
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.red,
                     ),
+                  ),
                 ],
               ),
-            ),
-          ],
-        ),
-      );
-    },
-  );
-}
+              Divider(),
+              SizedBox(height: getProportionateScreenHeight(5)),
+              // Lặp qua danh sách sản phẩm trong đơn hàng
+              Column(
+                children: order.productItem!.map((product) {
+                  return Column(
+                    children: [
+                      _buildOrderItem(product), // Hiển thị thông tin sản phẩm
+                      SizedBox(
+                        height: getProportionateScreenHeight(5),
+                      )
+                    ],
+                  );
+                }).toList(),
+              ),
+              SizedBox(height: 10),
+              // Hiển thị tổng giá trị đơn hàng
+              Align(
+                alignment: Alignment.centerRight,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      "Tổng số tiền: ${NumberFormat.currency(locale: 'vi_VN', symbol: 'đ').format(order.total)}",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: AppColor.colorBlack,
+                      ),
+                    ),
+                    SizedBox(
+                      height: getProportionateScreenHeight(10),
+                    ),
+                    // Check if the order status is "PROGRESS" before showing the button
+                    if (order.orderStatus == "PROGRESS")
+                      SizedBox(
+                        width: getProportionateScreenWidth(130),
+                        height: getProportionateScreenHeight(40),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            widget.myOrderBloc.add(CancelOrderClickedEvent(orderId: order.sId!, statusOrder: order.orderStatus!));
+                          },
+                          child: Text(
+                            'Hủy đơn',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            minimumSize: Size(0, 40),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   String _getOrderStatusMessage(String status) {
     if (status == "PROGRESS") {
@@ -321,8 +317,10 @@ class _OrderTransactionState extends State<OrderTransaction> {
       return "Đã giao";
     } else if (status == "CANCELED") {
       return "Đã hủy";
+    } else if (status == "DELIVERY") {
+      return "Đang giao";
     } else {
-      return "Trạng thái không xác định"; // Trả về thông điệp mặc định nếu không khớp
+      return "Trạng thái không xác định";
     }
   }
 

@@ -62,10 +62,12 @@ class _MyCartScreenState extends State<MyCartScreen> {
           });
         }
         if(state is ConfirmOrderClickedState){
-          Navigator.pushNamed(context,
-            CheckoutScreen.routeName,
-            arguments: state.listproductcart,  
-          );
+          Navigator.of(context).push(
+  MaterialPageRoute(
+    builder: (context) => CheckoutScreen(),
+    settings: RouteSettings(arguments: CartItem.selectedProducts),
+  ),
+);
         }
         if(state is UpdateProductQuantityState){
           setState(() {

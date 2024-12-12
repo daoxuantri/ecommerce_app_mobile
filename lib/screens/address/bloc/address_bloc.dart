@@ -11,6 +11,8 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     on<AddressInitialEvent>(addressInitialEvent);
     on<AddressButtonClickEvent>(addressButtonClickEvent);
     on<AddressRemoveClickEvent>(addressRemoveClickEvent);
+    on<AddressSetDefaultClickedEvent>(addressSetDefaultClickedEvent);
+   
   }
 
   Future<FutureOr<void>> addressInitialEvent(
@@ -40,6 +42,21 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     emit(AddressButtonClickState());
   }
 
+  Future<FutureOr<void>> addressSetDefaultClickedEvent(
+      AddressSetDefaultClickedEvent event, Emitter<AddressState> emit) async {
+        try {
+      String? response = await ApiServiceUsers().setDefaultAddressShiping(event.idAddress);
+      emit(AddressRemoveClickState(errMessage: response!));
+    } catch (e) {
+      String failToken = e.toString();
+      if (failToken.startsWith('Exception: ')) {
+        failToken = failToken.substring('Exception: '.length);
+      }
+      emit(AddressError(errMessage: failToken));
+    }
+    
+  }
+
   Future<FutureOr<void>> addressRemoveClickEvent(
       AddressRemoveClickEvent event, Emitter<AddressState> emit) async {
         try {
@@ -54,5 +71,11 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
     }
     
   }
+
+
+   
+
+
+  
 
 }
