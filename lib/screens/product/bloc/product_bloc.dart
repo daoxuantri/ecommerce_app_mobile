@@ -5,6 +5,7 @@ import 'package:ecommerce_app_mobile/api/mycart.dart';
 import 'package:ecommerce_app_mobile/api/products.dart';
 import 'package:ecommerce_app_mobile/model/products/data_details_product.dart';
 import 'package:ecommerce_app_mobile/model/products/product_data_model.dart';
+import 'package:ecommerce_app_mobile/model/related_product/product_related_model.dart';
 import 'package:flutter/material.dart';
 
 part 'product_event.dart';
@@ -18,6 +19,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<ProductTab1ClickedEvent>(productTab1ClickedEvent);
     on<ProductTab2ClickedEvent>(productTab2ClickedEvent);
     on<AddProductToCartEvent>(addProductToCartEvent);
+    on<ProductRelatedClickedEvent>(productRelatedClickedEvent);
     // on<ProductClickedFavoriteEvent>(productClickedFavoriteEvent);
     // on<CreateOrderEvent>(createOrderEvent);
     // on<InitialOrderEvent>(initialOrderEvent);
@@ -31,12 +33,27 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           await ApiServiceProducts().getDetailProduct(event.productId);
       // //related product
 
-      //  print('thanhcong 2');
-      // List<ProductDataModel>? listallproduct = await ApiServiceProducts().getRelatedProduct(event.productId);
+      print('thanhcong 2');
 
+      List<ProductRelatedModel>? listallproduct =
+          await ApiServiceProducts().getRelatedProduct(event.productId);
 
-      // emit(ProductLoadedSuccessState(product: product!, listproduct: listallproduct!));
-      emit(ProductLoadedSuccessState(product: product));
+      emit(ProductLoadedSuccessState(
+          product: product!, listproduct: listallproduct!));
+      // emit(ProductLoadedSuccessState(product: product));
+    } catch (e) {
+      String failToken = e.toString();
+      if (failToken.startsWith('Exception: ')) {
+        failToken = failToken.substring('Exception: '.length);
+      }
+      emit(ProductErrorState(errorMessage: failToken));
+    }
+  }
+  Future<FutureOr<void>> productRelatedClickedEvent(
+      ProductRelatedClickedEvent event, Emitter<ProductState> emit) async {
+    emit(ProductLoadingState());
+    try {
+      emit(ProductRelatedClickedState(productId: event.productId));
     } catch (e) {
       String failToken = e.toString();
       if (failToken.startsWith('Exception: ')) {
@@ -66,8 +83,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     try {
       // bool check = await CheckSubscribe().checkSubscribe(event.productId);
       // emit(ProductSubSuccess(check: check));
-      String message = await ApiServiceCart().updateQuantityProduct(event.productId, event.quantity, event.color, event.memory);
-      
+      String message = await ApiServiceCart().updateQuantityProduct(
+          event.productId, event.quantity, event.color, event.memory);
+
       emit(AddProductToCartState());
     } catch (e) {
       print(e);

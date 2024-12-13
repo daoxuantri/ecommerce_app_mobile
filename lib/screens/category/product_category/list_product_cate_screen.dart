@@ -9,13 +9,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ListAllProductCategoryScreen extends StatefulWidget {
   const ListAllProductCategoryScreen({super.key});
-  static String routeName ="/listproduct_cate";
+  static String routeName = "/listproduct_cate";
 
   @override
-  State<ListAllProductCategoryScreen> createState() => _ListAllProductCategoryScreenState();
+  State<ListAllProductCategoryScreen> createState() =>
+      _ListAllProductCategoryScreenState();
 }
 
-class _ListAllProductCategoryScreenState extends State<ListAllProductCategoryScreen> {
+class _ListAllProductCategoryScreenState
+    extends State<ListAllProductCategoryScreen> {
   final FilterBloc filterBloc = FilterBloc();
   @override
   Widget build(BuildContext context) {
@@ -24,51 +26,59 @@ class _ListAllProductCategoryScreenState extends State<ListAllProductCategoryScr
     filterBloc.add(FilterInitialEvent(categoryId: categoryId));
     return BlocConsumer(
       bloc: filterBloc,
-      buildWhen: (previous, current) => current is !FilterActionState,
+      buildWhen: (previous, current) => current is! FilterActionState,
       listenWhen: (previous, current) => current is FilterActionState,
-      listener: (context, state)  {
-          if (state is FilterClickProductDetailState) {
-             Navigator.pushNamed(context, ProductScreen.routeName,
+      listener: (context, state) {
+        if (state is FilterClickProductDetailState) {
+          Navigator.pushNamed(context, ProductScreen.routeName,
               arguments: state.productId);
-          }
-        },
+        }
+      },
       builder: (context, state) {
-          switch (state.runtimeType) {
-            case FilterLoadingState:
-              return const Center(
-                child: LoadingScreen(),
-              );
-            case FilterLoadedSuccessState:
-              final loadedState = state as FilterLoadedSuccessState;
-              return Scaffold(
-                  appBar: buildAppBar(),
-                  body: SingleChildScrollView(
-                    child: BodyFilter(
-                      listProduct: loadedState.filtersProduct,
-                      filterBloc: filterBloc,
-                      isvisible: loadedState.isvisible,
-                    ),
-                  ),
-                  
-                );
-            case FilterErrorState:
-              final errorState = state as FilterErrorState;
-              return Scaffold(
-                body: Center(child: Text(errorState.errorMessage)),
-              );
-            default:
-              return SizedBox();
-          }
-        },
-      );
-    
+        switch (state.runtimeType) {
+          case FilterLoadingState:
+            return const Center(
+              child: LoadingScreen(),
+            );
+          case FilterLoadedSuccessState:
+            final loadedState = state as FilterLoadedSuccessState;
+            return Scaffold(
+              appBar: buildAppBar(),
+              body: SingleChildScrollView(
+                child: BodyFilter(
+                  listProduct: loadedState.filtersProduct,
+                  filterBloc: filterBloc,
+                  isvisible: loadedState.isvisible,
+                ),
+              ),
+            );
+          case FilterErrorState:
+            final errorState = state as FilterErrorState;
+            return Scaffold(
+              body: Center(child: Text(errorState.errorMessage)),
+            );
+          default:
+            return SizedBox();
+        }
+      },
+    );
   }
 
-   AppBar buildAppBar() {
+  AppBar buildAppBar() {
     return AppBar(
       automaticallyImplyLeading: false,
-      elevation: 1.5,
-      title: InputHome(),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          IconButton(
+            icon: Icon(Icons.arrow_back_ios_rounded, size: 20),
+            onPressed: () {
+              Navigator.pop(context); // Quay lại trang trước
+            },
+          ),
+          InputHome(),
+        ],
+      ),
     );
   }
 }

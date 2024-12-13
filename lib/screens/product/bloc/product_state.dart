@@ -13,10 +13,12 @@ class ProductLoadingState extends ProductState {}
 
 class ProductLoadedSuccessState extends ProductState {
   final DataDetailProduct product;
-  // final List<ProductDataModel>  listproduct;
+  final List<ProductRelatedModel>  listproduct;
 
-  const ProductLoadedSuccessState(
-      {required this.product,
+  const ProductLoadedSuccessState( {
+    required this.product,
+    required this.listproduct
+
       });
   
 }
@@ -34,6 +36,14 @@ class ProductPostClickedActionState extends ProductActionState {
 
   ProductPostClickedActionState({
     required this.product,
+  });
+}
+
+class ProductRelatedClickedState extends ProductActionState {
+  final String productId;
+
+  ProductRelatedClickedState({
+    required this.productId,
   });
 }
 

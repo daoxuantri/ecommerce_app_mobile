@@ -19,6 +19,15 @@ class ProductPostClickedEvent extends ProductEvent {
   });
 }
 
+
+class ProductRelatedClickedEvent extends ProductEvent {
+  final String productId;
+  ProductRelatedClickedEvent({
+    required this.productId,
+  });
+}
+
+
 class ProductTab1ClickedEvent extends ProductEvent {}
 
 class ProductTab2ClickedEvent extends ProductEvent {}
@@ -26,6 +35,14 @@ class ProductTab2ClickedEvent extends ProductEvent {}
 abstract class ProducSubtEvent extends ProductEvent {
   const ProducSubtEvent();
 }
+
+
+
+
+
+
+
+
 
 class ProductSubInitialEvent extends ProducSubtEvent {
   final String productId;

@@ -24,41 +24,40 @@ class ListAllSearchProduct extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: getProportionateScreenHeight(25),),
-        Container(
-          
-          padding: const EdgeInsets.only(right: 15),
-          child: GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(), // Disable scrolling for GridView
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, // Hiển thị 2 sản phẩm trên một hàng
-              mainAxisSpacing: 10, // Khoảng cách giữa các hàng
-              crossAxisSpacing: 5, // Khoảng cách giữa các cột
-              childAspectRatio: 0.65, // Tỉ lệ giữa chiều cao và chiều rộng của item
-            ),
-            itemCount: ratingProducts!.length,
-            itemBuilder: (context, index) {
-              final product = ratingProducts![index]; // Lấy sản phẩm hiện tại
+        SizedBox(height: getProportionateScreenHeight(25)),
+        Expanded( // Use Expanded to allow the GridView to take available space
+          child: Container(
+            padding: const EdgeInsets.only(right: 15),
+            child: GridView.builder(
+              physics: const AlwaysScrollableScrollPhysics(), // Allow scrolling
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, // Hiển thị 2 sản phẩm trên một hàng
+                mainAxisSpacing: 10, // Khoảng cách giữa các hàng
+                crossAxisSpacing: 5, // Khoảng cách giữa các cột
+                childAspectRatio: 0.65, // Tỉ lệ giữa chiều cao và chiều rộng của item
+              ),
+              itemCount: ratingProducts!.length,
+              itemBuilder: (context, index) {
+                final product = ratingProducts![index]; // Lấy sản phẩm hiện tại
 
-              return GestureDetector(
-                onTap: () {
-                
-                  searchBloc.add(DetailProductClickedEvent(productId: product.sId));
-                },
-                child: ProductFilterCard(
-                  images: (product.images != null && product.images!.isNotEmpty)
-                      ? product.images![0]
-                      : 'assets/images/notfoundimages.jpg',
-                  name: product.name ?? 'Không có tên sản phẩm',
-                  price: (product.initPrice != null && product.discPrice != null)
-                      ? product.discPrice
-                      : 0,
-                  rating: product.rating,
-                  initialprice: product.initPrice ?? 0,
-                ),
-              );
-            },
+                return GestureDetector(
+                  onTap: () {
+                    searchBloc.add(DetailProductClickedEvent(productId: product.sId));
+                  },
+                  child: ProductFilterCard(
+                    images: (product.images != null && product.images!.isNotEmpty)
+                        ? product.images![0]
+                        : 'assets/images/notfoundimages.jpg',
+                    name: product.name ?? 'Không có tên sản phẩm',
+                    price: (product.initPrice != null && product.discPrice != null)
+                        ? product.discPrice
+                        : 0,
+                    rating: product.rating,
+                    initialprice: product.initPrice ?? 0,
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ],

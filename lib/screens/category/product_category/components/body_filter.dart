@@ -3,6 +3,7 @@ import 'package:ecommerce_app_mobile/model/product_category/detail_product_cate/
 import 'package:ecommerce_app_mobile/screens/category/product_category/bloc/filter_bloc.dart';
 import 'package:ecommerce_app_mobile/screens/category/product_category/components/No_product_filter.dart';
 import 'package:ecommerce_app_mobile/screens/home/components/product_card.dart';
+import 'package:ecommerce_app_mobile/size_config.dart';
 import 'package:flutter/material.dart';
 
 class BodyFilter extends StatelessWidget {
@@ -17,6 +18,7 @@ class BodyFilter extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        SizedBox(height: getProportionateScreenHeight(20),),
         Visibility(visible: isvisible, child: NoProductFilter(),),
         Container(
           padding: const EdgeInsets.only(right: 15),

@@ -20,10 +20,10 @@ class _InputHomeState extends State<InputHome> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.fromLTRB(
-          getProportionateScreenWidth(5),
-          getProportionateScreenHeight(38),
           getProportionateScreenWidth(0),
-          getProportionateScreenHeight(30)),
+          getProportionateScreenHeight(38),
+          getProportionateScreenWidth(15),
+          getProportionateScreenHeight(35)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

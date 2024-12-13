@@ -45,9 +45,10 @@ void initState() {
         listenWhen: (previous, current) => current is ProductActionState,
         buildWhen: (previous, current) => current is! ProductActionState,
         listener: (context, state)  {
-          if (state is ProductPostClickedActionState) {
-            // Navigator.pushNamed(context, DemandScreen.routeName,
-            //     arguments: state.product);
+          if (state is ProductRelatedClickedState) {
+            setState(() {
+              productBloc.add(ProductInitialEvent(productId: state.productId!));
+            });
           }
           if(state is AddProductToCartState){
               ScaffoldMessenger.of(context).showSnackBar(
@@ -70,7 +71,8 @@ void initState() {
                 appBar: buildAppBar(),
                 body: BodySuccess(
                   productDetail: successState.product,
-                  // listallproduct: successState.listproduct
+                  listallproduct: successState.listproduct,
+                  productBloc: productBloc,
                   onMemorySelected: (memory) {
                     setState(() {
                       selectedMemory = memory; 

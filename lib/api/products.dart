@@ -1,15 +1,13 @@
-import 'dart:io';
 import 'package:ecommerce_app_mobile/model/home/data_respone_home.dart';
 import 'package:ecommerce_app_mobile/model/home/home_respone.dart';
 import 'package:ecommerce_app_mobile/model/products/data_details_product.dart';
-import 'package:ecommerce_app_mobile/model/products/get_all_product_response.dart';
 import 'package:ecommerce_app_mobile/model/products/get_product_details_respone.dart';
+import 'package:ecommerce_app_mobile/model/related_product/product_related_model.dart';
+import 'package:ecommerce_app_mobile/model/related_product/product_related_respone.dart';
 import 'package:ecommerce_app_mobile/security_user/secure_storage_user.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'dart:convert';
-
-import '../model/products/product_data_model.dart';
 
 
 class ApiServiceProducts {
@@ -69,9 +67,9 @@ class ApiServiceProducts {
     }
   }
 
-  Future<List<ProductDataModel>?> getRelatedProduct(String productId) async {
+  Future<List<ProductRelatedModel>?> getRelatedProduct(String productId) async {
     
-    var url = Uri.parse('$baseUrl/products/$productId/listallproduct');
+    var url = Uri.parse('$baseUrl/products/$productId/relatedproduct');
     var headers = {
       'accept': 'application/json'
     };
@@ -79,10 +77,11 @@ class ApiServiceProducts {
 
     var response = await http.get(url, headers: headers);
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       var responseData = json.decode(response.body);
       if (responseData['success'] == true) {
-      var response = getAllProductResponse.fromJson(responseData);
+      var response = ProductRelatedRespone.fromJson(responseData);
+      print('Mapped Product Data: ${response.data}');
       return response.data;
       } else {
         throw Exception(responseData['message']);

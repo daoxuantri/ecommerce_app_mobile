@@ -36,6 +36,7 @@ class BodySuccess extends StatelessWidget {
                   child: AccountPostInfo(
                       profile: profile),
                 ),
+                SizedBox(height: getProportionateScreenHeight(45),),
 
                 // Account option
                 Padding(
@@ -92,34 +93,34 @@ class BodySuccess extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
-                  child: ContainerRad35(
-                    padding:
-                        const EdgeInsets.only(left: 35.0, right: 35, top: 10),
-                    child: Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            profileBloc.add(ProfileToSettingScreenEvent());
-                          },
-                          child: const ProfileLine(
-                              iconPath: "assets/images/settings.png",
-                              content: "Cài đặt"),
-                        ),
-                        // const ProfileLine(
-                        //   iconPath: "assets/images/settings.png",
-                        //   content: "Về chúng tôi",
-                        //   isLastElement: true,
-                        // ),
-                      ],
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 20.0),
+                //   child: ContainerRad35(
+                //     padding:
+                //         const EdgeInsets.only(left: 35.0, right: 35, top: 10),
+                //     child: Column(
+                //       children: [
+                //         GestureDetector(
+                //           onTap: () {
+                //             profileBloc.add(ProfileToSettingScreenEvent());
+                //           },
+                //           child: const ProfileLine(
+                //               iconPath: "assets/images/settings.png",
+                //               content: "Cài đặt"),
+                //         ),
+                //         const ProfileLine(
+                //           iconPath: "assets/images/settings.png",
+                //           content: "Về chúng tôi",
+                //           isLastElement: true,
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
 
-                SizedBox(
-                  height: getProportionateScreenHeight(100),
-                )
+                // SizedBox(
+                //   height: getProportionateScreenHeight(100),
+                // )
               ],
             ),
           ],
