@@ -1,11 +1,9 @@
 class Order {
-  String user;
   List<ProductItem> productItem;
   InformationUser  informationUser ;
    bool paid;
 
   Order({
-    required this.user,
     required this.productItem,
     required this.informationUser ,
     required this.paid ,
@@ -13,7 +11,6 @@ class Order {
 
   Map<String, dynamic> toJson() {
     return {
-      'user': user,
       'productItem': productItem.map((item) => item.toJson()).toList(),
       'informationUser ': informationUser .toJson(),
       'paid': paid
@@ -28,7 +25,7 @@ class ProductItem {
   final String images;
   final int price;
   final String color;
-  final String memory;
+  final String? memory;
 
   ProductItem({
     required this.product,
@@ -37,7 +34,7 @@ class ProductItem {
     required this.images,
     required this.price,
     required this.color,
-    required this.memory,
+     this.memory,
   });
 
   Map<String, dynamic> toJson() {

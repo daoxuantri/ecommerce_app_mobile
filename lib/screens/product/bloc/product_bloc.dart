@@ -6,6 +6,7 @@ import 'package:ecommerce_app_mobile/api/products.dart';
 import 'package:ecommerce_app_mobile/model/products/data_details_product.dart';
 import 'package:ecommerce_app_mobile/model/products/product_data_model.dart';
 import 'package:ecommerce_app_mobile/model/related_product/product_related_model.dart';
+import 'package:ecommerce_app_mobile/screens/my_cart/modelselected/selected_model.dart';
 import 'package:flutter/material.dart';
 
 part 'product_event.dart';
@@ -20,6 +21,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<ProductTab2ClickedEvent>(productTab2ClickedEvent);
     on<AddProductToCartEvent>(addProductToCartEvent);
     on<ProductRelatedClickedEvent>(productRelatedClickedEvent);
+    on<CheckoutProductClickedEvent>(checkoutProductClickedEvent);
     // on<ProductClickedFavoriteEvent>(productClickedFavoriteEvent);
     // on<CreateOrderEvent>(createOrderEvent);
     // on<InitialOrderEvent>(initialOrderEvent);
@@ -54,6 +56,20 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     emit(ProductLoadingState());
     try {
       emit(ProductRelatedClickedState(productId: event.productId));
+    } catch (e) {
+      String failToken = e.toString();
+      if (failToken.startsWith('Exception: ')) {
+        failToken = failToken.substring('Exception: '.length);
+      }
+      emit(ProductErrorState(errorMessage: failToken));
+    }
+  }
+
+  Future<FutureOr<void>> checkoutProductClickedEvent(
+      CheckoutProductClickedEvent event, Emitter<ProductState> emit) async {
+    emit(ProductLoadingState());
+    try {
+      emit(CheckoutProductClickedState(productItem: event.productItem));
     } catch (e) {
       String failToken = e.toString();
       if (failToken.startsWith('Exception: ')) {

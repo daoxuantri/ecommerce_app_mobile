@@ -27,10 +27,8 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
     try {
       final AddressDataModel? addressDataModel =await ApiServiceUsers().getDefaultAddressShiping();
       if (addressDataModel == null) {
-        print('da vao day1');
       emit(CheckoutNoAddress());
     } else {
-      print('da vao day2');
       emit(CheckoutLoaded(address: addressDataModel));
     }
     } catch (e) {
@@ -38,7 +36,6 @@ class CheckoutBloc extends Bloc<CheckoutEvent, CheckoutState> {
       if (failToken.startsWith('Exception: ')) {
         failToken = failToken.substring('Exception: '.length);
       }
-      print('da vao day3');
       emit(CheckoutError(failToken));
     }
   }
@@ -93,9 +90,9 @@ FutureOr<void> checkoutClickedEvent(
     emit(CheckoutLoading());
     try {
       if(event.paid){
-        emit(VnPaymentClickedState(userId: event.userId, productItems: event.productItems, userInformation: event.userInformation, paid: event.paid , totalPayment: event.totalPayment));
+        emit(VnPaymentClickedState(productItems: event.productItems, userInformation: event.userInformation, paid: event.paid , totalPayment: event.totalPayment));
       }else{
-        String message = await ApiServiceCheckout().createOrderByUser(event.userId,event.productItems, event.userInformation, event.paid, 'COD');
+        String message = await ApiServiceCheckout().createOrderByUser(event.productItems, event.userInformation, event.paid, 'COD');
         emit(CODClickedState(message: message));
       }
       

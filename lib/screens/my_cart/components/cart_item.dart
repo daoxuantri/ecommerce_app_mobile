@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:ecommerce_app_mobile/screens/my_cart/bloc/cart_bloc.dart';
@@ -8,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
 
 class CartItem extends StatefulWidget {
   final String? idObject;
@@ -29,9 +27,10 @@ class CartItem extends StatefulWidget {
     this.imageUrl,
     this.initialQuantity = 1,
     this.color,
-    this.memory, required this.cartBloc, required this.idObject,
+    this.memory,
+    required this.cartBloc,
+    required this.idObject,
   });
-
 
   static List<SelectedProduct> selectedProducts = [];
 
@@ -39,15 +38,10 @@ class CartItem extends StatefulWidget {
   State<CartItem> createState() => _CartItemState();
 }
 
-
 class _CartItemState extends State<CartItem> {
-  bool isChecked = false; 
+  bool isChecked = false;
   late ValueNotifier<int> quantityNotifier;
-  Timer? debounce; 
-
-
-  
-
+  Timer? debounce;
 
   @override
   void initState() {
@@ -66,6 +60,7 @@ class _CartItemState extends State<CartItem> {
       debounceEvent(-1);
     }
   }
+
   void debounceEvent(int change) {
     // Hủy debounce trước đó nếu có
     debounce?.cancel();
@@ -80,12 +75,11 @@ class _CartItemState extends State<CartItem> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     // Định dạng giá
-    String formattedPrice =
-        NumberFormat.currency(locale: 'vi_VN', symbol: '₫').format(widget.price ?? 0);
+    String formattedPrice = NumberFormat.currency(locale: 'vi_VN', symbol: '₫')
+        .format(widget.price ?? 0);
 
     return Container(
       margin: const EdgeInsets.fromLTRB(5, 5, 5, 0),
@@ -121,17 +115,17 @@ class _CartItemState extends State<CartItem> {
                 setState(() {
                   isChecked = value ?? false;
                   if (isChecked) {
-                   CartItem.selectedProducts.add(SelectedProduct(
-                      id: widget.idProduct!,
-                      name: widget.productName!,
-                      price: widget.price!,
-                      quantity: quantityNotifier.value,
-                      color: widget.color,
-                      memory: widget.memory,
-                      images: widget.imageUrl
-                    )); 
+                    CartItem.selectedProducts.add(SelectedProduct(
+                        id: widget.idProduct!,
+                        name: widget.productName!,
+                        price: widget.price!,
+                        quantity: quantityNotifier.value,
+                        color: widget.color,
+                        memory: widget.memory,
+                        images: widget.imageUrl));
                   } else {
-                   CartItem.selectedProducts.removeWhere((product) => product.id == widget.idProduct); 
+                    CartItem.selectedProducts.removeWhere(
+                        (product) => product.id == widget.idProduct);
                   }
                 });
               },
@@ -144,15 +138,18 @@ class _CartItemState extends State<CartItem> {
             top: 10,
             child: GestureDetector(
               onTap: () {
-                BuildContext? dialogContext = navigatorKey.currentContext ?? context;
+                BuildContext? dialogContext =
+                    navigatorKey.currentContext ?? context;
                 showDialog(
                   context: dialogContext,
                   builder: (BuildContext context) {
                     return AlertDialog(
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12), // Bo góc cho hộp thoại
+                        borderRadius:
+                            BorderRadius.circular(12), // Bo góc cho hộp thoại
                       ),
-                      contentPadding: const EdgeInsets.all(16), // Căn chỉnh padding
+                      contentPadding:
+                          const EdgeInsets.all(16), // Căn chỉnh padding
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,7 +168,8 @@ class _CartItemState extends State<CartItem> {
                         Container(
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           decoration: BoxDecoration(
-                            border: Border(top: BorderSide(color: Colors.grey.shade300)),
+                            border: Border(
+                                top: BorderSide(color: Colors.grey.shade300)),
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -180,15 +178,18 @@ class _CartItemState extends State<CartItem> {
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () {
-                                    Navigator.of(context).pop(); // Đóng hộp thoại
+                                    Navigator.of(context)
+                                        .pop(); // Đóng hộp thoại
                                   },
                                   child: Container(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(8),
-                                      border: Border.all( // Thêm viền màu đen
+                                      border: Border.all(
+                                        // Thêm viền màu đen
                                         color: Colors.grey,
                                         width: 1.5,
                                       ),
@@ -209,16 +210,18 @@ class _CartItemState extends State<CartItem> {
                               Expanded(
                                 child: GestureDetector(
                                   onTap: () {
-
-                                    Navigator.of(context).pop(); 
-                                    widget.cartBloc.add(RemoveProductClickedEvent(productId: widget.idObject));
-                                    
+                                    Navigator.of(context).pop();
+                                    widget.cartBloc.add(
+                                        RemoveProductClickedEvent(
+                                            productId: widget.idObject));
                                   },
                                   child: Container(
-                                    padding: const EdgeInsets.symmetric(vertical: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
                                     alignment: Alignment.center,
                                     decoration: BoxDecoration(
-                                      color: Colors.red, // Màu đỏ cho nút Đồng ý
+                                      color:
+                                          Colors.red, // Màu đỏ cho nút Đồng ý
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: const Text(
@@ -283,7 +286,7 @@ class _CartItemState extends State<CartItem> {
                 ),
                 const SizedBox(height: 5),
                 Text(
-                  '${widget.memory ?? ""}, ${widget.color ?? ""}',
+                  '${(widget.memory != null && widget.memory != "null") ? widget.memory : ""} ${(widget.memory != null && widget.memory != "null" && widget.color != null && widget.color != "null") ? ", " : ""} ${widget.color ?? ""}',
                   style: const TextStyle(
                     color: Colors.grey,
                     fontSize: 12,
@@ -302,7 +305,7 @@ class _CartItemState extends State<CartItem> {
               ],
             ),
           ),
-           Positioned(
+          Positioned(
             left: 135,
             top: 80,
             child: SizedBox(
@@ -316,19 +319,18 @@ class _CartItemState extends State<CartItem> {
                     child: Text(
                       '$formattedPrice',
                       style: TextStyle(
-                       color: Colors.black,
+                        color: Colors.black,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
-                  
                 ],
               ),
             ),
           ),
           // Nút tăng giảm số lượng
-           Positioned(
+          Positioned(
             right: 20,
             top: 75,
             child: ValueListenableBuilder<int>(
@@ -339,7 +341,8 @@ class _CartItemState extends State<CartItem> {
                     border: Border.all(color: Colors.grey.shade300),
                     borderRadius: BorderRadius.circular(4),
                   ),
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   child: Row(
                     children: [
                       if (value > 1)
@@ -387,10 +390,3 @@ class _CartItemState extends State<CartItem> {
     super.dispose();
   }
 }
-
-
-
-
-
-
-

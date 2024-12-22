@@ -6,10 +6,6 @@ abstract class CartEvent {
 }
 
 class CartInitialEvent extends CartEvent {
-  final String userId ; 
-  const CartInitialEvent({
-    required this.userId,
-  });
 }
 
 class CartErrorScreenToLoginEvent extends CartEvent {}

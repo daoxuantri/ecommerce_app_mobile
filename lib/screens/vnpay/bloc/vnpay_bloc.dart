@@ -38,6 +38,6 @@ class VNPayBloc extends Bloc<VNPayEvent, VNPayState> {
 
   Future<void> vnPayTransactionSuccessEvent(
       VNPayTransactionSuccessEvent event, Emitter<VNPayState> emit) async {
-        String message = await ApiServiceCheckout().createOrderByUser(event.userId,event.productItems, event.userInformation, event.paid, event.billCode);
+        String message = await ApiServiceCheckout().createOrderByUser(event.productItems, event.userInformation, event.paid, event.billCode);
     emit(VNPayTransactionSuccessState());
   }

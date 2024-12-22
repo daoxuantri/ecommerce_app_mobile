@@ -47,6 +47,14 @@ class ProductRelatedClickedState extends ProductActionState {
   });
 }
 
+class CheckoutProductClickedState extends ProductActionState {
+  final List<SelectedProduct> productItem;
+
+  CheckoutProductClickedState({
+    required this.productItem,
+  });
+}
+
 @immutable
 abstract class ProductSubState extends ProductState {
   const ProductSubState();

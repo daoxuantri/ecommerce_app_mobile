@@ -5,7 +5,7 @@ import 'package:ecommerce_app_mobile/security_user/secure_storage_user.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 class ApiServiceAddress {
-  static const String baseUrl = 'https://vapi.vnappmob.com/api';
+  static const String baseUrl = 'https://vapi.vnappmob.com/api/v2';
 
   static Future<List<CitiData>> getCities() async {
     var url = Uri.parse('$baseUrl/province');

@@ -48,14 +48,12 @@ class createOrderClickedEvent extends CheckoutEvent {
 }
 
 class CheckoutClickedEvent extends CheckoutEvent {
-  final String userId;
-  final List<ProductItem> productItems; // Giả sử bạn có một lớp ProductItem để đại diện cho sản phẩm
-  final InformationUser userInformation; // Giả sử bạn có một lớp UserInformation để đại diện cho thông tin người dùng
+  final List<ProductItem> productItems; 
+  final InformationUser userInformation; 
   final bool paid;
   final int totalPayment;
 
   CheckoutClickedEvent({
-    required this.userId,
     required this.productItems,
     required this.userInformation,
     required this.paid,

@@ -4,7 +4,6 @@ import 'package:ecommerce_app_mobile/model/address/shipping/address_data_model.d
 import 'package:ecommerce_app_mobile/screens/checkout/components/model.dart';
 import 'package:ecommerce_app_mobile/screens/checkout/components/payment_method_selection.dart';
 import 'package:ecommerce_app_mobile/screens/my_cart/modelselected/selected_model.dart';
-import 'package:ecommerce_app_mobile/security_user/secure_storage_user.dart';
 import 'package:ecommerce_app_mobile/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -18,61 +17,53 @@ class CheckoutBody extends StatefulWidget {
   final List<SelectedProduct> listSelectedProduct;
   final AddressDataModel? addressDataModel;
 
-
-
-  static Order? order; 
+  static Order? order;
   @override
   State<CheckoutBody> createState() => _CheckoutBodyState();
 }
 
 class _CheckoutBodyState extends State<CheckoutBody> {
-   String selectedPaymentMethod = 'COD'; // Khởi tạo giá trị mặc định
+  String selectedPaymentMethod = 'COD';
 
   void _onPaymentMethodChanged(String method) {
     if (mounted) {
       setState(() {
-        selectedPaymentMethod = method; // Cập nhật phương thức thanh toán
+        selectedPaymentMethod = method;
       });
-       checkout();
+      checkout();
       print('Selected payment method: $selectedPaymentMethod'); // Debug
-      
     }
   }
-  @override
-void didChangeDependencies() {
-  super.didChangeDependencies();
-  // Gọi lại checkout() để cập nhật dữ liệu khi quay lại
-  checkout();
-}
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Gọi lại checkout() để cập nhật dữ liệu khi quay lại
+    checkout();
+  }
 
   Future<void> checkout() async {
-    String? userId = await UserSecurityStorage.getId();
-    
-    CheckoutBody.order = Order( 
-      user: userId ?? '', 
-      productItem: widget.listSelectedProduct.map((product) {
-        return ProductItem(
-          product: product.id,
-          name: product.name,
-          quantity: product.quantity,
-          images: product.images ?? 'assets/images/notfoundimages.jpg',
-          price: product.price!,
-          color: product.color ?? 'null',
-          memory: product.memory ?? 'null',
-        );
-      }).toList(),
-      informationUser:  InformationUser (
-        address: widget.addressDataModel?.address ?? 'null',
-        phone: widget.addressDataModel?.phone ?? 'null',
-        name: widget.addressDataModel?.name ?? 'null',
-      ),
-      paid: selectedPaymentMethod == 'VNPay'// Set paid status to false
-    );
+    CheckoutBody.order = Order(
+        productItem: widget.listSelectedProduct.map((product) {
+          return ProductItem(
+            product: product.id,
+            name: product.name,
+            quantity: product.quantity,
+            images: product.images ?? 'assets/images/notfoundimages.jpg',
+            price: product.price!,
+            color: product.color ?? 'null',
+            memory: product.memory ?? 'null',
+          );
+        }).toList(),
+        informationUser: InformationUser(
+          address: widget.addressDataModel?.address ?? 'null',
+          phone: widget.addressDataModel?.phone ?? 'null',
+          name: widget.addressDataModel?.name ?? 'null',
+        ),
+        paid: selectedPaymentMethod == 'VNPay');
 
     print('Order Data: ${json.encode(CheckoutBody.order?.toJson())}');
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -105,8 +96,8 @@ void didChangeDependencies() {
               width: getFullWidth(),
               height: getProportionateScreenHeight(125),
               decoration: BoxDecoration(
-                color: Colors.white, // Đưa màu nền vào đây
-                borderRadius: BorderRadius.circular(15), // Bo tròn 4 góc
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
               ),
               child: Padding(
                 padding: EdgeInsets.fromLTRB(
@@ -146,8 +137,8 @@ void didChangeDependencies() {
                                         fontSize: 10,
                                         fontWeight: FontWeight.w600,
                                       ),
-                                      softWrap: true, // Cho phép xuống dòng
-                                      maxLines: 3, 
+                                      softWrap: true,
+                                      maxLines: 3,
                                     ),
                                   ],
                                 ),
@@ -158,10 +149,9 @@ void didChangeDependencies() {
                                     fontSize: 13,
                                     fontWeight: FontWeight.w400,
                                   ),
-                                  softWrap: true, // Cho phép xuống dòng
-                                  maxLines: 2, // Giới hạn tối đa 2 dòng
-                                  overflow: TextOverflow
-                                      .ellipsis, // Hiển thị "..." nếu vượt quá 2 dòng
+                                  softWrap: true,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                                 Text(
                                   '${widget.addressDataModel!.address ?? 'null'}',
@@ -170,13 +160,13 @@ void didChangeDependencies() {
                                     fontSize: 13,
                                     fontWeight: FontWeight.w400,
                                   ),
-                                  softWrap: true, // Cho phép xuống dòng
-                                  maxLines: 3, // Giới hạn tối đa 2 dòng
-                                  overflow: TextOverflow
-                                      .ellipsis, // Hiển thị "..." nếu vượt quá 2 dòng
+                                  softWrap: true,
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                            
-                                SizedBox(height: getProportionateScreenHeight(30),)
+                                SizedBox(
+                                  height: getProportionateScreenHeight(30),
+                                )
                               ],
                             ),
                           ),
@@ -186,9 +176,7 @@ void didChangeDependencies() {
                               size: 30,
                               color: Colors.black,
                             ),
-                            onPressed: () {
-                              // Chuyển màn hình sang thay đổi địa chỉ
-                            },
+                            onPressed: () {},
                           ),
                         ],
                       ),
@@ -203,9 +191,7 @@ void didChangeDependencies() {
                       ),
                       SizedBox(height: getProportionateScreenHeight(10)),
                       ElevatedButton(
-                        onPressed: () {
-                          // Chuyển đến màn hình thêm địa chỉ
-                        },
+                        onPressed: () {},
                         child: Text('Thêm địa chỉ'),
                       ),
                     ]
@@ -253,10 +239,9 @@ void didChangeDependencies() {
                       Text(
                         'Miễn phí',
                         style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.green
-                        ),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.green),
                       ),
                     ],
                   )),
@@ -283,45 +268,46 @@ void didChangeDependencies() {
                 borderRadius: BorderRadius.circular(15), // Bo tròn 4 góc
               ),
               child: Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      getProportionateScreenWidth(15),
-                      getProportionateScreenHeight(10),
-                      getProportionateScreenWidth(20),
-                      getProportionateScreenHeight(15)),
-                  child: GestureDetector(
-              onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) => PaymentMethodSelection(
-  onPaymentMethodSelected: _onPaymentMethodChanged,
-),
-                );
-              },
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(color: Colors.grey[300]!),
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      selectedPaymentMethod == 'VNPay'
-                          ? 'Thanh toán qua VNPay'
-                          : 'Thanh toán khi nhận hàng (COD)',
-                      style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                padding: EdgeInsets.fromLTRB(
+                    getProportionateScreenWidth(15),
+                    getProportionateScreenHeight(10),
+                    getProportionateScreenWidth(20),
+                    getProportionateScreenHeight(15)),
+                child: GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) => PaymentMethodSelection(
+                        onPaymentMethodSelected: _onPaymentMethodChanged,
+                      ),
+                    );
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(color: Colors.grey[300]!),
                     ),
-                    const Spacer(),
-                    const Icon(Icons.keyboard_arrow_down, color: Colors.grey),
-                  ],
-                ),
-              ),
-            ),
-            // Các thành phần khác của màn hình
-                  
+                    child: Row(
+                      children: [
+                        Text(
+                          selectedPaymentMethod == 'VNPay'
+                              ? 'Thanh toán qua VNPay'
+                              : 'Thanh toán khi nhận hàng (COD)',
+                          style: const TextStyle(
+                              fontSize: 13, fontWeight: FontWeight.w600),
+                        ),
+                        const Spacer(),
+                        const Icon(Icons.keyboard_arrow_down,
+                            color: Colors.grey),
+                      ],
+                    ),
                   ),
+                ),
+                // Các thành phần khác của màn hình
+              ),
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(
@@ -434,18 +420,26 @@ void didChangeDependencies() {
                                                   getProportionateScreenHeight(
                                                       2)),
                                           Text(
-                                            [
-                                              if (product.memory != null)
-                                                '${product.memory}',
-                                              if (product.color != null)
-                                                '${product.color}'
-                                            ].join(
-                                                ', '), // Gộp các phần tử bằng dấu phẩy
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w400,
-                                                color: Colors.grey),
+                                            '${(product.memory != null && product.memory != "null") ? product.memory : ""} ${(product.memory != null && product.memory != "null" && product.color != null && product.color != "null") ? ", " : ""} ${product.color ?? ""}',
+                                            style: const TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                            ),
                                           ),
+                                          // Text(
+                                          //   [
+                                          //     if (product.memory != null)
+                                          //       '${product.memory}',
+                                          //     if (product.color != null)
+                                          //       '${product.color}'
+                                          //   ].join(
+                                          //       ', '), // Gộp các phần tử bằng dấu phẩy
+                                          //   style: TextStyle(
+                                          //       fontSize: 12,
+                                          //       fontWeight: FontWeight.w400,
+                                          //       color: Colors.grey),
+                                          // ),
                                           SizedBox(
                                               height:
                                                   getProportionateScreenHeight(
@@ -519,10 +513,9 @@ void didChangeDependencies() {
                           Text(
                             'Miễn phí',
                             style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.green
-                            ),
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.green),
                           )
                         ],
                       ),

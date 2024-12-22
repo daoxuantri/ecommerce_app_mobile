@@ -7,7 +7,7 @@ import 'package:ecommerce_app_mobile/security_user/secure_storage_user.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 class ApiServiceUsers {
-  static const String baseUrl = 'http://192.168.2.183:4000';
+  static const String baseUrl = 'https://techzone-2ow9.onrender.com';
 
   //POST
   Future<void> signUpMini(String email, String phone, String password,
@@ -73,17 +73,12 @@ class ApiServiceUsers {
   Future<List<AddressDataModel>>
       getAllAddressShipping() async {
     // await CheckToken.checkExpireToken();
-    String? idUser = await UserSecurityStorage.getId();
-    var url = Uri.parse('$baseUrl/address/$idUser');
-    // final String? token = await UserSecureStorage.getToken();
-
-    // var headers = {
-    //   'accept': 'application/json',
-    //   'Authorization': 'Bearer $token',
-    // };
+    String? token = await UserSecurityStorage.getToken();
+    var url = Uri.parse('$baseUrl/address');
 
     var headers = {
       'accept': 'application/json',
+      'Authorization': 'Bearer $token',
     };
 
     var response = await http.get(url, headers: headers);
@@ -100,35 +95,27 @@ class ApiServiceUsers {
     } else if (response.statusCode == 401) {
       throw Exception('phiên đăng nhập hết hạn');
     } else {
-      throw Exception('fail to call api get vendor shipping address');
+      throw Exception('fail to call api');
     }
   }
 
 
   Future<AddressDataModel?>
       getDefaultAddressShiping() async {
-    // await CheckToken.checkExpireToken();
-    String? idUser = await UserSecurityStorage.getId();
-    var url = Uri.parse('$baseUrl/address/$idUser/getdefault');
-    // final String? token = await UserSecureStorage.getToken();
-
-    // var headers = {
-    //   'accept': 'application/json',
-    //   'Authorization': 'Bearer $token',
-    // };
+    String? token = await UserSecurityStorage.getToken();
+    var url = Uri.parse('$baseUrl/address/getdefault');
 
     var headers = {
       'accept': 'application/json',
+      'Authorization': 'Bearer $token',
     };
-
     var response = await http.get(url, headers: headers);
 
     if (response.statusCode == 200) {
       var responseData = json.decode(response.body);
       if (responseData['success'] == true) {
         if (responseData['data'] is List && responseData['data'].isEmpty) {
-          print('Address data is empty.');
-          return null; // Trả về null khi không có địa chỉ
+          return null; 
         }
         var response = ListAddressDataRespone.fromJson(responseData);
         return response.data!.first;
@@ -138,32 +125,23 @@ class ApiServiceUsers {
     } else if (response.statusCode == 401) {
       throw Exception('phiên đăng nhập hết hạn');
     } else {
-      throw Exception('fail to call api get vendor shipping address');
+      throw Exception('fail to call api');
     }
   }
 
 
   Future<String?>
       setDefaultAddressShiping(String? idAddress) async {
-    String? idUser = await UserSecurityStorage.getId();
+    String? token = await UserSecurityStorage.getToken();
     var url = Uri.parse('$baseUrl/address/');
-    // final String? token = await UserSecureStorage.getToken();
-
-    // var headers = {
-    //   'accept': 'application/json',
-    //   'Authorization': 'Bearer $token',
-    // };
-    String? userId = await UserSecurityStorage.getId();
     var headers = {
       'accept': 'application/json',
       'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
     };
      var body = json.encode({
-    'userId': idUser ,
     'addressId': idAddress,
   });
-    print(userId);
-    print(idAddress);
 
     var response = await http.put(url, headers: headers, body : body);
 
@@ -177,20 +155,20 @@ class ApiServiceUsers {
     } else if (response.statusCode == 401) {
       throw Exception('phiên đăng nhập hết hạn');
     } else {
-      throw Exception('fail to call api get vendor shipping address');
+      throw Exception('fail to call api');
     }
   }
 
   Future<String?> createAddressByUser(String address, String name , String phone, bool status) async {
     var url = Uri.parse('$baseUrl/address/create');
-    String? idUser = await UserSecurityStorage.getId();
+    String? token = await UserSecurityStorage.getToken();
 
     var headers = {
       'accept': 'application/json',
       'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
     };
     var body = json.encode({
-      'userId':idUser,
       'address': address, 
       'name': name ,
       'phone': phone , 
@@ -203,27 +181,20 @@ class ApiServiceUsers {
       var responseData = json.decode(response.body); 
       return responseData['message']; 
     } else {
-      print('Loi tai nay');
-      throw Exception('fail to call api get wards');
+      throw Exception('fail to call api');
     }
   }
 
   Future<String?>
-      addressRemoveAddressByUser(String? idAddress) async {
-    // await CheckToken.checkExpireToken();
-    String? idUser = await UserSecurityStorage.getId();
-    var url = Uri.parse('$baseUrl/address/user/${idUser}/location/${idAddress}');
-    // final String? token = await UserSecureStorage.getToken();
-
-    // var headers = {
-    //   'accept': 'application/json',
-    //   'Authorization': 'Bearer $token',
-    // };
-
+      addressRemoveAddressByUser(String? idLocation) async {
+    String? token = await UserSecurityStorage.getToken();
+    var url = Uri.parse('$baseUrl/address/${idLocation}');
 
     var headers = {
       'accept': 'application/json',
+      'Authorization': 'Bearer $token',
     };
+
 
     var response = await http.delete(url, headers: headers);
 
@@ -233,7 +204,7 @@ class ApiServiceUsers {
     } else if (response.statusCode == 401) {
       throw Exception('phiên đăng nhập hết hạn');
     } else {
-      throw Exception('fail to call api get vendor shipping address');
+      throw Exception('fail to call api ');
     }
   }
   
@@ -275,7 +246,7 @@ class ApiServiceUsers {
     } else if (response.statusCode == 401) {
       throw Exception('phiên đăng nhập hết hạn');
     } else {
-      throw Exception('fail to call api get vendor shipping address');
+      throw Exception('fail to call api');
     }
   }
 

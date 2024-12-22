@@ -27,7 +27,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     emit(CartLoadingState());
     try {
       //get cart 
-      MyCartDataModel mycart = await ApiServiceCart().getCartById(event.userId);  
+      MyCartDataModel mycart = await ApiServiceCart().getCartById();  
       //product-item 
       List<ProductItemModel>? listproduct = mycart.productItem;
 

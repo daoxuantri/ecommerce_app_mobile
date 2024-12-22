@@ -9,15 +9,17 @@ import 'dart:convert';
 
 
 class ApiServiceCart {
-  static const String baseUrl = 'http://192.168.2.183:4000';
+  static const String baseUrl = 'https://techzone-2ow9.onrender.com';
 
-  Future <MyCartDataModel> getCartById(String userId) async {
+  Future <MyCartDataModel> getCartById() async {
 
-    var url = Uri.parse('$baseUrl/carts/$userId/user');
+    String? token = await UserSecurityStorage.getToken();
+    var url = Uri.parse('$baseUrl/carts/user');
 
     var headers = {
-      'accept': 'application/json',
-    };
+    'accept': 'application/json',
+    'Authorization': 'Bearer $token', // Add the token here
+  };
 
     var response = await http.get(url, headers: headers);
 
@@ -42,17 +44,14 @@ class ApiServiceCart {
     
 
     var url = Uri.parse('$baseUrl/carts/removeall'); 
-    String? userId = await UserSecurityStorage.getId();
+    String? token = await UserSecurityStorage.getToken();
     var headers = {
       'accept': 'application/json',
       'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
     };
 
-    var body = json.encode({
-      'user': userId, 
-    });
-
-    var response = await http.post(url, headers: headers, body: body);
+    var response = await http.post(url, headers: headers);
 
     if (response.statusCode == 200) {
       var responseData = json.decode(response.body);
@@ -64,14 +63,14 @@ class ApiServiceCart {
     } else if (response.statusCode == 401) {
       throw Exception('phiên đăng nhập hết hạn');
     } else {
-      throw Exception('fail to call api delete vendor shipping address');
+      throw Exception('fail to call api');
     }
   }
 
   Future<String> deleteProduct(String productId) async {
     
 
-    String? userId = await UserSecurityStorage.getId();
+    String? token = await UserSecurityStorage.getToken();
 
     var url = Uri.parse('$baseUrl/carts/'); 
 
@@ -79,15 +78,12 @@ class ApiServiceCart {
     var headers = {
       'accept': 'application/json',
       'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
     };
 
     var body = json.encode({
-      'user': userId, 
       'product': productId
     });
-    print('Check api');
-    print(userId);
-    print(productId);
 
     var response = await http.post(url, headers: headers, body: body);
 
@@ -101,14 +97,14 @@ class ApiServiceCart {
     } else if (response.statusCode == 401) {
       throw Exception('phiên đăng nhập hết hạn');
     } else {
-      throw Exception('fail to call api delete vendor shipping address');
+      throw Exception('fail to call api');
     }
   }
 
   Future<String> updateQuantityProduct(String productId, int quantity, String? color , String? memory) async {
     
 
-    String? userId = await UserSecurityStorage.getId();
+    String? token = await UserSecurityStorage.getToken();
 
     var url = Uri.parse('$baseUrl/carts/'); 
 
@@ -116,10 +112,9 @@ class ApiServiceCart {
     var headers = {
       'accept': 'application/json',
       'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
     };
-
     var body = json.encode({
-      'user': userId, 
       'product': productId,
       'quantity': quantity,
       'color': color,
@@ -138,7 +133,7 @@ class ApiServiceCart {
     } else if (response.statusCode == 401) {
       throw Exception('phiên đăng nhập hết hạn');
     } else {
-      throw Exception('fail to call api delete vendor shipping address');
+      throw Exception('fail to call api');
     }
   }
 

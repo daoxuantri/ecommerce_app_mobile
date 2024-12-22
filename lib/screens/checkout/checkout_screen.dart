@@ -18,20 +18,22 @@ class CheckoutScreen extends StatefulWidget {
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
 }
- 
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
   final CheckoutBloc checkoutBloc = CheckoutBloc();
+  late List<SelectedProduct> listSelectedProduct; // Declare it here
+
   @override
   void initState() {
     super.initState();
     checkoutBloc.add(CheckoutInitialEvent());
   }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    final listSelectedProduct =
-        ModalRoute.of(context)?.settings.arguments as List<SelectedProduct>;
+    listSelectedProduct = ModalRoute.of(context)?.settings.arguments
+        as List<SelectedProduct>; // Initialize it here
     return BlocProvider(
       create: (context) => CheckoutBloc(),
       child: BlocConsumer<CheckoutBloc, CheckoutState>(
@@ -44,7 +46,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               context,
               VNPayScreen.routeName,
               arguments: {
-                'userId': state.userId,
                 'productItems': state.productItems,
                 'userInformation': state.userInformation,
                 'paid': state.paid,
@@ -129,7 +130,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           children: [
             Expanded(
               child: Text(
-                _calculateTotalPrice().toString(),
+                _calculateTotalPrice(
+                    listSelectedProduct), // Pass the selected products here
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
@@ -141,17 +143,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             Expanded(
               child: ElevatedButton(
                 onPressed: () {
-                  // checkoutBloc.add(VnPaymentClickedEvent(
-                  //     amount: _calculateTotalPricePayment()));
-
                   checkoutBloc.add(CheckoutClickedEvent(
-                      userId: CheckoutBody.order!.user, // Truyền userId
-                      productItems: CheckoutBody
-                          .order!.productItem, // Truyền danh sách sản phẩm
-                      userInformation: CheckoutBody.order!
-                          .informationUser, // Truyền thông tin người dùng
+                      productItems: CheckoutBody.order!.productItem,
+                      userInformation: CheckoutBody.order!.informationUser,
                       paid: CheckoutBody.order!.paid,
-                      totalPayment: _calculateTotalPricePayment()));
+                      totalPayment: _calculateTotalPricePayment(
+                          listSelectedProduct))); // Pass the selected products here
                   print(CheckoutBody.order!.toJson());
                 },
                 child: Text(
@@ -173,19 +170,22 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  String _calculateTotalPrice() {
+  String _calculateTotalPrice(List<SelectedProduct> selectedProducts) {
     double total = 0;
-    for (var product in CartItem.selectedProducts) {
+    for (var product in selectedProducts) {
       total += product.price * product.quantity;
     }
+    print(total);
     return NumberFormat.currency(locale: 'vi_VN', symbol: 'đ').format(total);
   }
 
-  int _calculateTotalPricePayment() {
+  int _calculateTotalPricePayment(List<SelectedProduct> selectedProducts) {
     int total = 0;
-    for (var product in CartItem.selectedProducts) {
+    for (var product in selectedProducts) {
+      print(product.price);
+      print(product.quantity);
       total += product.price * product.quantity;
     }
-    return total; // Trả về giá trị tổng
+    return total; // Return the total value
   }
 }

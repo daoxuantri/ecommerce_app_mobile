@@ -3,6 +3,7 @@ import 'package:ecommerce_app_mobile/model/products/product_data_model.dart';
 import 'package:ecommerce_app_mobile/model/products/specifications/specification_data_model.dart';
 import 'package:ecommerce_app_mobile/model/products/variants/variant_data_model.dart';
 import 'package:ecommerce_app_mobile/model/related_product/product_related_model.dart';
+import 'package:ecommerce_app_mobile/screens/my_cart/modelselected/selected_model.dart';
 import 'package:ecommerce_app_mobile/screens/product/bloc/product_bloc.dart';
 import 'package:ecommerce_app_mobile/screens/product/components/images_product.dart';
 import 'package:ecommerce_app_mobile/screens/product/components/productdetail/policy_sales.dart';
@@ -25,9 +26,13 @@ class BodySuccess extends StatefulWidget {
       {super.key,
       required this.productDetail,
       this.onMemorySelected,
-      this.onColorSelected, required this.listallproduct, required this.productBloc});
+      this.onColorSelected,
+      required this.listallproduct,
+      required this.productBloc});
   @override
   State<BodySuccess> createState() => _BodySuccessState();
+
+  static List<SelectedProduct> selectedProducts = [];
 }
 
 class _BodySuccessState extends State<BodySuccess> {
@@ -47,25 +52,6 @@ class _BodySuccessState extends State<BodySuccess> {
     details = widget.productDetail.details ?? [];
     variants = widget.productDetail.variants;
 
-    // // Gán giá trị mặc định cho memory và màu sắc nếu có
-    // if (variants != null && variants!.isNotEmpty) {
-    //   selectedMemory = variants!.first.memory;
-    //   selectedColor = variants!.first.variants?[0].color;
-
-    // // Sử dụng addPostFrameCallback để gọi hàm sau khi widget đã được xây dựng
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   widget.onMemorySelected!(selectedMemory!); // Gọi hàm với giá trị đã gán
-    //   widget.onColorSelected!(selectedColor!);   // Gọi hàm với giá trị đã gán
-    // });
-
-    //   // Cập nhật giá dựa trên variant đầu tiên
-    //   var firstVariant = variants!.first.variants?.first;
-    //   if (firstVariant != null) {
-    //     selectedPrice = firstVariant.price?.discount ?? firstVariant.price?.initial; // Nếu discount là null, sử dụng giá initial
-    //     selectedOldPrice = firstVariant.price?.initial; // Giá ban đầu
-    //   }
-    // }
-
     if (variants != null && variants!.isNotEmpty) {
       selectedMemory = variants!.first.memory ??
           "Không có dung lượng"; // Nếu null, gán giá trị mặc định
@@ -83,8 +69,39 @@ class _BodySuccessState extends State<BodySuccess> {
             firstVariant.price?.discount ?? firstVariant.price?.initial;
         selectedOldPrice = firstVariant.price?.initial;
       }
+      updateSelectedProduct();
     }
   }
+
+  void updateSelectedProduct() {
+    // Cập nhật mục hiện có trong danh sách selectedProducts
+    var existingProductIndex = BodySuccess.selectedProducts.indexWhere((selectedProduct) => selectedProduct.id == product?.sId);
+    
+    if (existingProductIndex != -1) {
+      // Cập nhật sản phẩm hiện có
+      BodySuccess.selectedProducts[existingProductIndex] = SelectedProduct(
+        id: product?.sId ?? '',
+        name: product?.name ?? '',
+        price: selectedPrice ?? 0,
+        quantity: 1,
+        color: selectedColor,
+        memory: selectedMemory,
+        images: product?.images?.first ?? '',
+      );
+    } else {
+      // Thêm sản phẩm mới nếu nó không tồn tại
+      BodySuccess.selectedProducts.add(SelectedProduct(
+        id: product?.sId ?? '',
+        name: product?.name ?? '',
+        price: selectedPrice ?? 0,
+        quantity: 1,
+        color: selectedColor,
+        memory: selectedMemory,
+        images: product?.images?.first ?? '',
+      ));
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -151,6 +168,7 @@ class _BodySuccessState extends State<BodySuccess> {
                                 onSelected: (selected) {
                                   setState(() {
                                     selectedMemory = variant.memory;
+                                    updateSelectedProduct();
 
                                     // Cập nhật giá dựa trên bộ nhớ được chọn
                                     var selectedVariant = variants?.firstWhere(
@@ -217,6 +235,7 @@ class _BodySuccessState extends State<BodySuccess> {
                               onSelected: (selected) {
                                 setState(() {
                                   selectedColor = colorVariant.color;
+                                  updateSelectedProduct();
                                   // Cập nhật giá dựa trên màu sắc được chọn
                                   var selectedVariant = variants!
                                       .firstWhere(
@@ -512,7 +531,10 @@ class _BodySuccessState extends State<BodySuccess> {
                     SizedBox(
                       height: getProportionateScreenHeight(13),
                     ),
-                    ProductList(products: widget.listallproduct, productBloc: widget.productBloc,)
+                    ProductList(
+                      products: widget.listallproduct,
+                      productBloc: widget.productBloc,
+                    )
                   ],
                 ),
               ),

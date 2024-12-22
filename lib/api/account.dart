@@ -3,7 +3,7 @@ import 'package:ecommerce_app_mobile/model/account/account_respone.dart';
 import 'package:http/http.dart' as http;
 
 class ApiServicesAccount {
-  final String _baseUrl = "http://192.168.2.183:4000";
+  final String _baseUrl = "https://techzone-2ow9.onrender.com";
 
   Future<void> sendOtp(String email) async {
     var url = Uri.parse("$_baseUrl/users/email_verification/$email");

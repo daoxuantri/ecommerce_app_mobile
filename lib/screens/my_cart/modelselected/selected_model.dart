@@ -6,6 +6,7 @@ class SelectedProduct {
   final String? color;
   final String? memory;
   final String? images;
+ 
 
   SelectedProduct({
     required this.id,

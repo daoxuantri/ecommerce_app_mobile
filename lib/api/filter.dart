@@ -7,7 +7,7 @@ import 'dart:convert';
 
 
 class ApiServiceFilters {
-  static const String baseUrl = 'http://192.168.2.183:4000';
+  static const String baseUrl = 'https://techzone-2ow9.onrender.com';
 
   Future<List<ProductsFilterDataModel>> getAllProductFilter(String keyword) async {
 

@@ -27,6 +27,15 @@ class ProductRelatedClickedEvent extends ProductEvent {
   });
 }
 
+class CheckoutProductClickedEvent extends ProductEvent {
+  final List<SelectedProduct> productItem;
+  CheckoutProductClickedEvent({
+    required this.productItem,
+  });
+}
+
+
+
 
 class ProductTab1ClickedEvent extends ProductEvent {}
 

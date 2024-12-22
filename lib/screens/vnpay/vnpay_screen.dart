@@ -33,7 +33,6 @@ class _VNPayScreenState extends State<VNPayScreen> {
    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     
     // Extract individual arguments
-    final String userId = args['userId'];
     final List<ProductItem> productItems = args['productItems'];
     final InformationUser userInformation = args['userInformation'];
     final bool paid = args['paid'];
@@ -100,7 +99,7 @@ class _VNPayScreenState extends State<VNPayScreen> {
                        //bill code
                       final transactionNo = uri.queryParameters['vnp_TxnRef'];
                      String billCode=  transactionNo.toString();
-                     vnPayBloc.add(VNPayTransactionSuccessEvent(userId: userId, productItems: productItems, userInformation: userInformation, paid: paid, totalPayment: totalPayment, billCode: billCode));
+                     vnPayBloc.add(VNPayTransactionSuccessEvent(productItems: productItems, userInformation: userInformation, paid: paid, totalPayment: totalPayment, billCode: billCode));
                       return NavigationDecision.prevent;
                     }
                     return NavigationDecision.navigate;

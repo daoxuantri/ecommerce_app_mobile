@@ -178,20 +178,21 @@ class _OrderTransactionState extends State<OrderTransaction> {
   Widget _emptyProduct() {
     return Column(
       children: [
+        SizedBox(height: getProportionateScreenHeight(75),),
         Image.asset(
-          'assets/images/empty.png',
-          height: getProportionateScreenHeight(300),
-          width: getProportionateScreenWidth(300),
+          'assets/images/no-order.png',
+          height: getProportionateScreenHeight(250),
+          width: getProportionateScreenWidth(250),
         ),
         Padding(
           padding: EdgeInsets.only(top: getProportionateScreenHeight(8)),
           child: Center(
             child: Text(
-              'Chưa có sản phẩm nào',
+              'Không có đơn hàng nào.',
               style: TextStyle(
                   color: AppColor.darkGray,
                   fontWeight: FontWeight.w600,
-                  fontSize: 22),
+                  fontSize: 18),
             ),
           ),
         )

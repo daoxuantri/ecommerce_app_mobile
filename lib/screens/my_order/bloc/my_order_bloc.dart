@@ -44,10 +44,10 @@ class MyOrderBloc extends Bloc<MyOrderEvent, MyOrderState> {
       ApiServiceOrders apiServiceOrders = ApiServiceOrders();
       final List<OrderDataModel> orderList;
       if(event.status == '' ){
-        orderList = await apiServiceOrders.getListOrder(status: '');
+        orderList = await apiServiceOrders.getListOrder(statusOrder: '');
         
       }else{
-        orderList = await apiServiceOrders.getListOrder(status: event.status);
+        orderList = await apiServiceOrders.getListOrder(statusOrder: event.status);
       }
       
       emit(OrderListLoaded(orderList));
